@@ -80,6 +80,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @see UserInterface
+     *
      * @return list<string>
      */
     public function getRoles(): array
@@ -199,6 +200,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(): string
     {
-        return $this->lastName . ' ' . $this->firstName;
+        return $this->lastName.' '.$this->firstName;
     }
 }

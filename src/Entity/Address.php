@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\AddressRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
@@ -96,12 +95,12 @@ class Address
     public function setCompany(?Company $company): static
     {
         // unset the owning side of the relation if necessary
-        if ($company === null && $this->company !== null) {
+        if (null === $company && null !== $this->company) {
             $this->company->setAddress(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($company !== null && $company->getAddress() !== $this) {
+        if (null !== $company && $company->getAddress() !== $this) {
             $company->setAddress($this);
         }
 
@@ -136,6 +135,6 @@ class Address
 
     public function __toString(): string
     {
-        return $this->getNbStreet() . ' ' . $this->getStreet() . ', ' . $this->getZipCode() . ' ' . $this->getCity();
+        return $this->getNbStreet().' '.$this->getStreet().', '.$this->getZipCode().' '.$this->getCity();
     }
 }

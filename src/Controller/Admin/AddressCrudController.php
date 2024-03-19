@@ -4,18 +4,16 @@ namespace App\Controller\Admin;
 
 use App\Entity\Address;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class AddressCrudController extends AbstractCrudController
 {
     use Trait\AddDetails;
+
     public static function getEntityFqcn(): string
     {
         return Address::class;
@@ -31,7 +29,6 @@ class AddressCrudController extends AbstractCrudController
             TextField::new('zip_code', 'Zip code'),
             TextField::new('city', 'City'),
             DateTimeField::new('created_at', 'Creation date')->hideOnForm(),
-
         ];
     }
 }

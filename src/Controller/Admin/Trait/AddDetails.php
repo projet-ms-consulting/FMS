@@ -11,6 +11,7 @@ trait AddDetails
     public function configureActions(Actions $actions): Actions
     {
         $actions = parent::configureActions($actions);
+
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
