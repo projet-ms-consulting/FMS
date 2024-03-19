@@ -133,4 +133,9 @@ class Address
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->getNbStreet() . ' ' . $this->getStreet() . ', ' . $this->getZipCode() . ' ' . $this->getCity();
+    }
 }
