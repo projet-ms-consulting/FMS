@@ -1,37 +1,69 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Se connecter - Freelance Management System{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
+<div>
+    <form method="post">
+        {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+        {% endif %}
 
-    {% if app.user %}
+        {% if app.user %}
         <div class="mb-3">
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
-    {% endif %}
+        {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        <div class="antialiased px-4 sm:px-6 md:px-8">
+            {% include 'components/navbar.html.twig' %}
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+            <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 antialiased">
+                <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <h2 class="mt-10 text-center text-6xl font-semibold leading-9 tracking-tight text-gray-900">Se
+                        connecter
+                    </h2>
+                </div>
+                <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                    <form class="space-y-6" action="#" method="POST">
+                        <div>
+                            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+                            <div class="mt-2">
+                                <input id="email" name="email" type="email" autocomplete="email" required
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
 
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Remember me
-        </label>
-    </div>
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label for="password"
+                                    class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                            </div>
+                            <div class="mt-2">
+                                <input id="password" name="password" type="password" autocomplete="current-password"
+                                    required
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <div class="checkbox mb-3">
+                            <label>
+                                <input type="checkbox" name="_remember_me">Remember me
+                            </label>
+                        </div>
+
+                        <div class="mt-3">
+                            <button
+                                class="relative overflow-hidden rounded-md bg-neutral-950 w-full px-5 py-2.5 text-white transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">Click
+                                me</button>
+                        </div>
+                </div>
+    </form>
+</div>
+</div>
+</div>
 </form>
+</div>
 {% endblock %}
