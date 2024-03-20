@@ -1,51 +1,27 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
 
-        {% block javascripts %}
-            <script src="https://cdn.tailwindcss.com"></script>
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        <header>
-            <div class="container w-full px-6 py-3 bg-gray-400">
-                <div class="flex items center justify-between">
-                    <div>
-                        <a href="{{ path('app_home') }}" class="text-2xl font-bold text-gray-800 dark:text-white">MS-consulting</a>
-                    </div>
-                    <nav class="flex items center -mx-2">
-                        <a href="{{ path('app_home') }}" class="mx-2 text-gray-800 dark:text-white">Home</a>
-                        <a href="{{ path('app_login') }}" class="mx-2 text-gray-800 dark:text-white">Login</a>
-                        <a href="{{ path('app_register') }}" class="mx-2 text-gray-800 dark:text-white">register</a>
-                        <a href="{{ path('app_home') }}" class="mx-2 text-gray-800 dark:text-white">Home</a>
-                        <a href="{{ path('app_home') }}" class="mx-2 text-gray-800 dark:text-white">Home</a>
-                        <a href="{{ path('app_home') }}" class="mx-2 text-gray-800 dark:text-white">Home</a>
-                        <a href="{{ path('app_home') }}" class="mx-2 text-gray-800 dark:text-white">Home</a>
-                    </nav>
-                </div>
-            </div>
-        </header>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link href="{{ asset('./styles/css/style.css')}}" rel="stylesheet" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    {% block stylesheets %}
 
-        <main class="container">
-            {% block body %}{% endblock %}
-        </main>
+    {% endblock %}
 
-        <footer>
-            <div class="container mx-auto px-6">
-                <div class="mt-16 border-t-2 border-gray-300 flex flex-col items-center">
-                    <div class="sm:w-2/3 text-center py-6">
-                        <p class="text-sm text-blue-700 font-bold mb-2">
-                            ©{{ 'now'|date('Y') }} MS-consulting
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </body>
+    {% block javascripts %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+</head>
+
+<body>
+    <main>
+        {% block body %}{% endblock %}
+    </main>
+
+</body>
+
 </html>
