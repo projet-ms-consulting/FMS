@@ -24,9 +24,21 @@ class Company
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'company')]
     private Collection $people;
 
+    #[ORM\OneToMany(targetEntity: SupplierMission::class, mappedBy: 'supplier')]
+    private Collection $suppliers;
+
+    #[ORM\OneToMany(targetEntity: Mission::class, mappedBy: 'client')]
+    private Collection $clients;
+
+    #[ORM\OneToMany(targetEntity: Mission::class, mappedBy: 'manager')]
+    private Collection $managers;
+
     public function __construct()
     {
         $this->people = new ArrayCollection();
+        $this->suppliers = new ArrayCollection();
+        $this->clients = new ArrayCollection();
+        $this->managers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +94,96 @@ class Company
             // set the owning side to null (unless already changed)
             if ($person->getCompany() === $this) {
                 $person->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SupplierMission>
+     */
+    public function getSuppliers(): Collection
+    {
+        return $this->suppliers;
+    }
+
+    public function addSupplier(SupplierMission $supplier): static
+    {
+        if (!$this->suppliers->contains($supplier)) {
+            $this->suppliers->add($supplier);
+            $supplier->setSupplier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupplier(SupplierMission $supplier): static
+    {
+        if ($this->suppliers->removeElement($supplier)) {
+            // set the owning side to null (unless already changed)
+            if ($supplier->getSupplier() === $this) {
+                $supplier->setSupplier(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Mission>
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(Mission $client): static
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients->add($client);
+            $client->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(Mission $client): static
+    {
+        if ($this->clients->removeElement($client)) {
+            // set the owning side to null (unless already changed)
+            if ($client->getClient() === $this) {
+                $client->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Mission>
+     */
+    public function getManagers(): Collection
+    {
+        return $this->managers;
+    }
+
+    public function addManager(Mission $manager): static
+    {
+        if (!$this->managers->contains($manager)) {
+            $this->managers->add($manager);
+            $manager->setManager($this);
+        }
+
+        return $this;
+    }
+
+    public function removeManager(Mission $manager): static
+    {
+        if ($this->managers->removeElement($manager)) {
+            // set the owning side to null (unless already changed)
+            if ($manager->getManager() === $this) {
+                $manager->setManager(null);
             }
         }
 
