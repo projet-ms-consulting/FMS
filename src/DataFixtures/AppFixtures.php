@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Address;
 use App\Entity\Company;
 use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -24,9 +25,9 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $dateTimeNow = new \DateTime();
-        // Address
-        for ($i = 0; $i < 5; ++$i) {
+        $dateTimeNow = new DateTime();
+        //Address
+        for ($i = 0; $i < 5; $i++) {
             $address = new Address();
             $address->setNbStreet($this->faker->buildingNumber);
             $address->setStreet($this->faker->streetName);
@@ -39,7 +40,7 @@ class AppFixtures extends Fixture
 
         $types = ['SARL', 'Association', 'TPE', 'Organisation'];
         // Company
-        for ($i = 0; $i < 5; ++$i) {
+        for ($i = 0; $i < 5; $i++) {
             $company = new Company();
             $company->setName($this->faker->company());
             $company->setSiren($this->faker->siren());
@@ -52,8 +53,8 @@ class AppFixtures extends Fixture
             $manager->persist($company);
             $listCompany[] = $company;
         }
-
-        // Admin
+        
+        //Admin
         $admin = new User();
         $admin->setEmail('admin@admin.fr');
         $hash = $this->hasher->hashPassword($admin, 'admin');
@@ -63,14 +64,14 @@ class AppFixtures extends Fixture
         $admin->setCreatedAt($dateTimeNow);
         $manager->persist($admin);
 
-        // User
-        for ($i = 0; $i < 4; ++$i) {
+        //User
+        for ($i = 0; $i < 4; $i++) {
             $user = new User();
-            $user->setEmail('user'.$i + 1 .'@user.fr');
+            $user->setEmail('user' . $i + 1 . '@user.fr');
             $hash = $this->hasher->hashPassword($user, 'user');
             $user->setPassword($hash);
             $user->setRoles(['ROLE_USER']);
-            $user->setCompany($listCompany[$i + 1]);
+            $user->setCompany($listCompany[$i+1]);
             $user->setLastname($this->faker->lastName());
             $user->setFirstname($this->faker->firstName);
             $user->setPhone($this->faker->phoneNumber);
