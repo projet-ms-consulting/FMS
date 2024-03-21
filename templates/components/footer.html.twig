@@ -1,15 +1,12 @@
 {% block body %}
 
 <footer>
-    <div class="container mx-auto px-6">
-        <div class="mt-16 border-t-2 border-gray-300 flex flex-col items-center">
-            <div class="sm:w-2/3 text-center py-6">
-                <p class="text-sm text-blue-700 font-bold mb-2">
-                    ©{{ 'now'|date('Y') }} MS-consulting
-                </p>
-            </div>
-        </div>
-    </div>
+    <span class="block text-sm py-4 text-gray-500 sm:text-center">
+        ©{{ 'now'|date('Y') }}
+        <a href="https://msconsulting-europe.com/" class="hover:underline">
+            MS-consulting
+        </a>
+        . All Rights Reserved.</span>
 </footer>
 
 {% endblock %}
