@@ -33,6 +33,30 @@ class Company
     #[ORM\OneToMany(targetEntity: Mission::class, mappedBy: 'manager')]
     private Collection $managers;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $numTva = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $siret = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $siren = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $headOffice = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $type = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $roles = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
     public function __construct()
     {
         $this->people = new ArrayCollection();
@@ -186,6 +210,102 @@ class Company
                 $manager->setManager(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNumTva(): ?string
+    {
+        return $this->numTva;
+    }
+
+    public function setNumTva(?string $numTva): static
+    {
+        $this->numTva = $numTva;
+
+        return $this;
+    }
+
+    public function getSiret(): ?string
+    {
+        return $this->siret;
+    }
+
+    public function setSiret(?string $siret): static
+    {
+        $this->siret = $siret;
+
+        return $this;
+    }
+
+    public function getSiren(): ?string
+    {
+        return $this->siren;
+    }
+
+    public function setSiren(?string $siren): static
+    {
+        $this->siren = $siren;
+
+        return $this;
+    }
+
+    public function isHeadOffice(): ?bool
+    {
+        return $this->headOffice;
+    }
+
+    public function setHeadOffice(?bool $headOffice): static
+    {
+        $this->headOffice = $headOffice;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getRoles(): ?array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(?array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
