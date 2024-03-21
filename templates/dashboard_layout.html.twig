@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.css">
+</head>
+
+<body x-data="{sidebarOpen: true}">
+
+    <div class="flex">
+
+        <aside :class="sidebarOpen ? 'w-72' : 'w-12'"
+            class="relative bg-slate-200 h-screen p-5 transition-all duration-300 flex flex-col">
+            <ul>
+                <li><a href="{{ path('dashboard_index') }}" up-target="#content"
+                        up-href="{{ path('dashboard_index') }}">Dashboard</a></li>
+                <li><a href="{{ path('dashboard_users') }}" up-target="#content"
+                        up-href="{{ path('dashboard_users') }}">Utilisateurs</a></li>
+            </ul>
+            <button @click="sidebarOpen = !sidebarOpen" class="absolute -right-3 top-20 cursor-pointer">
+                <div class="h-6 w-6 bg-black"></div>
+            </button>
+
+        </aside>
+
+        <div class="flex-col w-full h-screen">
+
+            <header class="w-full h-16 bg-red-500">
+                <h1>Hello</h1>
+            </header>
+
+            <div id="content">
+                {% block content %}{% endblock %}
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
