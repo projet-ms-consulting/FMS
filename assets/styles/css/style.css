@@ -2,4 +2,13 @@
 
 * {
   font-family: 'Urbanist', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+p,
+label,
+input::placeholder,
+span {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
 }
