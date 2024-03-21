@@ -3,3 +3,14 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+#dashboard:
+#    path: /dashboard
+#    controller: App\Controller\Dashboard\DashboardController::index
+
+dashboard:
+    resource:
+        path: ../src/Controller/Dashboard/
+        namespace: App\Controller\Dashboard
+    type: attribute
+

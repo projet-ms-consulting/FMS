@@ -1,0 +1,36 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+
+    <h1>Edit de l'utilisateur n°{{ person.id }}</h1>
+
+    <form action="{{ path('dashboard_person_update') }}" method="post">
+        <div class="form-group">
+            <label for="lastname">Last name</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" value="{{ person.lastName }}">
+        </div>
+        <div class="form-group">
+            <label for="firstname">First name</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" value="{{ person.firstname }}">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ person.phone }}">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ person.phone }}">
+        </div>
+        <div class="form-group">
+            <label for="company">Company</label>
+            <select class="form-control" id="company" name="company">
+                {% for company in companies %}
+                    <option value="{{ company.id }}" {% if person.company != null and company.id == person.company.id %}selected{% endif %}>{{ company.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+{% endblock %}
+

@@ -18,14 +18,13 @@
             class="relative bg-slate-200 h-screen p-5 transition-all duration-300 flex flex-col">
             <ul>
                 <li><a href="{{ path('dashboard_index') }}" up-target="#content"
-                        up-href="{{ path('dashboard_index') }}">Dashboard</a></li>
-                <li><a href="{{ path('dashboard_users') }}" up-target="#content"
-                        up-href="{{ path('dashboard_users') }}">Utilisateurs</a></li>
+                        up-href="{{ path('dashboard_index') }}">Home</a></li>
+                <li><a href="{{ path('dashboard_person_index') }}" up-target="#content"
+                        up-href="{{ path('dashboard_person_index') }}">Person</a></li>
             </ul>
             <button @click="sidebarOpen = !sidebarOpen" class="absolute -right-3 top-20 cursor-pointer">
                 <div class="h-6 w-6 bg-black"></div>
             </button>
-
         </aside>
 
         <div class="flex-col w-full h-screen">
@@ -34,7 +33,7 @@
                 <h1>Hello</h1>
             </header>
 
-            <div id="content">
+            <div id="content" class="m-4">
                 {% block content %}{% endblock %}
             </div>
 
