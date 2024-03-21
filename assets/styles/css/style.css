@@ -8,7 +8,8 @@
 p,
 label,
 input::placeholder,
-span {
+span,
+a {
   font-family: 'Inter', sans-serif;
   font-size: 15px;
 }
