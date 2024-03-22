@@ -22,16 +22,17 @@
                     <td>{{ person.lastname }}</td>
                     <td>{{ person.firstname }}</td>
                     <td>{{ person.phone }}</td>
-                    <td>{{ person.company }}</td>
+                    <td><a href="#">{{ person.company.name }}</a></td>
                     <td>{{ person.createdAt|date('Y-m-d') }}</td>
                     <td>
                         <a href="{{ path('dashboard_person_show', {'id': person.id}) }}">show</a>
                         <a href="{{ path('dashboard_person_edit', {'id': person.id}) }}">edit</a>
+                        <a href="{{ path('dashboard_person_delete', {'id': person.id}) }}">delete</a>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-{#    <a href="{{ path('') }}">Create a new person</a>#}
+    <a href="{{ path('dashboard_person_new') }}">Create a new person</a>
 
 {% endblock %}

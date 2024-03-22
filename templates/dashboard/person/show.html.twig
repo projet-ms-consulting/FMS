@@ -6,11 +6,11 @@
         <p>lastname : {{ person.lastname }}</p>
         <p>firstname : {{ person.firstname }}</p>
         <p>phone : {{ person.phone }}</p>
-        <p>company : {{ person.company }}</p>
+        <p>company : <a href="#">{{ person.company.name }}</a></p>
         <p>created_at : {{ person.createdAt|date('d/m/Y H:i:s') }}</p>
         <a href="{{ path('dashboard_person_edit', {id: person.id}) }}">Edit</a>
-{#        <a href="{{ path('person_delete', {id: person.id}) }}">Delete</a>#}
         <a href="{{ path('dashboard_person_index') }}">Back to list</a>
+        <a href="{{ path('dashboard_person_delete', {id: person.id}) }}">Delete</a>
     </div>
 {% endblock %}
 

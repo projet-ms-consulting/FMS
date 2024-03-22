@@ -2,11 +2,11 @@
 
 {% block content %}
 
-    <h1>Edit de l'utilisateur <span>{{ person.lastName }} {{ person.firstName }}</span></h1>
+    <h1>Creation d'une person</h1>
 
     {{ form_start(personForm) }}
     {{ form_widget(personForm) }}
-    <button type="submit" class="btn btn-primary">Modifier</button>
+    <button type="submit" class="btn btn-primary">Créer</button>
     {{ form_end(personForm) }}
 
 {% endblock %}
