@@ -1,0 +1,14 @@
+{% block title %}{% endblock %}
+
+{% block body %}
+
+<h2>Address</h2>
+
+<div>
+    {{ form_start(addressForm) }}
+    {{ form_widget(addressForm) }}
+    <button>Ajouter</button>
+    {{ form_end(addressForm) }}
+</div>
+
+{% endblock %}
