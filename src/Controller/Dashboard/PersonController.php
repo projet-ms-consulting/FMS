@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/dashboard/person', name: 'dashboard_person_')]
 class PersonController extends AbstractController
 {
-    #[Route('/', name: 'index')]
+    #[Route('/', name: 'index', methods: ['GET'])]
     public function index(PersonRepository $personRepository): Response
     {
         $persons = $personRepository->findAll();
@@ -24,7 +24,7 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'new')]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
         $personForm = $this->createForm(PersonType::class, $person);
@@ -44,15 +44,14 @@ class PersonController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(PersonRepository $personRepository, $id): Response
+    public function show(Person $person): Response
     {
-        $person = $personRepository->find($id);
         return $this->render('dashboard/person/show.html.twig', [
             'person' => $person,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit')]
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
         $personForm = $this->createForm(PersonType::class, $person);
@@ -75,7 +74,6 @@ class PersonController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
-        dd('test');
         if ($this->isCsrfTokenValid('delete'.$person->getId(), $request->request->get('_token'))) {
             $entityManager->remove($person);
             $entityManager->flush();
