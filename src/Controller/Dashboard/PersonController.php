@@ -24,6 +24,34 @@ class PersonController extends AbstractController
         ]);
     }
 
+    #[Route('/new', name: 'new')]
+    public function new(Request $request, Person $person, EntityManagerInterface $entityManager): Response
+    {
+        $personForm = $this->createForm(PersonType::class, $person);
+        $personForm->handleRequest($request);
+
+        if ($personForm->isSubmitted() && $personForm->isValid()) {
+            $person->setCreatedAt(new \DateTimeImmutable());
+            $entityManager->persist($person);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('dashboard_person_index');
+        }
+
+        return $this->render('dashboard/person/new.html.twig', [
+            'personForm' => $personForm,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    public function show(PersonRepository $personRepository, $id): Response
+    {
+        $person = $personRepository->find($id);
+        return $this->render('dashboard/person/show.html.twig', [
+            'person' => $person,
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'edit')]
     public function edit(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
@@ -44,26 +72,7 @@ class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'new')]
-    public function new(Request $request, Person $person, EntityManagerInterface $entityManager): Response
-    {
-        $personForm = $this->createForm(PersonType::class, $person);
-        $personForm->handleRequest($request);
-
-        if ($personForm->isSubmitted() && $personForm->isValid()) {
-            $person->setCreatedAt(new \DateTimeImmutable());
-            $entityManager->persist($person);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('dashboard_person_index');
-        }
-
-        return $this->render('dashboard/person/new.html.twig', [
-            'personForm' => $personForm,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'delete', methods: ['GET'])]
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
         dd('test');
@@ -73,15 +82,6 @@ class PersonController extends AbstractController
         }
 
         return $this->redirectToRoute('dashboard_person_index');
-    }
-
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(PersonRepository $personRepository, $id): Response
-    {
-        $person = $personRepository->find($id);
-        return $this->render('dashboard/person/show.html.twig', [
-            'person' => $person,
-        ]);
     }
 
 }
