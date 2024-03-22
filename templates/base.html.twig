@@ -18,14 +18,12 @@
 </head>
 
 <body>
-    <p>testou</p>
     <div
         class="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#0051FF_100%)]">
         <div class="antialiased px-4 sm:px-6 md:px-8 h-screen">
             {% include "components/navbar.html.twig" %}
             <main>
                 {% block body %}
-                <div>Hello world!</div>
                 {% endblock %}
             </main>
             {% include "components/footer.html.twig" %}
