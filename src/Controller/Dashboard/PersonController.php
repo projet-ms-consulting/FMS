@@ -25,8 +25,9 @@ class PersonController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, Person $person, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $person = new Person();
         $personForm = $this->createForm(PersonType::class, $person);
         $personForm->handleRequest($request);
 
@@ -39,6 +40,7 @@ class PersonController extends AbstractController
         }
 
         return $this->render('dashboard/person/new.html.twig', [
+            'person' => $person,
             'personForm' => $personForm,
         ]);
     }
