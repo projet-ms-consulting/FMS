@@ -1,5 +1,32 @@
 {% extends 'dashboard_layout.html.twig' %}
 
 {% block content %}
-<h1>Home page</h1>
+<div class="p-5 bg-gray-100">
+    <table class="w-full">
+        <thead class="bg-gray-50 border-b-2 border-gray-200">
+            <tr>
+                <th>Song</th>
+                <th>Artist</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+        <tbody class="p-9">
+            <tr>
+                <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
+                <td>Malcolm Lockyer</td>
+                <td>1961</td>
+            </tr>
+            <tr>
+                <td>Witchy Woman</td>
+                <td>The Eagles</td>
+                <td>1972</td>
+            </tr>
+            <tr>
+                <td>Shining Star</td>
+                <td>Earth, Wind, and Fire</td>
+                <td>1975</td>
+            </tr>
+        </tbody> simplifie ça en symfony
+    </table>
+</div>
 {% endblock %}
