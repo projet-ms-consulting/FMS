@@ -71,7 +71,7 @@ class AddressController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'delete_address', methods: ['GET'])]
+    #[Route('/{id}', name: 'delete_address', methods: ['POST'])]
     public function delete(Address $address, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($address);

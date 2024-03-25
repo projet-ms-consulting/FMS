@@ -16,12 +16,10 @@
 
         <aside :class="sidebarOpen ? 'w-72' : 'w-12'"
             class="relative bg-slate-200 h-screen p-5 transition-all duration-300 flex flex-col">
-            <ul>
-                <li><a href="{{ path('dashboard_index') }}" up-target="#content"
-                        up-href="{{ path('dashboard_index') }}">Home</a></li>
-                <li><a href="{{ path('dashboard_person_index') }}" up-target="#content"
-                        up-href="{{ path('dashboard_person_index') }}">Person</a></li>
-            </ul>
+            <li
+                class="relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors">
+                <a href="#" class="text-[#F0F0F0]">Dashboard</a>
+            </li>
             <button @click="sidebarOpen = !sidebarOpen" class="absolute -right-3 top-20 cursor-pointer">
                 <div class="h-6 w-6 bg-black"></div>
             </button>
@@ -29,11 +27,23 @@
 
         <div class="flex-col w-full h-screen">
 
-            <header class="w-full h-16 bg-red-500">
-                <h1>Hello</h1>
+            <header class="w-full h-16 px-6 py-4">
+                <div class="lg:flex lg:justify-between space-y-3">
+                    <h1 class="text text-slate-900 font-semibold text-4xl tracking-tight">
+                        Manage your team
+                    </h1>
+                    <div class="flex space-x-3">
+                        <button class="bg-[#E6411C] text-[15px] text-[#F0F0F0] px-4 py-2 antialiased rounded-lg">
+                            Download CSV
+                        </button>
+                        <button class="bg-[#E6411C] text-[15px] text-[#F0F0F0] px-4 py-2 antialiased rounded-lg">
+                            + Add team member
+                        </button>
+                    </div>
+                </div>
             </header>
 
-            <div id="content" class="m-4">
+            <div id="content" class="mt-20 mx-4">
                 {% block content %}{% endblock %}
             </div>
 

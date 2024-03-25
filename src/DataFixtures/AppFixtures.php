@@ -26,11 +26,13 @@ class AppFixtures extends Fixture
         $personAdmin[] = $person;
 
         $user = new User();
-        $user->setEmail('admin@admin.fr');
-        $user->setRoles(['ROLE_ADMIN']);
-        $hash = $this->hasher->hashPassword($user, 'admin');
-        $user->setPassword($hash);
+        $user->setEmail('tomscherer29@example.com');
+        $user->setRoles(['ROLE_USER']);
         $user->setPerson($personAdmin[0]);
+        $user->setPassword($this->hasher->hashPassword(
+            $user,
+            'password123'
+        ));
         $user->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($user);
         $manager->flush();
