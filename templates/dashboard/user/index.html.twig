@@ -1,0 +1,33 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+    <h1>User home page</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>person</th>
+            <th>email</th>
+            <th>created_at</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td><a href="{{ path('dashboard_person_show', {'id': user.person.id}) }}">{{ user.person.firstName }} {{ user.person.lastName }}</a></td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.createdAt|date('Y-m-d') }}</td>
+                <td>
+                    <a href="{{ path('dashboard_user_show', {'id': user.id}) }}">show</a>
+                    <a href="{{ path('dashboard_user_edit', {'id': user.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('dashboard_user_new') }}">Create new</a>
+
+{% endblock %}

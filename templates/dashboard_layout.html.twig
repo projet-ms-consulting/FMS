@@ -16,6 +16,14 @@
 
         <aside :class="sidebarOpen ? 'w-72' : 'w-12'"
             class="relative bg-slate-200 h-screen p-5 transition-all duration-300 flex flex-col">
+            <ul>
+                <li><a href="{{ path('dashboard_index') }}" up-target="#content"
+                        up-href="{{ path('dashboard_index') }}">Home</a></li>
+                <li><a href="{{ path('dashboard_person_index') }}" up-target="#content"
+                        up-href="{{ path('dashboard_person_index') }}">Person</a></li>
+                <li><a href="{{ path('dashboard_user_index') }}" up-target="#content"
+                       up-href="{{ path('dashboard_user_index') }}">User</a></li>
+            </ul>
             <li
                 class="relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors">
                 <a href="#" class="text-[#F0F0F0]">Dashboard</a>
