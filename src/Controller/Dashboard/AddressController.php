@@ -1,28 +1,29 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Dashboard;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Address;
 use App\Form\AddressType;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/dashboard/address', name: 'dashboard_address_')]
 class AddressController extends AbstractController
 {
-    #[Route('/address', name: 'app_address')]
+    #[Route('/', name: 'index', methods: ['GET'])]
     public function index(AddressRepository $addressRepository): Response
     {
         $address = $addressRepository->findAll();
-        return $this->render('address/index.html.twig', [
+        return $this->render('dashboard/address/index.html.twig', [
             'address' => $address,
         ]);
     }
 
-    #[Route('/address/new', name: 'new_address')]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $address = new Address();
@@ -34,24 +35,24 @@ class AddressController extends AbstractController
             $entityManager->persist($address);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_address');
+            return $this->redirectToRoute('index');
         }
 
-        return $this->render('address/new.html.twig', [
+        return $this->render('dashboard/address/new.html.twig', [
             'addressForm' => $addressForm
         ]);
     }
 
-    #[Route('/address/{id}', name: 'show_address')]
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(AddressRepository $addressRepository, $id): Response
     {
         $address = $addressRepository->find($id);
-        return $this->render('address/show.html.twig', [
+        return $this->render('dashboard/address/show.html.twig', [
             'address' => $address
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit_address')]
+    #[Route('/{id}/edit', name: 'edit')]
     public function edit(Request $request, Address $address, EntityManagerInterface $entityManager): Response
     {
         $addressForm = $this->createForm(AddressType::class, $address);
@@ -65,18 +66,18 @@ class AddressController extends AbstractController
             return $this->redirectToRoute('app_address');
         }
 
-        return $this->render('address/edit.html.twig', [
+        return $this->render('dashboard/address/edit.html.twig', [
             'addressForm' => $addressForm,
             'address' => $address,
         ]);
     }
 
-    #[Route('/{id}', name: 'delete_address', methods: ['POST'])]
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Address $address, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($address);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_address');
+        return $this->redirectToRoute('dashboard_address_index');
     }
 }

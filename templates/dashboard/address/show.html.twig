@@ -1,11 +1,13 @@
+{% extends 'dashboard_layout.html.twig' %}
+
 {% block content %}
 <div>
-    <p>id : {{ address.id }}</p>
+    <p>id : {{ address.id ?? "NULL" }}</p>
     <p>nbStreet : {{ address.nbStreet }}</p>
     <p>street : {{ address.street }}</p>
     <p>zipCode : {{ address.zipCode }}</p>
     <p>city : {{ address.city }}</p>
     <p>company : <a href="#">{{ address.company }}</a></p>
-    <a href="{{ path('app_address') }}">Back to list</a>
+    <a href="{{ path('dashboard_address_index') }}">Back to list</a>
 </div>
 {% endblock %}

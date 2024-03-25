@@ -1,0 +1,129 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+
+<section>
+    <div class="flex items-center justify-between">
+        <h2 class="text-3xl font-semibold">Address</h2>
+        <a href="{{ path('dashboard_address_new') }}">
+            <button
+                class="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-6 font-medium text-neutral-200">
+                <span>+ Address</span>
+                <div
+                    class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]">
+                    <div class="relative h-full w-8 bg-white/20"></div>
+                </div>
+            </button>
+        </a>
+    </div>
+    <div class="mt-10 hidden md:flex md:flex-col">
+        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                <table class="min-w-full divide-y divide-gray-300">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
+                                id
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                nbStreet
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                street
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                zipCode
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                city
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                company
+                            </th>
+                            <th scope="col" class="relative py-3.5 pl-3 pr-6">
+                                <span class="sr-only">dropdown</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                        {% for data in address %}
+                        <tr>
+                            <td class="whitespace-nowrap py-4 pl-1 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                {{ data.id }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {{ data.nbStreet }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {{ data.street }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {{ data.zipCode }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {{ data.city }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {{ data.company }}
+                            </td>
+                            <td x-data="{ dropdownOpen: false }"
+                                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                <div @click="dropdownOpen = !dropdownOpen">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-ellipsis-vertical">
+                                        <circle cx="12" cy="12" r="1" />
+                                        <circle cx="12" cy="5" r="1" />
+                                        <circle cx="12" cy="19" r="1" />
+                                    </svg>
+                                </div>
+                                <div x-show="dropdownOpen" x-cloak
+                                    class="absolute right-0 bg-white text-black rounded-lg w-36 p-2 z-20">
+                                    <ul class="hoverlist [&>li>a]:justify-end">
+                                        <li><a href="{{ path('dashboard_address_show', {'id': data.id}) }}">Show</a>
+                                        </li>
+                                        <li><a href="{{ path('dashboard_address_edit', {'id': data.id}) }}">Edit</a>
+                                        </li>
+                                        <li><a href="{{ path('dashboard_address_delete', {'id': data.id}) }}">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:hidden">
+        {% for data in address %}
+        <div
+            class="relative flex items-center space-x-3 rounded-lg bg-white px-6 py-5 shadow ring-1 ring-black ring-opacity-5">
+            <div class="min-w-0 flex-1">
+                <div class="flex items-center space-x-3">
+                    <p class="truncate text-sm font-medium text-gray-900">
+                        {{ data.nbStreet }}
+                    </p>
+                    <span
+                        class="inline-block flex-shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+                        {{ data.street }}
+                    </span>
+                </div>
+                <p class="mt-1 truncate text-sm text-gray-700">
+                    {{ data.zipCode }}
+                </p>
+                <p class="mt-1 truncate text-sm text-gray-500">
+                    {{ data.city }}
+                </p>
+            </div>
+            <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-900">
+                Edit
+                <span class="sr-only">, {{ data.company }}</span>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
