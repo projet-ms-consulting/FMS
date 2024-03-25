@@ -1,0 +1,13 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+    <h1>Edit de l'utilisateur <span>{{ user.email }}</span></h1>
+
+    {{ form_start(userForm) }}
+    {{ form_widget(userForm) }}
+    <button type="submit" class="btn btn-primary">Modifier</button>
+    {{ form_end(userForm) }}
+    <a href="{{ path('dashboard_user_index') }}">back to list</a>
+    {{ include('dashboard/user/_delete_form.html.twig') }}
+{% endblock %}
+
