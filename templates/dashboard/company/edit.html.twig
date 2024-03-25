@@ -1,0 +1,14 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+
+    <h1>Edit de la company <span>{{ company.name }}</span></h1>
+
+    {{ form_start(companyForm) }}
+    {{ form_widget(companyForm) }}
+    <button type="submit" class="btn btn-primary">Modifier</button>
+    {{ form_end(companyForm) }}
+    <a href="{{ path('dashboard_company_index') }}">back to list</a>
+    {{ include('dashboard/company/_delete_form.html.twig') }}
+{% endblock %}
+
