@@ -19,10 +19,10 @@
             {% for person in persons %}
                 <tr>
                     <td>{{ person.id }}</td>
-                    <td>{{ person.lastname }}</td>
-                    <td>{{ person.firstname }}</td>
-                    <td>{{ person.phone }}</td>
-                    <td><a href="#">{{ person.company.name }}</a></td>
+                    <td>{{ person.lastname ?? 'null' }}</td>
+                    <td>{{ person.firstname ?? 'null' }}</td>
+                    <td>{{ person.phone ?? 'null' }}</td>
+                    <td><a href="#">{{ person.company.name ?? 'null' }}</a></td>
                     <td>{{ person.createdAt|date('Y-m-d') }}</td>
                     <td>
                         <a href="{{ path('dashboard_person_show', {'id': person.id}) }}">show</a>

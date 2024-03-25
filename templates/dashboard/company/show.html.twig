@@ -1,0 +1,25 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+    <div>
+        <p>id : {{ company.id }}</p>
+        <p>name : {{ company.name }}</p>
+        <p>address : {{ company.address ?? 'null' }}</p>
+        <p>num_tva : {{ company.numTva }}</p>
+        <p>siret : {{ company.siret }}</p>
+        <p>siren : {{ company.siren }}</p>
+        <p>head_office :
+            {% if company.headOffice == true %}
+                <span style="color: green">Yes</span>
+            {% else %}
+                <span style="color: red">No</span>
+            {% endif %}
+        </p>
+        <p>type : {{ company.type }}</p>
+        <p>created_at : {{ company.createdAt|date('d/m/Y H:i:s') }}</p>
+    </div>
+    <a href="{{ path('dashboard_company_edit', {id: company.id}) }}">Edit</a>
+    <a href="{{ path('dashboard_company_index') }}">Back to list</a>
+    {{ include('dashboard/company/_delete_form.html.twig') }}
+{% endblock %}
+

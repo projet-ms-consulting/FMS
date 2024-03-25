@@ -1,0 +1,13 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+
+    <h1>Creation d'une company</h1>
+
+    {{ form_start(companyForm) }}
+    {{ form_widget(companyForm) }}
+    <button type="submit" class="btn btn-primary">Créer</button>
+    {{ form_end(companyForm) }}
+
+{% endblock %}
+

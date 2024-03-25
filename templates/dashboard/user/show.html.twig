@@ -1,0 +1,15 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+    <div>
+        <p>id : {{ user.id }}</p>
+        <p>Person : <a href="{{ path('dashboard_person_show', {'id': user.person.id}) }}">{{ user.person.lastName }} {{ user.person.firstName }}</a></p>
+        <p>Email : {{ user.email }}</p>
+        <p>Roles : {{ user.roles|join(', ') }}</p>
+        <p>Created at : {{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+    </div>
+    <a href="{{ path('dashboard_user_edit', {id: user.id}) }}">Edit</a>
+    <a href="{{ path('dashboard_user_index') }}">Back to list</a>
+    {{ include('dashboard/user/_delete_form.html.twig') }}
+{% endblock %}
+
