@@ -64,18 +64,12 @@
                                 {{ data.city }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {{ data.company }}
+                                {{ data.company.name ?? '' }}
                             </td>
                             <td x-data="{ dropdownOpen: false }"
                                 class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                 <div @click="dropdownOpen = !dropdownOpen">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="lucide lucide-ellipsis-vertical">
-                                        <circle cx="12" cy="12" r="1" />
-                                        <circle cx="12" cy="5" r="1" />
-                                        <circle cx="12" cy="19" r="1" />
-                                    </svg>
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
                                 </div>
                                 <div x-show="dropdownOpen" x-cloak
                                     class="absolute right-0 bg-white text-black rounded-lg w-36 p-2 z-20">
@@ -83,8 +77,6 @@
                                         <li><a href="{{ path('dashboard_address_show', {'id': data.id}) }}">Show</a>
                                         </li>
                                         <li><a href="{{ path('dashboard_address_edit', {'id': data.id}) }}">Edit</a>
-                                        </li>
-                                        <li><a href="{{ path('dashboard_address_delete', {'id': data.id}) }}">Delete</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -119,7 +111,7 @@
             </div>
             <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-900">
                 Edit
-                <span class="sr-only">, {{ data.company }}</span>
+                <span class="sr-only">, {{ data.company.name ?? '' }}</span>
             </a>
         </div>
         {% endfor %}

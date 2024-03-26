@@ -28,55 +28,53 @@ class AddressController extends AbstractController
     {
         $address = new Address();
         $addressForm = $this->createForm(AddressType::class, $address);
-
         $addressForm->handleRequest($request);
 
         if ($addressForm->isSubmitted() && $addressForm->isValid()) {
             $entityManager->persist($address);
             $entityManager->flush();
 
-            return $this->redirectToRoute('index');
+            return $this->redirectToRoute('dashboard_address_index');
         }
 
         return $this->render('dashboard/address/new.html.twig', [
-            'addressForm' => $addressForm
+            'addressForm' => $addressForm->createView(),
         ]);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(AddressRepository $addressRepository, $id): Response
+    public function show(Address $address): Response
     {
-        $address = $addressRepository->find($id);
         return $this->render('dashboard/address/show.html.twig', [
             'address' => $address
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit')]
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Address $address, EntityManagerInterface $entityManager): Response
     {
         $addressForm = $this->createForm(AddressType::class, $address);
-
         $addressForm->handleRequest($request);
 
         if ($addressForm->isSubmitted() && $addressForm->isValid()) {
             $entityManager->persist($address);
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_address');
+            return $this->redirectToRoute('dashboard_address_index');
         }
 
         return $this->render('dashboard/address/edit.html.twig', [
-            'addressForm' => $addressForm,
+            'addressForm' => $addressForm->createView(),
             'address' => $address,
         ]);
     }
 
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
-    public function delete(Address $address, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Address $address, EntityManagerInterface $entityManager): Response
     {
-        $entityManager->remove($address);
-        $entityManager->flush();
+        if ($this->isCsrfTokenValid('delete' . $address->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($address);
+            $entityManager->flush();
+        }
 
         return $this->redirectToRoute('dashboard_address_index');
     }
