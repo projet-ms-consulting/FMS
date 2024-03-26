@@ -1,0 +1,15 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+
+    <h1>Edit de la mission <span>{{ mission.name }}</span></h1>
+
+    {{ form_start(missionForm) }}
+    {{ form_widget(missionForm) }}
+    <button type="submit" class="btn btn-primary">Modifier</button>
+    {{ form_end(missionForm) }}
+    <a href="{{ path('dashboard_mission_index') }}">back to list</a>
+    {{ include('dashboard/mission/_delete_form.html.twig') }}
+
+{% endblock %}
+

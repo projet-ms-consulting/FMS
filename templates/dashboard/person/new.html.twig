@@ -8,6 +8,7 @@
     {{ form_widget(personForm) }}
     <button type="submit" class="btn btn-primary">Créer</button>
     {{ form_end(personForm) }}
+    <a href="{{ path('dashboard_person_index') }}">annuler</a>
 
 {% endblock %}
 

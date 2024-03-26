@@ -42,6 +42,9 @@ class Mission
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column]
+    private ?bool $finished = null;
+
     public function __construct()
     {
         $this->invoices = new ArrayCollection();
@@ -162,6 +165,18 @@ class Mission
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function isFinished(): ?bool
+    {
+        return $this->finished;
+    }
+
+    public function setFinished(bool $finished): static
+    {
+        $this->finished = $finished;
 
         return $this;
     }

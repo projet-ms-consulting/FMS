@@ -1,0 +1,14 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+
+    <h1>Creation d'une mission</h1>
+
+    {{ form_start(missionForm) }}
+    {{ form_widget(missionForm) }}
+    <button type="submit" class="btn btn-primary">Créer</button>
+    {{ form_end(missionForm) }}
+    <a href="{{ path('dashboard_mission_index') }}">annuler</a>
+
+{% endblock %}
+

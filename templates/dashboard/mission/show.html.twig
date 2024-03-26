@@ -1,0 +1,18 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+    <div>
+        <p>id : {{ mission.id }}</p>
+        <p>name : {{ mission.name }}</p>
+        <p>description : {{ mission.description }}</p>
+        <p>client : {{ mission.client.name }}</p>
+        <p>manager : {{ mission.manager.name }}</p>
+        <p>price : {{ mission.price }}</p>
+        <p>finished : {{ mission.isFinished ? 'Yes' : 'No' }}</p>
+        <p>created_at : {{ mission.createdAt|date('d/m/Y H:i:s') }}</p>
+    </div>
+    <a href="{{ path('dashboard_mission_edit', {id: mission.id}) }}">Edit</a>
+    <a href="{{ path('dashboard_mission_index') }}">Back to list</a>
+    {{ include('dashboard/mission/_delete_form.html.twig') }}
+{% endblock %}
+

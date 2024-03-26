@@ -12,6 +12,7 @@
             <th>price</th>
             <th>client</th>
             <th>manager</th>
+            <th>finished</th>
             <th>created_at</th>
             <th>Actions</th>
         </tr>
@@ -23,8 +24,9 @@
                 <td>{{ mission.name ?? 'null' }}</td>
                 <td>{{ mission.description ?? 'null' }}</td>
                 <td>{{ mission.price ?? 'null' }}</td>
-                <td>{{ mission.client ?? 'null' }}</td>
-                <td>{{ mission.manager ?? 'null' }}</td>
+                <td>{{ mission.client.name ?? 'null' }}</td>
+                <td>{{ mission.manager.name ?? 'null' }}</td>
+                <td>{{ mission.finished ? 'Yes' : 'No' }}</td>
                 <td>{{ mission.createdAt|date('Y-m-d H:i:s') }}</td>
                 <td>
                     <a href="{{ path('dashboard_mission_show', {'id': mission.id}) }}">show</a>
