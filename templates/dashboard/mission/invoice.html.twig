@@ -1,0 +1,35 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+
+    <h1>invoice de la mission : {{ mission.name }}</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>billNum</th>
+            <th>mission</th>
+            <th>supplier</th>
+            <th>file</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for invoice in invoices %}
+            <tr>
+                <td>{{ invoice.billNum }}</td>
+                <td>{{ invoice.mission.name ?? '' }}</td>
+                <td>{{ invoice.supplierMission.name ?? '' }}</td>
+                <td><a href="{{ path('dashboard_mission_invoice_show', {'id': mission.id, 'invoiceId': invoice.id}) }}">{{ invoice.realFilename }}</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('dashboard_mission_invoice_new', {'id': mission.id}) }}">Create new invoice</a>
+    <a href="{{ path('dashboard_mission_index') }}">Retour a la liste des missions</a>
+
+{% endblock %}
+

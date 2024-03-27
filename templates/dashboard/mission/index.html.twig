@@ -1,40 +1,45 @@
-{% extends 'dashboard_layout.html.twig' %}
-
-{% block content %}
+{% extends 'dashboard_layout.html.twig' %} {% block content %}
 <h1>Mission home page</h1>
 
 <table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>description</th>
-            <th>price</th>
-            <th>client</th>
-            <th>manager</th>
-            <th>finished</th>
-            <th>created_at</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for mission in missions %}
-        <tr>
-            <td>{{ mission.id }}</td>
-            <td>{{ mission.name ?? 'null' }}</td>
-            <td>{{ mission.description ?? 'null' }}</td>
-            <td>{{ mission.price ?? 'null' }}</td>
-            <td>{{ mission.client.name ?? 'null' }}</td>
-            <td>{{ mission.manager.name ?? 'null' }}</td>
-            <td>{{ mission.finished ? 'Yes' : 'No' }}</td>
-            <td>{{ mission.createdAt|date('Y-m-d H:i:s') }}</td>
-            <td>
-                <a href="{{ path('dashboard_mission_show', {'id': mission.id}) }}">show</a>
-                <a href="{{ path('dashboard_mission_edit', {'id': mission.id}) }}">edit</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>name</th>
+      <th>description</th>
+      <th>price</th>
+      <th>client</th>
+      <th>manager</th>
+      <th>finished</th>
+      <th>created_at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for mission in missions %}
+    <tr>
+      <td>{{ mission.id }}</td>
+      <td>{{ mission.name ?? 'null' }}</td>
+      <td>{{ mission.description ?? 'null' }}</td>
+      <td>{{ mission.price ?? 'null' }}</td>
+      <td>{{ mission.client.name ?? 'null' }}</td>
+      <td>{{ mission.manager.name ?? 'null' }}</td>
+      <td>{{ mission.finished ? 'Yes' : 'No' }}</td>
+      <td>{{ mission.createdAt|date('Y-m-d H:i:s') }}</td>
+      <td>
+        <a href="{{ path('dashboard_mission_show', { id: mission.id }) }}"
+          >show</a
+        >
+        <a href="{{ path('dashboard_mission_edit', { id: mission.id }) }}"
+          >edit</a
+        >
+        <a href="{{ path('dashboard_mission_invoice', { id: mission.id }) }}"
+          >invoice</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 <a href="{{ path('dashboard_mission_new') }}">Create new</a>
 

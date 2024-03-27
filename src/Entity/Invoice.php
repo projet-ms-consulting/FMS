@@ -25,6 +25,9 @@ class Invoice
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     private ?SupplierMission $supplierMission = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $realFilename = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class Invoice
     public function setSupplierMission(?SupplierMission $supplierMission): static
     {
         $this->supplierMission = $supplierMission;
+
+        return $this;
+    }
+
+    public function getRealFilename(): ?string
+    {
+        return $this->realFilename;
+    }
+
+    public function setRealFilename(string $realFilename): static
+    {
+        $this->realFilename = $realFilename;
 
         return $this;
     }
