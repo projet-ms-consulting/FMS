@@ -1,0 +1,38 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+    <h1>Supplier home page</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>description</th>
+            <th>supplier</th>
+            <th>mission</th>
+            <th>created_at</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for supplier in supplierMissions %}
+            {% dump(supplier) %}
+            <tr>
+                <td>{{ supplier.id }}</td>
+                <td>{{ supplier.name }}</td>
+                <td>{{ supplier.description }}</td>
+                <td>{{ supplier.supplier.name ?? 'null' }}</td>
+                <td>{{ supplier.mission.name ?? 'null' }}</td>
+                <td>{{ supplier.createdAt|date('Y-m-d H:i:s') }}</td>
+                <td>
+                    <a href="{{ path('dashboard_supplier_show', {'id': supplier.id}) }}">show</a>
+                    <a href="{{ path('dashboard_supplier_edit', {'id': supplier.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('dashboard_supplier_new') }}">Create new</a>
+
+{% endblock %}

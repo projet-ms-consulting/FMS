@@ -1,0 +1,13 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+    <h1>Edit de la suppliermission <span>{{ supplierMission.name }}</span></h1>
+
+    {{ form_start(supplierMissionForm) }}
+    {{ form_widget(supplierMissionForm) }}
+    <button type="submit" class="btn btn-primary">Modifier</button>
+    {{ form_end(supplierMissionForm) }}
+    <a href="{{ path('dashboard_supplier_index') }}">back to list</a>
+    {{ include('dashboard/supplier/_delete_form.html.twig') }}
+{% endblock %}
+

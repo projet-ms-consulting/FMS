@@ -1,0 +1,17 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+    <div>
+        <p>id : {{ supplierMission.id }}</p>
+        <p>name : {{ supplierMission.name }}</p>
+        <p>description : {{ supplierMission.description }}</p>
+        <p>supplier : {{ supplierMission.supplier.name }}</p>
+        <p>mission : {{ supplierMission.mission.name }}</p>
+        <p>finished : {{ supplierMission.isFinished ? 'Yes' : 'No' }}</p>
+        <p>created_at : {{ supplierMission.createdAt|date('d/m/Y H:i:s') }}</p>
+    </div>
+    <a href="{{ path('dashboard_supplier_edit', {id: supplierMission.id}) }}">Edit</a>
+    <a href="{{ path('dashboard_supplier_index') }}">Back to list</a>
+    {{ include('dashboard/supplier/_delete_form.html.twig') }}
+{% endblock %}
+

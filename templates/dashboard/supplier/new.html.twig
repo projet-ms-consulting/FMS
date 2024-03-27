@@ -1,0 +1,14 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+
+    <h1>Creation d'une SupplierMission</h1>
+
+    {{ form_start(supplierMissionForm) }}
+    {{ form_widget(supplierMissionForm) }}
+    <button type="submit" class="btn btn-primary">Créer</button>
+    {{ form_end(supplierMissionForm) }}
+    <a href="{{ path('dashboard_supplier_index') }}">annuler</a>
+
+{% endblock %}
+
