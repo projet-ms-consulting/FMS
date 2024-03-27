@@ -26,7 +26,9 @@ class AddressRepository extends ServiceEntityRepository
     public function paginateAdresses(int $page, int $limit): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->createQueryBuilder('a'),
+            $this->createQueryBuilder('a')
+            ->leftJoin('a.company', 'c')
+            ->select('a', 'c'),
             $page,
             $limit,
             [
