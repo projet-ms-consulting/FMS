@@ -82,5 +82,4 @@ class MissionController extends AbstractController
 
         return $this->redirectToRoute('dashboard_mission_index');
     }
-
 }
