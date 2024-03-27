@@ -2,8 +2,11 @@
 
 namespace App\Controller\Dashboard;
 
+use App\Entity\Invoice;
 use App\Entity\Mission;
+use App\Form\InvoiceType;
 use App\Form\MissionType;
+use App\Repository\InvoiceRepository;
 use App\Repository\MissionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -81,6 +84,40 @@ class MissionController extends AbstractController
         }
 
         return $this->redirectToRoute('dashboard_mission_index');
+    }
+
+    #[Route('/{id}/invoice', name: 'invoice', methods: ['GET'])]
+    public function invoice(Mission $mission, InvoiceRepository $invoiceRepository): Response
+    {
+        $invoices = $invoiceRepository->findAll();
+
+        return $this->render('dashboard/mission/invoice.html.twig', [
+            'invoices' => $invoices,
+            'mission' => $mission,
+        ]);
+    }
+
+    #[Route('/{id}/invoice/new', name: 'invoice_new', methods: ['GET', 'POST'])]
+    public function invoiceNew(Request $request, Mission $mission, EntityManagerInterface $entityManager): Response
+    {
+        $invoice = new Invoice();
+        $invoiceForm = $this->createForm(InvoiceType::class, $invoice);
+        $invoiceForm->handleRequest($request);
+
+        if ($invoiceForm->isSubmitted() && $invoiceForm->isValid()) {
+            $invoice->setFile($request->files->get('invoice')['file']->getClientOriginalName());
+            $invoice->setMission($mission);
+            $entityManager->persist($invoice);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('dashboard_mission_invoice', ['id' => $mission->getId()]);
+        }
+
+        return $this->render('dashboard/mission/invoice_new.html.twig', [
+            'mission' => $mission,
+            'invoice' => $invoice,
+            'invoiceForm' => $invoiceForm->createView(),
+        ]);
     }
 
 }
