@@ -23,12 +23,17 @@ class AddressRepository extends ServiceEntityRepository
         parent::__construct($registry, Address::class);
     }
 
-    public function paginateAdresses(int $page): PaginationInterface
+    public function paginateAdresses(int $page, int $limit): PaginationInterface
     {
         return $this->paginator->paginate(
             $this->createQueryBuilder('a'),
             $page,
-            5
+            $limit,
+            [
+                'defaultSortFieldName' => 'a.id',
+                'defaultSortDirection' => 'asc',
+                'sortFieldWhitelist' => ['a.id', 'a.nbStreet', 'a.street', 'a.city', 'a.zipCode'],
+            ]
         );
     }
 }
