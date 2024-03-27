@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/dashboard/mission', name: 'dashboard_mission_')]
@@ -105,7 +106,11 @@ class MissionController extends AbstractController
         $invoiceForm->handleRequest($request);
 
         if ($invoiceForm->isSubmitted() && $invoiceForm->isValid()) {
-            $invoice->setFile($request->files->get('invoice')['file']->getClientOriginalName());
+            $file = $request->files->get('invoice')['file'];
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('kernel.project_dir') . '/invoice/mission/' . $mission->getId(), $fileName);
+            $invoice->setRealFilename($file->getClientOriginalName());
+            $invoice->setFile($fileName);
             $invoice->setMission($mission);
             $entityManager->persist($invoice);
             $entityManager->flush();
@@ -118,6 +123,26 @@ class MissionController extends AbstractController
             'invoice' => $invoice,
             'invoiceForm' => $invoiceForm->createView(),
         ]);
+    }
+
+    #[Route('/{id}/invoice/{invoiceId}', name: 'invoice_show', methods: ['GET'])]
+    public function invoiceShow(Mission $mission, $invoiceId, InvoiceRepository $invoiceRepository): Response
+    {
+        $invoice = $invoiceRepository->find($invoiceId);
+        $file = $this->getParameter('kernel.project_dir') . '/invoice/mission/' . $mission->getId() . '/' . $invoice->getFile();
+        return $this->render('dashboard/mission/invoice_show.html.twig', [
+            'mission' => $mission,
+            'invoice' => $invoice,
+            'file' => $file,
+        ]);
+    }
+
+    #[Route('/{id}/invoice/{invoiceId}/{name}', name: 'invoice_show_invoice', methods: ['GET'])]
+    public function invoiceShowFile(Mission $mission, $invoiceId, InvoiceRepository $invoiceRepository): Response
+    {
+        $invoice = $invoiceRepository->find($invoiceId);
+        $file = $this->getParameter('kernel.project_dir') . '/invoice/mission/' . $mission->getId() . '/' . $invoice->getFile();
+        return $this->file($file, $invoice->getFile(), ResponseHeaderBag::DISPOSITION_INLINE);
     }
 
 }

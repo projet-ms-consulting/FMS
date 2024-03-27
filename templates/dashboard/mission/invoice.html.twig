@@ -19,7 +19,7 @@
                 <td>{{ invoice.billNum }}</td>
                 <td>{{ invoice.mission.name ?? '' }}</td>
                 <td>{{ invoice.supplierMission.name ?? '' }}</td>
-                <td>{{ invoice.file }}</td>
+                <td><a href="{{ path('dashboard_mission_invoice_show', {'id': mission.id, 'invoiceId': invoice.id}) }}">{{ invoice.realFilename }}</a></td>
             </tr>
         {% else %}
             <tr>
