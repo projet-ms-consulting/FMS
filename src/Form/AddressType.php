@@ -18,10 +18,6 @@ class AddressType extends AbstractType
             ->add('street')
             ->add('zipCode')
             ->add('city')
-            ->add('company', EntityType::class, [
-                'class' => Company::class,
-                'choice_label' => 'id',
-            ])
         ;
     }
 

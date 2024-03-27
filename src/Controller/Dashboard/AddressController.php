@@ -15,9 +15,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class AddressController extends AbstractController
 {
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(AddressRepository $addressRepository): Response
+    public function index(AddressRepository $addressRepository, Request $request): Response
     {
-        $address = $addressRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $address = $addressRepository->paginateAdresses($page);
+        dump($address);
         return $this->render('dashboard/address/index.html.twig', [
             'address' => $address,
         ]);
