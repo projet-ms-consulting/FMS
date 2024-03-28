@@ -2,124 +2,62 @@
 
 {% block content %}
 
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+	td {
+        font-family: 'DM Sans', sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+</style>
+
 <section>
-    {% include 'dashboard/components/button.html.twig' with {
-    'title': 'Coma',
-    'button_text': 'Ajouter un user',
+    {% include 'dashboard/components/navbar_component.html.twig' with {
+    'title': 'Adresse',
+    'text': 'Cette page vous permet de gérer les adresses. Vous pouvez consulter, ajouter, modifier ou supprimer des adresses selon vos besoins.',
+    'button_text': 'Ajouter une adresse',
     'button_url': path('dashboard_address_new')
     } %}
-    <div class="mt-10 hidden md:flex md:flex-col">
+    <div class="mt-6 hidden md:flex md:flex-col">
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-            <form method="get">
-                <label for="limit">Limit :</label>
-                <select name="limit" id="limit">
-                    <option value="5" {% if limit==5 %} selected {% endif %}>5</option>
-                    <option value="10" {% if limit==10 %} selected {% endif %}>10</option>
-                    <option value="20" {% if limit==20 %} selected {% endif %}>20</option>
-                    <option value="50" {% if limit==50 %} selected {% endif %}>50</option>
-                </select>
-                <button type="submit">Ok</button>
-            </form>
             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                 <table class="min-w-full divide-y divide-gray-300">
                     <thead class="bg-gray-50">
-                        <tr>
-                            {% set columns = [
-                            {'name': 'Id', 'sortable': 'id'},
-                            {'name': 'nbStreet', 'sortable': 'nbStreet'},
-                            {'name': 'street', 'sortable': 'street'},
-                            {'name': 'zipCode', 'sortable': 'zipCode'},
-                            {'name': 'city', 'sortable': 'city'},
-                            {'name': 'company', 'sortable': null},
-                            ] %}
-                            {% for column in columns %}
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                {% if column.sortable %}
-                                {{ knp_pagination_sortable(address, column.name, 'a.' ~ column.sortable) }}
-                                {% else %}
-                                {{ column.name }}
-                                {% endif %}
-                            </th>
-                            {% endfor %}
-                            <th scope="col" class="relative py-3.5 pl-3 pr-6">
-                                <span class="sr-only">dropdown</span>
-                            </th>
-                        </tr>
+            {% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Numéro de Rue', 'Rue', 'Code Postal', 'Ville', 'Entreprise']}%}
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
                         {% for data in address %}
                         <tr>
-                            <td class="whitespace-nowrap py-4 pl-1 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
                                 {{ data.id }}
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                 {{ data.nbStreet }}
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                 {{ data.street }}
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                 {{ data.zipCode }}
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                 {{ data.city }}
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                 {{ data.company.name ?? '' }}
-                            </td>
-                            <td x-data="{ dropdownOpen: false }"
-                                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                <div @click="dropdownOpen = !dropdownOpen">
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                                </div>
-                                <div x-show="dropdownOpen" x-cloak
-                                    class="absolute right-0 bg-white text-black rounded-lg w-36 p-2 z-20">
-                                    <ul class="hoverlist [&>li>a]:justify-end">
-                                        <li><a href="{{ path('dashboard_address_show', {'id': data.id}) }}">Show</a>
-                                        </li>
-                                        <li><a href="{{ path('dashboard_address_edit', {'id': data.id}) }}">Edit</a>
-                                        </li>
-                                    </ul>
-                                </div>
                             </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-            </div>
+                            </div>
+                        {{ knp_pagination_render(address, 'dashboard/components/tailwind_pagination.html.twig', {'slidingPagination': false}) }}
         </div>
     </div>
-    <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:hidden">
-        {% for data in address %}
-        <div
-            class="relative flex items-center space-x-3 rounded-lg bg-white px-6 py-5 shadow ring-1 ring-black ring-opacity-5">
-            <div class="min-w-0 flex-1">
-                <div class="flex items-center space-x-3">
-                    <p class="truncate text-sm font-medium text-gray-900">
-                        {{ data.nbStreet }}
-                    </p>
-                    <span
-                        class="inline-block flex-shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
-                        {{ data.street }}
-                    </span>
-                </div>
-                <p class="mt-1 truncate text-sm text-gray-700">
-                    {{ data.zipCode }}
-                </p>
-                <p class="mt-1 truncate text-sm text-gray-500">
-                    {{ data.city }}
-                </p>
-            </div>
-            <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-900">
-                Edit
-                <span class="sr-only">, {{ data.company.name ?? '' }}</span>
-            </a>
-        </div>
-        {% endfor %}
-    </div>
-    <div class="flex justify-center">
-        {{ knp_pagination_render(address) }}
-    </div>
+
+
+</div>
+
 </section>
 
 {% endblock %}

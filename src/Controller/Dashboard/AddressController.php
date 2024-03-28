@@ -18,7 +18,7 @@ class AddressController extends AbstractController
     public function index(AddressRepository $addressRepository, Request $request): Response
     {
         $page = $request->query->getInt('page', 1);
-        $limit = $request->query->getInt('limit', 5);
+        $limit = $request->query->getInt('limit', 8);
         $address = $addressRepository->paginateAdresses($page, $limit);
         return $this->render('dashboard/address/index.html.twig', [
             'address' => $address,

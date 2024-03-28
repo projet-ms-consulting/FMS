@@ -34,7 +34,7 @@ class AddressRepository extends ServiceEntityRepository
             [
                 'defaultSortFieldName' => 'a.id',
                 'defaultSortDirection' => 'asc',
-                'sortFieldWhitelist' => ['a.id', 'a.nbStreet', 'a.street', 'a.city', 'a.zipCode'],
+                'sortFieldWhitelist' => ['a.id', 'a.nbStr               eet', 'a.street', 'a.city', 'a.zipCode'],
             ]
         );
     }

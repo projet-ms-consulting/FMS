@@ -3,34 +3,24 @@
 {% block content %}
 
 <section>
-  {% include 'dashboard/components/button.html.twig' with {
-  'title': 'Company',
-  'button_text': 'Ajouter une company',
-  'button_url': path('dashboard_company_new') } %}
+    {% include 'dashboard/components/navbar_component.html.twig' with {
+    'title': 'Entreprise',
+    'text': 'Cette page vous permet de gérer les entreprises. Vous pouvez consulter, ajouter, modifier ou supprimer des adresses selon vos besoins.',
+    'button_text': 'Ajouter une entreprise',
+    'button_url': path('dashboard_company_new')
+    } %}
 
-  <div class="mt-10 hidden md:flex md:flex-col">
+  <div class="mt-6 hidden md:flex md:flex-col">
     <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
 
         <table class="min-w-full divide-y divide-gray-300">
 
           <thead class="bg-gray-50">
-            {% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['id', 'name', 'address', 'type', 'head_office']}%}
+            {% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Nom', 'Adresse', 'Type', 'Siège social']}%}
           </thead>
 
-          <tbody class="divide-y divide-gray-200 bg-white">
-          {% for company in companies %}
-            {% include 'dashboard/components/table_row.html.twig' with {
-              'columns': [
-                {'data': company.id, 'classes': 'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6'},
-                {'data': company.name, 'classes': 'whitespace-nowrap px-3 py-4 text-sm text-gray-500'},
-                {'data': company.address.id ?? 'null', 'classes': 'whitespace-nowrap px-3 py-4 text-sm text-gray-500'},
-                {'data': company.type, 'classes': 'whitespace-nowrap px-3 py-4 text-sm text-gray-500'},
-                {'data': company.headOffice ? 'Yes' : 'No', 'classes': 'whitespace-nowrap py-4 pl-3 pr-4 text-sm'}
-              ]
-            } %}
-          {% endfor %}
-          </tbody>
+          <tbody class="divide-y divide-gray-200 bg-white"></tbody>
 
         </table>
       </div>

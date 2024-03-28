@@ -3,20 +3,21 @@
 {% block content %}
 
 	<section>
-		{% include 'dashboard/components/button.html.twig' with {
-            'title': 'Supplier',
-            'button_text': 'Ajouter une company',
-            'button_url': path('dashboard_company_new') } %}
-            
-		<div class="mt-10 hidden md:flex md:flex-col">
+		{% include 'dashboard/components/navbar_component.html.twig' with {
+    		'title': 'Fournisseur',
+    		'text': 'Cette page vous permet de gérer les fournisseurs. Vous pouvez consulter, ajouter, modifier ou supprimer des adresses selon vos besoins.',
+    		'button_text': 'Ajouter un fournisseur',
+    		'button_url': path('dashboard_supplier_new')
+    } %}
+		<div class="mt-6 hidden md:flex md:flex-col">
 			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
 				<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
 
 					<table class="min-w-full divide-y divide-gray-300">
 
 						<thead class="bg-gray-50">
-							{% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['id', 'name',
-                        'description', 'supplier', 'mission', 'created-at']}%}
+							{% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Nom',
+                        'Description', 'Fournisseur', 'Mission', 'Créer le']}%}
 						</thead>
 
 						<tbody class="divide-y divide-gray-200 bg-white">

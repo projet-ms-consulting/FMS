@@ -1,46 +1,25 @@
 {% extends 'dashboard_layout.html.twig' %} {% block content %}
-<h1>Mission home page</h1>
 
+    {% include 'dashboard/components/navbar_component.html.twig' with {
+    'title': 'Mission',
+    'text': 'Cette page vous permet de gérer les missions. Vous pouvez consulter, ajouter, modifier ou supprimer des adresses selon vos besoins.',
+    'button_text': 'Ajouter une mission',
+    'button_url': path('dashboard_mission_new')
+    } %}
+
+<section>
+  <div class="mt-6 hidden md:flex md:flex-col">
+    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+      <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-300">
+
+          <thead class="bg-gray-50 w-full">
+            {% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Nom', 'Description', 'Prix', 'Client', 'Manageur', 'Fini', 'Créer le']}%}
+          </thead>
 <table>
-  <thead>
-    <tr>
-      <th>id</th>
-      <th>name</th>
-      <th>description</th>
-      <th>price</th>
-      <th>client</th>
-      <th>manager</th>
-      <th>finished</th>
-      <th>created_at</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for mission in missions %}
-    <tr>
-      <td>{{ mission.id }}</td>
-      <td>{{ mission.name ?? 'null' }}</td>
-      <td>{{ mission.description ?? 'null' }}</td>
-      <td>{{ mission.price ?? 'null' }}</td>
-      <td>{{ mission.client.name ?? 'null' }}</td>
-      <td>{{ mission.manager.name ?? 'null' }}</td>
-      <td>{{ mission.finished ? 'Yes' : 'No' }}</td>
-      <td>{{ mission.createdAt|date('Y-m-d H:i:s') }}</td>
-      <td>
-        <a href="{{ path('dashboard_mission_show', { id: mission.id }) }}"
-          >show</a
-        >
-        <a href="{{ path('dashboard_mission_edit', { id: mission.id }) }}"
-          >edit</a
-        >
-        <a href="{{ path('dashboard_mission_invoice', { id: mission.id }) }}"
-          >invoice</a
-        >
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<a href="{{ path('dashboard_mission_new') }}">Create new</a>
+</div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

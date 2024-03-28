@@ -16,11 +16,15 @@ use Symfony\Component\Routing\Attribute\Route;
 class PersonController extends AbstractController
 {
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(PersonRepository $personRepository): Response
+    public function index(PersonRepository $personRepository, Request $request): Response
     {
-        $persons = $personRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $persons = $personRepository->paginatePerson($page, $limit);
         return $this->render('dashboard/person/index.html.twig', [
             'persons' => $persons,
+            'page' => $page,
+            'limit' => $limit,
         ]);
     }
 
