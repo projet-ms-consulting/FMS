@@ -30,9 +30,6 @@ class Person
     #[ORM\ManyToOne(inversedBy: 'people')]
     private ?Company $company = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?array $roles = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -105,18 +102,6 @@ class Person
     public function setCompany(?Company $company): static
     {
         $this->company = $company;
-
-        return $this;
-    }
-
-    public function getRoles(): ?array
-    {
-        return $this->roles;
-    }
-
-    public function setRoles(?array $roles): static
-    {
-        $this->roles = $roles;
 
         return $this;
     }

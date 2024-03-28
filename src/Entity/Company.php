@@ -45,17 +45,15 @@ class Company
     #[ORM\Column(nullable: true)]
     private ?bool $headOffice = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $type = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?array $roles = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'companies')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?TypeCompany $type = null;
 
     public function __construct()
     {
@@ -262,30 +260,6 @@ class Company
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(?string $type): static
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getRoles(): ?array
-    {
-        return $this->roles;
-    }
-
-    public function setRoles(?array $roles): static
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -306,6 +280,18 @@ class Company
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getType(): ?TypeCompany
+    {
+        return $this->type;
+    }
+
+    public function setType(?TypeCompany $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }
