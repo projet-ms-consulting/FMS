@@ -7,6 +7,7 @@ use App\Entity\Company;
 use App\Entity\TypeCompany;
 use App\Entity\Person;
 use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -26,8 +27,6 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $now = new \DateTimeImmutable();
-
         //address
         for ($i = 0; $i < 6; $i++) {
             $address = new Address();
@@ -54,6 +53,7 @@ class AppFixtures extends Fixture
         //company
         $randomTva = 'FR' . rand(100000000, 999999999);
         for ($i = 0; $i < 6; $i++) {
+            $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
             $company = new Company();
             $company->setAddress($listAddress[$i]);
             $company->setType($listCompanyType[array_rand($listCompanyType)]);
@@ -61,7 +61,7 @@ class AppFixtures extends Fixture
             $company->setNumTva($randomTva);
             $company->setSiren($this->faker->siren());
             $company->setSiret($this->faker->siret());
-            $company->setCreatedAt($now);
+            $company->setCreatedAt($date);
             $manager->persist($company);
             $listCompany[] = $company;
         }
@@ -71,17 +71,18 @@ class AppFixtures extends Fixture
         $superAdmin->setFirstName($this->faker->firstName());
         $superAdmin->setLastName($this->faker->lastName());
         $superAdmin->setPhone($this->faker->phoneNumber());
-        $superAdmin->setCreatedAt($now);
+        $superAdmin->setCreatedAt($date);
         $manager->persist($superAdmin);
 
         // Person
         for ($i = 0; $i < 30; $i++) {
+            $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
             $person = new Person();
             $person->setFirstName($this->faker->firstName());
             $person->setLastName($this->faker->lastName());
             $person->setPhone($this->faker->phoneNumber());
             $person->setCompany($listCompany[array_rand($listCompany)]);
-            $person->setCreatedAt($now);
+            $person->setCreatedAt($date);
             $manager->persist($person);
             $listPerson[] = $person;
         }
@@ -93,18 +94,19 @@ class AppFixtures extends Fixture
         $user->setPassword($hash);
         $user->setRoles(['ROLE_SUPER_ADMIN']);
         $user->setPerson($superAdmin);
-        $user->setCreatedAt($now);
+        $user->setCreatedAt($date);
         $manager->persist($user);
 
         // User (User)
         for ($i = 0; $i < 30; $i++) {
+            $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
             $user = new User();
             $user->setEmail('user' . $i + 1 . '@user.fr');
             $hash = $this->hasher->hashPassword($user, 'user');
             $user->setPassword($hash);
             $user->setRoles(['ROLE_USER']);
             $user->setPerson($listPerson[$i]);
-            $user->setCreatedAt($now);
+            $user->setCreatedAt($date);
             $manager->persist($user);
             $listUser[] = $user;
         }
