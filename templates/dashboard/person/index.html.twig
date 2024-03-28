@@ -1,37 +1,134 @@
-{% extends 'dashboard_layout.html.twig' %}
-
-{% block content %}
-    <h1>Person home page</h1>
-
-    <table>
-        <thead>
+{% extends 'dashboard_layout.html.twig' %} {% block content %}
+<section>
+  <div class="flex items-center justify-between">
+    <h2 class="text-3xl font-semibold">Person</h2>
+    <a href="{{ path('dashboard_person_new') }}">
+      <button
+        class="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-6 font-medium text-neutral-200"
+      >
+        <span>+ Person</span>
+        <div
+          class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"
+        >
+          <div class="relative h-full w-8 bg-white/20"></div>
+        </div>
+      </button>
+    </a>
+  </div>
+  <div class="mt-10 hidden md:flex md:flex-col">
+    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+      <div
+        class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg"
+      >
+        <table class="min-w-full divide-y divide-gray-300">
+          <thead>
             <tr>
-                <th>id</th>
-                <th>lastname</th>
-                <th>firstname</th>
-                <th>phone</th>
-                <th>company</th>
-                <th>created_at</th>
-                <th>Actions</th>
+              <th
+                scope="col"
+                class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900"
+              >
+                id
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                lastname
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                firstname
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                phone
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                company
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                created_at
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Actions
+              </th>
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody class="divide-y divide-gray-200 bg-white">
             {% for person in persons %}
-                <tr>
-                    <td>{{ person.id }}</td>
-                    <td>{{ person.lastname ?? 'null' }}</td>
-                    <td>{{ person.firstname ?? 'null' }}</td>
-                    <td>{{ person.phone ?? 'null' }}</td>
-                    <td><a href="#">{{ person.company.name ?? 'null' }}</a></td>
-                    <td>{{ person.createdAt|date('Y-m-d') }}</td>
-                    <td>
-                        <a href="{{ path('dashboard_person_show', {'id': person.id}) }}">show</a>
-                        <a href="{{ path('dashboard_person_edit', {'id': person.id}) }}">edit</a>
-                    </td>
-                </tr>
+            <tr>
+              <td
+                class="whitespace-nowrap py-4 pl-1 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+              >
+                {{ person.id }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                {{ person.lastname ?? 'null' }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                {{ person.firstname ?? 'null' }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                {{ person.phone ?? 'null' }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                <a href="#">{{ person.company.name ?? 'null' }}</a>
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                {{ person.createdAt|date('Y-m-d') }}
+              </td>
+              <td
+                x-data="{ dropdownOpen: false }"
+                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
+              >
+                <div @click="dropdownOpen = !dropdownOpen">
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </div>
+                <div
+                  x-show="dropdownOpen"
+                  x-cloak
+                  class="absolute right-0 bg-white text-black rounded-lg w-36 p-2 z-20"
+                >
+                  <ul class="hoverlist [&>li>a]:justify-end">
+                    <li>
+                      <a
+                        href="{{
+                          path('dashboard_person_show', { id: person.id })
+                        }}"
+                        >Show</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        href="{{
+                          path('dashboard_person_edit', { id: person.id })
+                        }}"
+                        >Edit</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
             {% endfor %}
-        </tbody>
-    </table>
-    <a href="{{ path('dashboard_person_new') }}">Create new</a>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

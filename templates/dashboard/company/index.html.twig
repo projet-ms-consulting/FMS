@@ -1,39 +1,130 @@
-{% extends 'dashboard_layout.html.twig' %}
+{% extends 'dashboard_layout.html.twig' %} {% block content %}
 
-{% block content %}
-    <h1>Company home page</h1>
-
-    <table>
-        <thead>
-        <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>address</th>
-            <th>type</th>
-            <th>head_office</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for company in companies %}
+<section>
+  <div class="flex items-center justify-between">
+    <h2 class="text-3xl font-semibold">Company</h2>
+    <a href="{{ path('dashboard_company_new') }}">
+      <button
+        class="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-6 font-medium text-neutral-200"
+      >
+        <span>+ Company</span>
+        <div
+          class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"
+        >
+          <div class="relative h-full w-8 bg-white/20"></div>
+        </div>
+      </button>
+    </a>
+  </div>
+  <div class="mt-10 hidden md:flex md:flex-col">
+    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+      <div
+        class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg"
+      >
+        <table class="min-w-full divide-y divide-gray-300">
+          <thead class="bg-gray-50">
             <tr>
-                <td>{{ company.id }}</td>
-                <td>{{ company.name }}</td>
-                <td>{{ company.address.id ?? 'null' }}</td>
-                <td>{{ company.type }}</td>
-                {% if company.headOffice == true %}
-                    <td style="color: green">Yes</td>
-                {% else %}
-                    <td style="color: red">No</td>
-                {% endif %}
-                <td>
-                    <a href="{{ path('dashboard_company_show', {'id': company.id}) }}">show</a>
-                    <a href="{{ path('dashboard_company_edit', {'id': company.id}) }}">edit</a>
-                </td>
+              <th
+                scope="col"
+                class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900"
+              >
+                id
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                name
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                address
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                type
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                head_office
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Actions
+              </th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <a href="{{ path('dashboard_company_new') }}">Create new</a>
+          </thead>
+          <tbody class="divide-y divide-gray-200 bg-white">
+            {% for company in companies %}
+            <tr>
+              <td
+                class="whitespace-nowrap py-4 pl-1 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+              >
+                {{ company.id }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                {{ company.name }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                {{ company.address.id ?? 'null' }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                {{ company.type }}
+              </td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                {% if company.headOffice == true %}
+                <td style="color: green">Yes</td>
+                {% else %}
+                <td style="color: red">No</td>
+                {% endif %}
+              </td>
+              <td
+                x-data="{ dropdownOpen: false }"
+                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
+              >
+                <div @click="dropdownOpen = !dropdownOpen">
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                </div>
+                <div
+                  x-show="dropdownOpen"
+                  x-cloak
+                  class="absolute right-0 bg-white text-black rounded-lg w-36 p-2 z-20"
+                >
+                  <ul class="hoverlist [&>li>a]:justify-end">
+                    <li>
+                      <a
+                        href="{{
+                          path('dashboard_company_show', { id: company.id })
+                        }}"
+                        >Show</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        href="{{
+                          path('dashboard_company_edit', { id: company.id })
+                        }}"
+                        >Edit</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}
