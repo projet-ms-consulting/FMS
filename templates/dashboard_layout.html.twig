@@ -18,55 +18,10 @@
   </head>
 
   <body x-data="{sidebarOpen: true}">
-    <div class="flex">
-      <div
-        class="fixed top-0 left-0 h-screen w-16 m-0 space-y-4 flex flex-col bg-gray-900 text-white shadow-lg text-3xl flex items-center pt-4"
-      >
-        <a
-          up-target="#content"
-          up-href="{{ path('dashboard_index') }}"
-          up-history="replace"
-          ><i class="fa-solid fa-house"></i
-        ></a>
-        <a
-          up-target="#content"
-          up-href="{{ path('dashboard_address_index') }}"
-          up-history="replace"
-          ><i class="fa-solid fa-map-location-dot"></i
-        ></a>
-        <a
-          up-target="#content"
-          up-href="{{ path('dashboard_company_index') }}"
-          up-history="replace"
-          ><i class="fa-solid fa-building"></i
-        ></a>
-        <a
-          up-target="#content"
-          up-href="{{ path('dashboard_user_index') }}"
-          up-history="replace"
-          ><i class="fa-solid fa-user"></i
-        ></a>
-        <a
-          up-target="#content"
-          up-href="{{ path('dashboard_person_index') }}"
-          up-history="replace"
-          ><i class="fa-solid fa-person"></i
-        ></a>
-        <a
-          up-target="#content"
-          up-href="{{ path('dashboard_mission_index') }}"
-          up-history="replace"
-          ><i class="fa-regular fa-clipboard"></i
-        ></a>
-        <a
-          up-target="#content"
-          up-href="{{ path('dashboard_supplier_index') }}"
-          up-history="replace"
-          ><i class="fa-solid fa-parachute-box"></i
-        ></a>
-      </div>
+
 
       <div class="flex-col w-full h-screen">
+      {% include 'components/sidebar.html.twig' %}
         <div id="content" class="pl-20 p-4">
           {% block content %}{% endblock %}
         </div>
