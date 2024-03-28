@@ -15,15 +15,12 @@ class ZipGeneratorController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
         $outputFilename = 'factures.zip';
-        $invoiceDir = realpath($this->getParameter('kernel.project_dir') . '/invoice/');
-        $invoice = $invoiceRepository->findAll();
         // create new archive
         $zipFile = new ZipFile();
         try{
-            $zipFile
-                ->addDir($invoiceDir, 'invoice') // add files from the directory
-                ->saveAsFile($outputFilename) // save the archive to a file
-                ->close(); // close archive
+            $invoiceDir = $this->getParameter('kernel.project_dir') . '/invoice/mission/';
+            $zipFile->addDirRecursive($invoiceDir, 'invoice');
+            $zipFile->saveAsFile($outputFilename)->close();
         }
         catch(\PhpZip\Exception\ZipException $e){
             // handle exception
