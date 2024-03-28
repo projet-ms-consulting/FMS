@@ -18,11 +18,15 @@ class UserController extends AbstractController
 {
 
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, Request $request): Response
     {
-        $users = $userRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $users = $userRepository->paginateUsers($page, $limit);
         return $this->render('dashboard/user/index.html.twig', [
             'users' => $users,
+            'page' => $page,
+            'limit' => $limit,
         ]);
     }
 

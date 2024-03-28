@@ -1,0 +1,24 @@
+<div class="flex justify-between mt-6 px-2">
+    <div>
+        {% if pageCount > 1 %}
+            <ul class="pagination">
+                {% if previous is defined %}
+                        <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}" class="page-link relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
+                            <span class="relative">&laquo; Précédent</span>
+                        </a>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+    <div>
+        {% if pageCount > 1 %}
+            <ul class="pagination relative">
+                {% if next is defined %}
+                        <a href="{{ path(route, query|merge({(pageParameterName): next})) }}" class="page-link relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
+                            <span class="relative">Suivant &raquo;</span>
+                        </a>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+</div>

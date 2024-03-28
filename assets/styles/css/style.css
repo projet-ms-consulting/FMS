@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
-  font-family: 'Urbanist', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -9,8 +9,9 @@ p,
 label,
 input::placeholder,
 span,
-a {
-  font-family: 'Inter', sans-serif;
+a,
+h2 {
+  font-family: 'DM Sans', sans-serif;
   font-size: 15px;
 }
 

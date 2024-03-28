@@ -1,7 +1,16 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+	th {
+        font-family: 'DM Sans', sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+</style>
+
 <tr>
     {% for column in columns %}
     <th scope="col"
-        class="py-3.5 {{ loop.first ? 'pl-6 pr-3' : 'px-3' }} text-left text-sm font-semibold text-gray-900">
+        class="py-3 px-6 text-left font-semibold text-gray-900">
         {{ column }}
     </th>
     {% endfor %}
