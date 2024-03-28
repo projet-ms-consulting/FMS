@@ -51,7 +51,7 @@ class Company
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'companies')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'companies')]
     #[ORM\JoinColumn(nullable: false)]
     private ?TypeCompany $type = null;
 

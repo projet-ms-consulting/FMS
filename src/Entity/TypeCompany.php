@@ -2,16 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\CompanyTypeRepository;
+use App\Repository\TypeCompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CompanyTypeRepository::class)]
+#[ORM\Entity(repositoryClass: TypeCompanyRepository::class)]
 class TypeCompany
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
@@ -29,6 +28,13 @@ class TypeCompany
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getLabel(): ?string

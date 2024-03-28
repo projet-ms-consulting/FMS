@@ -41,10 +41,14 @@ class AppFixtures extends Fixture
 
         //TypeCompany
         $types = ['Manager', 'Client', 'Supplier'];
-        for ($i = 0; $i < 3; $i++) {
+        $i = 1;
+        foreach ($types as $type) {
             $companyType = new TypeCompany();
-            $companyType->setLabel($types[$i]);
+            $companyType->setId($i);
+            $companyType->setLabel($type);
+            $manager->persist($companyType);
             $listCompanyType[] = $companyType;
+            $i++;
         }
 
         //company
