@@ -3,28 +3,20 @@
 {% block content %}
 
 <section>
-    <div class="flex items-center justify-between">
-        <h2 class="text-3xl font-semibold">Address</h2>
-        <a href="{{ path('dashboard_address_new') }}">
-            <button
-                class="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-6 font-medium text-neutral-200">
-                <span>+ Address</span>
-                <div
-                    class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]">
-                    <div class="relative h-full w-8 bg-white/20"></div>
-                </div>
-            </button>
-        </a>
-    </div>
+    {% include 'components/dashboard/button.html.twig' with {
+    'title': 'Coma',
+    'button_text': 'Ajouter un user',
+    'button_url': path('dashboard_address_new')
+    } %}
     <div class="mt-10 hidden md:flex md:flex-col">
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
             <form method="get">
                 <label for="limit">Limit :</label>
                 <select name="limit" id="limit">
-                    <option value="5" {% if limit == 5 %} selected {% endif %}>5</option>
-                    <option value="10" {% if limit == 10 %} selected {% endif %}>10</option>
-                    <option value="20" {% if limit == 20 %} selected {% endif %}>20</option>
-                    <option value="50" {% if limit == 50 %} selected {% endif %}>50</option>
+                    <option value="5" {% if limit==5 %} selected {% endif %}>5</option>
+                    <option value="10" {% if limit==10 %} selected {% endif %}>10</option>
+                    <option value="20" {% if limit==20 %} selected {% endif %}>20</option>
+                    <option value="50" {% if limit==50 %} selected {% endif %}>50</option>
                 </select>
                 <button type="submit">Ok</button>
             </form>
@@ -32,24 +24,23 @@
                 <table class="min-w-full divide-y divide-gray-300">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900">
-                                {{ knp_pagination_sortable(address, 'Id', 'a.id') }}
-                            </th>
+                            {% set columns = [
+                            {'name': 'Id', 'sortable': 'id'},
+                            {'name': 'nbStreet', 'sortable': 'nbStreet'},
+                            {'name': 'street', 'sortable': 'street'},
+                            {'name': 'zipCode', 'sortable': 'zipCode'},
+                            {'name': 'city', 'sortable': 'city'},
+                            {'name': 'company', 'sortable': null},
+                            ] %}
+                            {% for column in columns %}
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                {{ knp_pagination_sortable(address, 'nbStreet', 'a.nbStreet') }}
+                                {% if column.sortable %}
+                                {{ knp_pagination_sortable(address, column.name, 'a.' ~ column.sortable) }}
+                                {% else %}
+                                {{ column.name }}
+                                {% endif %}
                             </th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                {{ knp_pagination_sortable(address, 'street', 'a.street') }}
-                            </th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                {{ knp_pagination_sortable(address, 'zipCode', 'a.zipCode') }}
-                            </th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                {{ knp_pagination_sortable(address, 'city', 'a.city') }}
-                            </th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                company
-                            </th>
+                            {% endfor %}
                             <th scope="col" class="relative py-3.5 pl-3 pr-6">
                                 <span class="sr-only">dropdown</span>
                             </th>

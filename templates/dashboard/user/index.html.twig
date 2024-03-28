@@ -1,76 +1,29 @@
 {% extends 'dashboard_layout.html.twig' %} {% block content %}
 
 <section>
-  <div class="flex items-center justify-between">
-    <h2 class="text-3xl font-semibold">User</h2>
-    <a href="{{ path('dashboard_user_new') }}">
-      <button
-        class="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-6 font-medium text-neutral-200"
-      >
-        <span>+ User</span>
-        <div
-          class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"
-        >
-          <div class="relative h-full w-8 bg-white/20"></div>
-        </div>
-      </button>
-    </a>
-  </div>
+  {% include 'dashboard/components/button.html.twig' with {
+  'title': 'User',
+  'button_text': 'User',
+  'button_url': path('dashboard_user_new') } %}
+
   <div class="mt-10 hidden md:flex md:flex-col">
     <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-      <div
-        class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg"
-      >
+      <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
         <table class="min-w-full divide-y divide-gray-300">
           <thead class="bg-gray-50">
-            <tr>
-              <th
-                scope="col"
-                class="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900"
-              >
-                id
-              </th>
-              <th
-                scope="col"
-                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-              >
-                person
-              </th>
-              <th
-                scope="col"
-                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-              >
-                email
-              </th>
-              <th
-                scope="col"
-                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-              >
-                created_at
-              </th>
-              <th
-                scope="col"
-                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-              >
-                Actions
-              </th>
-            </tr>
+            {% include 'dashboard/components/table_header_row.html.twig' with
+            {'columns': ['id', 'person', 'email', 'created_at']}%}
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white">
             {% for user in users %}
             <tr>
-              <td
-                class="whitespace-nowrap py-4 pl-1 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
-              >
+              <td class="whitespace-nowrap py-4 pl-1 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                 {{ user.id }}
               </td>
               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                <a
-                  href="{{
+                <a href="{{
                     path('dashboard_person_show', { id: user.person.id })
-                  }}"
-                  >{{ user.person.firstName }} {{ user.person.lastName }}</a
-                >
+                  }}">{{ user.person.firstName }} {{ user.person.lastName }}</a>
               </td>
               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                 {{ user.email }}
@@ -78,34 +31,23 @@
               <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                 {{ user.createdAt|date('Y-m-d') }}
               </td>
-              <td
-                x-data="{ dropdownOpen: false }"
-                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
-              >
+              <td x-data="{ dropdownOpen: false }"
+                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                 <div @click="dropdownOpen = !dropdownOpen">
                   <i class="fa-solid fa-ellipsis-vertical"></i>
                 </div>
-                <div
-                  x-show="dropdownOpen"
-                  x-cloak
-                  class="absolute right-0 bg-white text-black rounded-lg w-36 p-2 z-20"
-                >
+                <div x-show="dropdownOpen" x-cloak
+                  class="absolute right-0 bg-white text-black rounded-lg w-36 p-2 z-20">
                   <ul class="hoverlist [&>li>a]:justify-end">
                     <li>
-                      <a
-                        href="{{
+                      <a href="{{
                           path('dashboard_user_show', { id: user.id })
-                        }}"
-                        >Show</a
-                      >
+                        }}">Show</a>
                     </li>
                     <li>
-                      <a
-                        href="{{
+                      <a href="{{
                           path('dashboard_user_edit', { id: user.id })
-                        }}"
-                        >Edit</a
-                      >
+                        }}">Edit</a>
                     </li>
                   </ul>
                 </div>
