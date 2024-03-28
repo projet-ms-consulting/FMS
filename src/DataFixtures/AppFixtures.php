@@ -55,12 +55,12 @@ class AppFixtures extends Fixture
         $randomTva = 'FR' . rand(100000000, 999999999);
         for ($i = 0; $i < 6; $i++) {
             $company = new Company();
-            $company->setName($this->faker->company());
             $company->setAddress($listAddress[$i]);
+            $company->setType($listCompanyType[array_rand($listCompanyType)]);
+            $company->setName($this->faker->company());
             $company->setNumTva($randomTva);
             $company->setSiren($this->faker->siren());
             $company->setSiret($this->faker->siret());
-            $company->setType($listCompanyType[array_rand($listCompanyType)]);
             $company->setCreatedAt($now);
             $manager->persist($company);
             $listCompany[] = $company;
