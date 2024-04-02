@@ -28,11 +28,18 @@
 									<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
 										<a href="{{ path('address_detail', {'id': data.id}) }}">{{ data.id }}</a>
 									</td>
-									{% for property in ['nbStreet', 'street', 'zipCode', 'city', 'company.name'] %}
+									{% for property in ['nbStreet', 'street', 'zipCode', 'city'] %}
 										<td class="whitespace-nowrap px-6 py-4 text-gray-500">
 											{{ attribute(data, property)|default('') }}
 										</td>
 									{% endfor %}
+									<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+										{% if data.company is not null %}
+											<a href="{{ path('dashboard_company_show', {'id': data.company.id}) }}">{{ data.company.name }}</a>
+										{% else %}
+											Non renseigné
+										{% endif %}
+									</td>
 									<td>
 										<a href="{{ path('address_edit', { id: data.id }) }}">Modifier</a>
 										<form action="{{ path('address_delete', { id: data.id }) }}" method="post">

@@ -4,7 +4,7 @@
     <div>
         <p>id : {{ company.id }}</p>
         <p>name : {{ company.name }}</p>
-        <p>address : {{ company.address ?? 'null' }}</p>
+        <p>address : {{ company.address.city ?? 'null' }}</p>
         <p>num_tva : {{ company.numTva }}</p>
         <p>siret : {{ company.siret }}</p>
         <p>siren : {{ company.siren }}</p>
@@ -15,7 +15,7 @@
                 <span style="color: red">No</span>
             {% endif %}
         </p>
-        <p>type : {{ company.type }}</p>
+        <p>type : {{ company.type.label }}</p>
         <p>created_at : {{ company.createdAt|date('d/m/Y H:i:s') }}</p>
     </div>
     <a href="{{ path('dashboard_company_edit', {id: company.id}) }}">Edit</a>

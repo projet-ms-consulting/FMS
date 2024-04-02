@@ -12,30 +12,47 @@
 		<div class="mt-6 hidden md:flex md:flex-col">
 			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
 				<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-
 					<table class="min-w-full divide-y divide-gray-300">
-
 						<thead class="bg-gray-50">
-							{% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Nom',
-                        'Description', 'Fournisseur', 'Mission', 'Créer le']}%}
+							{% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Mission', 'Nom',
+                        'Description', 'finished', 'Crée le', 'Actions']}%}
 						</thead>
-
 						<tbody class="divide-y divide-gray-200 bg-white">
-							{% for supplier in supplierMissions %}
-								{% include 'dashboard/components/table_row.html.twig' with {
-                        'columns': [
-                        {'data': supplier.id, 'classes': 'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium
-                        text-gray-900 sm:pl-6'},
-                        {'data': supplier.name, 'classes': 'whitespace-nowrap px-3 py-4 text-sm text-gray-500'},
-                        {'data': supplier.description ?? 'null', 'classes': 'whitespace-nowrap px-3 py-4 text-sm
-                        text-gray-500'},
-                        {'data': supplier.mission.name ?? 'null', 'classes': 'whitespace-nowrap px-3 py-4 text-sm
-                        text-gray-500'},
-                        {'data': supplier.createdAt|date('Y-m-d H:i:s'), 'classes': 'whitespace-nowrap px-3 py-4 text-sm
-                        text-gray-500'}
-                        ]
-                        } %}
-							{% endfor %}
+						{% for data in supplierMissions %}
+							<tr>
+								{% for property in ['id'] %}
+									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+										{{ attribute(data, property)|default('') }}
+									</td>
+								{% endfor %}
+								<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+									{% if data.mission is not null %}
+										<a href="{{ path('dashboard_mission_show', {'id': data.mission.id}) }}">{{ data.mission.name }}</a>
+									{% else %}
+										Non renseigné
+									{% endif %}
+								</td>
+								{% for property in ['name', 'description'] %}
+									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+										{{ attribute(data, property)|default('') }}
+									</td>
+								{% endfor %}
+								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+									{{ data.finished ? 'Oui' : 'Non' }}
+								</td>
+								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+									{{ data.createdAt|date('d/m/Y') }}
+								</td>
+								<td>
+									<a href="{{ path('dashboard_supplier_edit', { id: data.id }) }}">Modifier</a>
+									<form action="{{ path('dashboard_supplier_delete', { id: data.id }) }}">
+										<input type="hidden" name="_method" value="DELETE">
+										<button type="submit">Supprimer</button>
+									</form>
+									<a href="{{ path('dashboard_mission_invoice', { id: data.id }) }}">Factures</a>
+								</td>
+							</tr>
+						{% endfor %}
 						</tbody>
 					</table>
 				</div>
