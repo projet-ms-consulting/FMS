@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Address;
 use App\Entity\Company;
+use App\Entity\TypeCompany;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,10 +21,20 @@ class CompanyType extends AbstractType
             ->add('siret')
             ->add('siren')
             ->add('headOffice')
-            ->add('type')
+            ->add('type', EntityType::class, [
+                'class' => TypeCompany::class,
+                'choice_label' => 'label',
+                'placeholder' => 'Chosissez un type',
+            ])
             ->add('address', EntityType::class, [
                 'class' => Address::class,
                 'choice_label' => 'street',
+                'placeholder' => 'Chosissez une adresse',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('a')
+                        ->leftJoin('a.company', 'c')
+                        ->where('c.address IS NULL');
+                },
             ])
         ;
     }
