@@ -40,12 +40,23 @@
 											Non renseigné
 										{% endif %}
 									</td>
-									<td>
-										<a href="{{ path('address_edit', { id: data.id }) }}">Modifier</a>
-										<form action="{{ path('address_delete', { id: data.id }) }}" method="post">
-											<input type="hidden" name="_method" value="DELETE">
-											<button type="submit">Supprimer</button>
-										</form>
+									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+										<div x-data="{ open: false }" x-on:click.outside="open = false" class="relative inline-block text-left">
+											<div x-on:click="open = !open" class="inline-flex w-full">
+												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+											</div>
+											<div x-show="open" class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-10">
+												<div class="p-3">
+													<a href="{{ path('address_edit', { id: data.id }) }}">Modifier</a>
+												</div>
+												<div class="p-3">
+													<form action="{{ path('address_delete', { id: data.id }) }}" method="post">
+														<input type="hidden" name="_method" value="DELETE">
+														<button type="submit">Supprimer</button>
+													</form>
+												</div>
+											</div>
+										</div>
 									</td>
 								</tr>
 							{% endfor %}
