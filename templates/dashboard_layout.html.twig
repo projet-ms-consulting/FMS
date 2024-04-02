@@ -16,17 +16,18 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  </head>
+  <link href="{{ asset('./styles/css/dashboard_layout.css')}}" rel="stylesheet" />
+</head>
 
-  <body x-data="{sidebarOpen: true}">
+<body>
 
-
-      <div class="flex-col w-full h-screen">
-      {% include 'components/sidebar.html.twig' %}
-        <div id="content" class="pl-20 p-4">
-          {% block content %}{% endblock %}
-        </div>
-      </div>
+  <div class="flex-col w-full h-screen">
+    {% include 'components/sidebar.html.twig' %}
+    <div id="content" class="pl-20 p-4">
+      {% block content %}{% endblock %}
     </div>
-  </body>
+  </div>
+
+</body>
+
 </html>

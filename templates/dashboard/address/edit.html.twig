@@ -4,11 +4,10 @@
 
     <h1>Edit de l'address n°<span>{{ address.id }}</span></h1>
 
-    {{ form_start(addressForm) }}
-    {{ form_widget(addressForm) }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
     <button type="submit" class="btn btn-primary">Modifier</button>
-    {{ form_end(addressForm) }}
-    <a href="{{ path('dashboard_address_index') }}">back to list</a>
-    {{ include('dashboard/address/_delete_form.html.twig') }}
+    {{ form_end(form) }}
+    <a href="{{ path('address_index') }}">Retour</a>
 
 {% endblock %}
