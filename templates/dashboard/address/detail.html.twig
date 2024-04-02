@@ -7,9 +7,7 @@
     <p>street : {{ address.street }}</p>
     <p>zipCode : {{ address.zipCode }}</p>
     <p>city : {{ address.city }}</p>
-    <p>company : <a href="#">{{ address.company }}</a></p>
-    <a href="{{ path('dashboard_address_edit', {id: address.id}) }}">Edit</a>
-    <a href="{{ path('dashboard_address_index') }}">Back to list</a>
-    {{ include('dashboard/address/_delete_form.html.twig') }}
+    <a href="{{ path('address_edit', {id: address.id}) }}">Edit</a>
+    <a href="{{ path('address_index') }}">Back to list</a>
 </div>
 {% endblock %}

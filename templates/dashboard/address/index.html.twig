@@ -2,62 +2,52 @@
 
 {% block content %}
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+	<section>
+		{% include 'dashboard/components/navbar_component.html.twig' with {
+			'title': 'Adresse',
+    		'text': 'Cette page vous permet de gérer les adresses. Vous pouvez consulter, ajouter, modifier ou supprimer des adresses selon vos besoins.',
+    		'button_text': 'Ajouter une adresse',
+    		'button_url': path('address_new')
+    	} %}
+		<div class="mt-6 hidden md:flex md:flex-col">
+			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+				<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+					<table class="min-w-full divide-y divide-gray-300">
+						<thead class="bg-gray-50">
+							<tr>
+								{% for column in ['Id', 'Numéro de Rue', 'Rue', 'Code Postal', 'Ville', 'Entreprise', 'Action'] %}
+									<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
+										{{ column }}
+									</th>
+								{% endfor %}
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-gray-200 bg-white">
+							{% for data in address %}
+								<tr>
+									<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+										<a href="{{ path('address_detail', {'id': data.id}) }}">{{ data.id }}</a>
+									</td>
+									{% for property in ['nbStreet', 'street', 'zipCode', 'city', 'company.name'] %}
+										<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+											{{ attribute(data, property)|default('') }}
+										</td>
+									{% endfor %}
+									<td>
+										<a href="{{ path('address_edit', { id: data.id }) }}">Modifier</a>
+										<form action="{{ path('address_delete', { id: data.id }) }}" method="post">
+											<input type="hidden" name="_method" value="DELETE">
+											<button type="submit">Supprimer</button>
+										</form>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
 
-	td {
-        font-family: 'DM Sans', sans-serif;
-        -webkit-font-smoothing: antialiased;
-    }
-</style>
-
-<section>
-    {% include 'dashboard/components/navbar_component.html.twig' with {
-    'title': 'Adresse',
-    'text': 'Cette page vous permet de gérer les adresses. Vous pouvez consulter, ajouter, modifier ou supprimer des adresses selon vos besoins.',
-    'button_text': 'Ajouter une adresse',
-    'button_url': path('dashboard_address_new')
-    } %}
-    <div class="mt-6 hidden md:flex md:flex-col">
-        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                <table class="min-w-full divide-y divide-gray-300">
-                    <thead class="bg-gray-50">
-            {% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Numéro de Rue', 'Rue', 'Code Postal', 'Ville', 'Entreprise']}%}
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 bg-white">
-                        {% for data in address %}
-                        <tr>
-                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                {{ data.id }}
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-                                {{ data.nbStreet }}
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-                                {{ data.street }}
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-                                {{ data.zipCode }}
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-                                {{ data.city }}
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-                                {{ data.company.name ?? '' }}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                            </div>
-                        {{ knp_pagination_render(address, 'dashboard/components/tailwind_pagination.html.twig', {'slidingPagination': false}) }}
-        </div>
-    </div>
-
-
-</div>
-
-</section>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
 
 {% endblock %}
