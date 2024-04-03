@@ -4,7 +4,6 @@ namespace App\Controller\Dashboard;
 
 use App\Entity\Person;
 use App\Form\PersonType;
-use App\Repository\CompanyRepository;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
