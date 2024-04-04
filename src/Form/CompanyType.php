@@ -30,10 +30,19 @@ class CompanyType extends AbstractType
                 'class' => Address::class,
                 'choice_label' => 'street',
                 'placeholder' => 'Chosissez une adresse',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('a')
-                        ->leftJoin('a.company', 'c')
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    $currentAddress = $options['data']->getAddress();
+
+                    $qb = $er->createQueryBuilder('a');
+                    $qb->leftJoin('a.company', 'c')
                         ->where('c.address IS NULL');
+
+                    if ($currentAddress) {
+                        $qb->orWhere('a.id = :currentAddressId')
+                            ->setParameter('currentAddressId', $currentAddress->getId());
+                    }
+
+                    return $qb;
                 },
             ])
         ;

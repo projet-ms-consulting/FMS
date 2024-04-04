@@ -23,7 +23,7 @@ class InvoiceType extends AbstractType
                 'mapped' => false,
                 'constraints' => [
                     new File([
-                            'maxSize' => '1024k',
+                            'maxSize' => '4096k',
                             'mimeTypes' => [
                                 'application/pdf',
                                 'application/x-pdf',

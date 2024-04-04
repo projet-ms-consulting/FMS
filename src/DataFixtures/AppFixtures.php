@@ -61,6 +61,7 @@ class AppFixtures extends Fixture
             $company->setNumTva($randomTva);
             $company->setSiren($this->faker->siren());
             $company->setSiret($this->faker->siret());
+            $company->setHeadOffice($this->faker->boolean());
             $company->setCreatedAt($date);
             $manager->persist($company);
             $listCompany[] = $company;
