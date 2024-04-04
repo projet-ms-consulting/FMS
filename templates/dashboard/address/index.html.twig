@@ -5,17 +5,20 @@
 	<section>
 		{% include 'dashboard/components/navbar_component.html.twig' with {
 			'title': 'Adresse',
-    		'text': 'Cette page vous permet de gérer les adresses. Vous pouvez consulter, ajouter, modifier ou supprimer des adresses selon vos besoins.',
+    		'text': 'Cette page vous offre la possibilité de gérer les adresses. Vous pouvez consulter, ajouter, modifier ou supprimer des adresses en fonction de vos besoins.',
     		'button_text': 'Ajouter une adresse',
     		'button_url': path('address_new')
     	} %}
-		<div class="mt-6 hidden md:flex md:flex-col">
+		<div class="mt-6 flex md:flex-col">
 			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
 				<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
 					<table class="min-w-full divide-y divide-gray-300">
 						<thead class="bg-gray-50">
 							<tr>
-								{% for column in ['Id', 'Numéro de Rue', 'Rue', 'Code Postal', 'Ville', 'Entreprise', 'Action'] %}
+								<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
+									{{ knp_pagination_sortable(address, 'Id', 'a.id') }}
+								</th>
+								{% for column in ['Numéro de Rue', 'Rue', 'Code Postal', 'Ville', 'Entreprise', 'Action'] %}
 									<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
 										{{ column }}
 									</th>
@@ -64,6 +67,7 @@
 
 					</table>
 				</div>
+				 {{ knp_pagination_render(address, 'dashboard/components/tailwind_pagination.html.twig', {'slidingPagination': false}) }}
 			</div>
 		</div>
 	</section>
