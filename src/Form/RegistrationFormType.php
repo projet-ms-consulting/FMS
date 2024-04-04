@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Person;
 use App\Entity\User;
+use App\Repository\PersonRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -41,6 +42,12 @@ class RegistrationFormType extends AbstractType
                 'class' => Person::class,
                 'choice_label' => function (Person $person) {
                     return $person->getLastName() . ' ' . $person->getFirstName();
+                },
+                'placeholder' => 'Chosissez une personne',
+                'query_builder' => function (PersonRepository $pr) {
+                    return $pr->createQueryBuilder('p')
+                        ->leftJoin('p.user', 'u')
+                        ->where('u.person IS NULL');
                 },
             ])
         ;

@@ -18,13 +18,10 @@ class PersonType extends AbstractType
             ->add('lastName')
             ->add('firstName')
             ->add('phone')
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'email',
-            ])
             ->add('company', EntityType::class, [
                 'class' => Company::class,
                 'choice_label' => 'name',
+                'placeholder' => 'Chosissez une company',
             ])
         ;
     }

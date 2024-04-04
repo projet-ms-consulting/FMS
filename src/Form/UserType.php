@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Person;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -23,6 +24,12 @@ class UserType extends AbstractType
                 'class' => Person::class,
                 'choice_label' => function (Person $person) {
                     return $person->getLastName() . ' ' . $person->getFirstName();
+                },
+                'placeholder' => 'Chosissez une personne',
+                'query_builder' => function (UserRepository $ur) {
+                    return $ur->createQueryBuilder('u')
+                        ->leftJoin('u.person', 'p')
+                        ->where('p.user IS NULL');
                 },
             ])
         ;
