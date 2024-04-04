@@ -1,7 +1,10 @@
 {% extends 'dashboard_layout.html.twig' %}
 
+{% set componentPath = 'dashboard/company/components/' %}
+
 {% block content %}
 
+<<<<<<< Updated upstream
 <section>
     {% include 'dashboard/components/navbar_component.html.twig' with {
     'title': 'Entreprise',
@@ -9,23 +12,30 @@
     'button_text': 'Ajouter une entreprise',
     'button_url': path('dashboard_company_new')
     } %}
+=======
+    <section>
+        {% include 'dashboard/components/navbar_component.html.twig' with {
+            'title': 'Entreprise',
+            'text': 'Cette section vous permet de gérer vos entreprises : consulter, ajouter, modifier ou supprimer des données d\'entreprise selon vos besoins.',
+            'button_text': 'Ajouter une entreprise',
+            'button_url': path('dashboard_company_new')
+        } %}
+>>>>>>> Stashed changes
 
-  <div class="mt-6 hidden md:flex md:flex-col">
-    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-          <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+        <div class="mt-6 hidden md:flex md:flex-col">
+            <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
 
-        <table class="min-w-full divide-y divide-gray-300">
+                    <table class="min-w-full divide-y divide-gray-300">
 
-          <thead class="bg-gray-50">
-            {% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Nom', 'Adresse', 'Type', 'Siège social']}%}
-          </thead>
+                        {% include componentPath ~ 'table_header.html.twig' %}
 
-          <tbody class="divide-y divide-gray-200 bg-white"></tbody>
+                        {% include componentPath ~ 'table_body.html.twig' %}
 
-        </table>
-      </div>
-    </div>
-  </div>
-</section>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
 
 {% endblock %}

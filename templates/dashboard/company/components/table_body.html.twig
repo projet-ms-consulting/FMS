@@ -1,0 +1,30 @@
+<tbody class="divide-y divide-gray-200 bg-white">
+{% for company in companies %}
+    <tr>
+        <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+            {{ company.id }}
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            {{ company.name|default('null') }}
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            {{ company.getAddress().getNbStreet() ~ ' ' ~ company.getAddress().getStreet() }}
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            {{ company.getType().getLabel() }}
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            {{ company.head_office ?? 'null' }}
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            {{ company.createdAt|date('Y-m-d') }}
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            <div>
+                <a href="{{ path('dashboard_company_show', { id: company.id }) }}">Détails</a>
+                <a href="{{ path('dashboard_company_edit', { id: company.id }) }}">Modifier</a>
+            </div>
+        </td>
+    </tr>
+{% endfor %}
+</tbody>
