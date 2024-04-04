@@ -42,7 +42,7 @@ class Company
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $siren = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: false)]
     private ?bool $headOffice = null;
 
     #[ORM\Column]
