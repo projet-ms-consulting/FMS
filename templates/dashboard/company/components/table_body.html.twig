@@ -8,7 +8,10 @@
             {{ company.name|default('null') }}
         </td>
         <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-            {{ company.getAddress().getNbStreet() ~ ' ' ~ company.getAddress().getStreet() }}
+            <a href="{{ path('address_detail', { id: company.getAddress().getId() }) }}"
+               class="underline opacity-75">
+                {{ company.getAddress().getNbStreet() ~ ' ' ~ company.getAddress().getStreet() }}
+            </a>
         </td>
         <td class="whitespace-nowrap px-6 py-4 text-gray-500">
             {{ company.getType().getLabel() }}
