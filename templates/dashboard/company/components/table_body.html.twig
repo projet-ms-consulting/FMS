@@ -17,7 +17,11 @@
             {{ company.getType().getLabel() }}
         </td>
         <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-            {{ company.head_office ?? 'null' }}
+            {% if company.isHeadOffice() == 1 %}
+                Yes
+            {% else %}
+                No
+            {% endif %}
         </td>
         <td class="whitespace-nowrap px-6 py-4 text-gray-500">
             {{ company.createdAt|date('Y-m-d') }}

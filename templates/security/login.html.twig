@@ -3,69 +3,64 @@
 {% block title %}Se connecter - Freelance Management System{% endblock %}
 
 {% block body %}
-<div>
-    <form method="post">
-        {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+    <div>
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-        {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-        {% endif %}
+            <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 antialiased">
+                <div class="sm:mx-auto sm:w-full sm:max-w-md">
+                    <h2 class="mt-10 text-center text-6xl font-semibold leading-9 tracking-tight text-gray-900">Se
+                        connecter
+                    </h2>
+                    <p class="mt-6 text-center">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                </div>
+                <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
+                    <form action="#" method="POST">
+                        <div class="flex-col space-y-6">
+                            <div>
+                                <label for="email"
+                                       class="block text-base font-medium leading-6 text-gray-900">Email</label>
+                                <div class="mt-2">
+                                    <input id="email" name="email" type="email" autocomplete="email" required
+                                           class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                           placeholder="jhon.doe@gmail.com">
+                                </div>
+                            </div>
 
-        <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 antialiased">
-            <div class="sm:mx-auto sm:w-full sm:max-w-md">
-                <h2 class="mt-10 text-center text-6xl font-semibold leading-9 tracking-tight text-gray-900">Se
-                    connecter
-                </h2>
-                <p class="mt-6 text-center">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-            </div>
-            <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
-                <form action="#" method="POST">
-                    <div class="flex-col space-y-6">
-                        <div>
-                            <label for="email" class="block text-base font-medium leading-6 text-gray-900">Email</label>
-                            <div class="mt-2">
-                                <input id="email" name="email" type="email" autocomplete="email" required
-                                    class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    placeholder="jhon.doe@gmail.com">
+                            <div>
+                                <label for="password" class="block text-base font-medium leading-6 text-gray-900">
+                                    Mot de passe
+                                </label>
+                                <div class="mt-2">
+                                    <input id="password" name="password" type="password" autocomplete="current-password"
+                                           required
+                                           class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                           placeholder="••••••••">
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                            <div class="flex items-center">
+                                <input checked id="checked-checkbox" type="checkbox" value=""
+                                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2">
+                                <label for="checked-checkbox" class="ms-2 font-medium text-gray-900">
+                                    Se souvenir de moi
+                                </label>
+                            </div>
+
+                            <div>
+                                <button
+                                        class="relative overflow-hidden rounded-md bg-neutral-950 w-full px-5 py-2.5 text-white transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                                    Se connecter
+                                </button>
                             </div>
                         </div>
-
-                        <div>
-                            <label for="password" class="block text-base font-medium leading-6 text-gray-900">
-                                Mot de passe
-                            </label>
-                            <div class="mt-2">
-                                <input id="password" name="password" type="password" autocomplete="current-password"
-                                    required
-                                    class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    placeholder="••••••••">
-                            </div>
-                        </div>
-
-                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-                        <div class="flex items-center">
-                            <input checked id="checked-checkbox" type="checkbox" value=""
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500  focus:ring-2">
-                            <label for="checked-checkbox" class="ms-2 font-medium text-gray-900">
-                                Se souvenir de moi
-                            </label>
-                        </div>
-
-                        <div>
-                            <button
-                                class="relative overflow-hidden rounded-md bg-neutral-950 w-full px-5 py-2.5 text-white transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
-                                Se connecter
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 {% endblock %}

@@ -1,0 +1,43 @@
+<tbody class="divide-y divide-gray-200 bg-white">
+{% for mission in missions %}
+    <tr>
+        <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+            {{ mission.id }}
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            {{ mission.name }}
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            {{ mission.description|default('null') }}
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            {{ mission.price }}
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            <a href="{{ path('dashboard_company_show', { id: mission.getClient().getId() }) }}"
+               class="underline opacity-75">
+                {{ mission.getClient().getName() }}
+            </a>
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            <a href="{{ path('dashboard_company_show', { id: mission.getManager().getId() }) }}"
+               class="underline opacity-75">
+                {{ mission.getManager().getName() }}
+            </a>
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            {{ mission.isfinished ? 'Oui' : 'Non' }}
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            {{ mission.createdAt|date('Y-m-d') }}
+        </td>
+        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            <div>
+                <a href="{{ path('dashboard_mission_show', { id: mission.id }) }}">Détails</a>
+                <a href="{{ path('dashboard_mission_edit', { id: mission.id }) }}">Modifier</a>
+                <a href="{{ path('dashboard_mission_invoice', { id: mission.id }) }}">Facture</a>
+            </div>
+        </td>
+    </tr>
+{% endfor %}
+</tbody>
