@@ -4,38 +4,28 @@
 
 {% block content %}
 
-<<<<<<< Updated upstream
 <section>
     {% include 'dashboard/components/navbar_component.html.twig' with {
-    'title': 'Entreprise',
-    'text': 'Cette page vous permet de gérer les entreprises. Vous pouvez consulter, ajouter, modifier ou supprimer des entreprises selon vos besoins.',
-    'button_text': 'Ajouter une entreprise',
-    'button_url': path('dashboard_company_new')
+        'title': 'Entreprise',
+        'text': 'Cette section vous permet de gérer vos entreprises : consulter, ajouter, modifier ou supprimer des données d\'entreprise selon vos besoins.',
+        'button_text': 'Ajouter une entreprise',
+        'button_url': path('dashboard_company_new')
     } %}
-=======
-    <section>
-        {% include 'dashboard/components/navbar_component.html.twig' with {
-            'title': 'Entreprise',
-            'text': 'Cette section vous permet de gérer vos entreprises : consulter, ajouter, modifier ou supprimer des données d\'entreprise selon vos besoins.',
-            'button_text': 'Ajouter une entreprise',
-            'button_url': path('dashboard_company_new')
-        } %}
->>>>>>> Stashed changes
 
-        <div class="mt-6 hidden md:flex md:flex-col">
-            <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+    <div class="mt-6 hidden md:flex md:flex-col">
+        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
 
-                    <table class="min-w-full divide-y divide-gray-300">
+                <table class="min-w-full divide-y divide-gray-300">
 
-                        {% include componentPath ~ 'table_header.html.twig' %}
+                    {% include componentPath ~ 'table_header.html.twig' %}
 
-                        {% include componentPath ~ 'table_body.html.twig' %}
+                    {% include componentPath ~ 'table_body.html.twig' %}
 
-                    </table>
-                </div>
+                </table>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 {% endblock %}
