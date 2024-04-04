@@ -4,28 +4,30 @@
 
 {% block content %}
 
-<section>
-    {% include 'dashboard/components/navbar_component.html.twig' with {
-        'title': 'Entreprise',
-        'text': 'Cette section vous permet de gérer vos entreprises : consulter, ajouter, modifier ou supprimer des données d\'entreprise selon vos besoins.',
-        'button_text': 'Ajouter une entreprise',
-        'button_url': path('dashboard_company_new')
-    } %}
-    
-    <div class="mt-6 hidden md:flex md:flex-col">
-        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
 
-                <table class="min-w-full divide-y divide-gray-300">
+    <section>
 
-                    {% include componentPath ~ 'table_header.html.twig' %}
+        {% include 'dashboard/components/navbar_component.html.twig' with {
+            'title': 'Entreprise',
+            'text': 'Cette section vous permet de gérer vos entreprises : consulter, ajouter, modifier ou supprimer des données d\'entreprise selon vos besoins.',
+            'button_text': 'Ajouter une entreprise',
+            'button_url': path('dashboard_company_new')
+        } %}
 
-                    {% include componentPath ~ 'table_body.html.twig' %}
+        <div class="mt-6 hidden md:flex md:flex-col">
+            <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
 
-                </table>
+                    <table class="min-w-full divide-y divide-gray-300">
+
+                        {% include componentPath ~ 'table_header.html.twig' %}
+
+                        {% include componentPath ~ 'table_body.html.twig' %}
+
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 {% endblock %}
