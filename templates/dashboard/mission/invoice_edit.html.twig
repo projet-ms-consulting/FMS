@@ -1,0 +1,19 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+    <h1>Modification d'une facture</h1>
+
+    {{ form_start(invoiceForm) }}
+    {{ form_widget(invoiceForm) }}
+
+    {# Afficher le lien vers l'image existante #}
+    {% if imagePath %}
+        <p>Image existante :</p>
+        <img src="{{ imagePath }}" alt="Image existante">
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary">Modifier</button>
+    {{ form_end(invoiceForm) }}
+
+    <a href="{{ path('dashboard_mission_invoice', {'id': mission.id}) }}">Annuler</a>
+{% endblock %}

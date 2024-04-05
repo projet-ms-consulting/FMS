@@ -11,6 +11,8 @@
             <th>mission</th>
             <th>supplier</th>
             <th>file</th>
+            <th>deadline</th>
+            <th>paid</th>
         </tr>
         </thead>
         <tbody>
@@ -19,7 +21,28 @@
                 <td>{{ invoice.billNum }}</td>
                 <td>{{ invoice.mission.name ?? '' }}</td>
                 <td>{{ invoice.supplierMission.name ?? '' }}</td>
-                <td><a href="{{ path('dashboard_mission_invoice_show', {'id': mission.id, 'invoiceId': invoice.id}) }}">{{ invoice.realFilename }}</a></td>
+                <td>
+                    <a href="{{ path('dashboard_mission_invoice_show', {'id': mission.id, 'invoiceId': invoice.id}) }}">{{ invoice.realFilename }}</a>
+                </td>
+                {% if invoice.deadline %}
+                    {% if not invoice.paid %}
+                        {% set remainingDays = (invoice.deadline | date('U') - 'now' | date('U')) / (60 * 60 * 24) %}
+                        {% if remainingDays > 0 %}
+                            <td>Temps restant {{ remainingDays | round(0, 'floor') }}
+                                jour{{ remainingDays > 1 ? 's' : '' }}</td>
+                        {% else %}
+                            {% set daysLate = ('now' | date('U') - invoice.deadline | date('U')) / (60 * 60 * 24) %}
+                            <td class="text-red-500">Retard de {{ daysLate | round(0, 'floor') }}
+                                jour{{ daysLate > 1 ? 's' : '' }}</td>
+                        {% endif %}
+                    {% else %}
+                        <td>A jour</td>
+                    {% endif %}
+                {% else %}
+                    <td>Date limite non définie</td>
+                {% endif %}
+                <td>{{ invoice.paid is defined and invoice.paid ? 'Payé' : 'Non payé' }}</td>
+                <td><a href="{{ path('dashboard_mission_invoice_edit', { id: invoice.id }) }}">Modifier</a></td>
             </tr>
         {% else %}
             <tr>

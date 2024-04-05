@@ -32,7 +32,7 @@
             {{ mission.createdAt|date('Y-m-d') }}
         </td>
         <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-            <div>
+            <div class="flex flex-col">
                 <a href="{{ path('dashboard_mission_show', { id: mission.id }) }}">Détails</a>
                 <a href="{{ path('dashboard_mission_edit', { id: mission.id }) }}">Modifier</a>
                 <a href="{{ path('dashboard_mission_invoice', { id: mission.id }) }}">Facture</a>

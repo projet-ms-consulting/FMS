@@ -79,7 +79,7 @@ class MissionController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Mission $mission, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$mission->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $mission->getId(), $request->request->get('_token'))) {
             $entityManager->remove($mission);
             $entityManager->flush();
         }
@@ -107,7 +107,7 @@ class MissionController extends AbstractController
 
         if ($invoiceForm->isSubmitted() && $invoiceForm->isValid()) {
             $file = $request->files->get('invoice')['file'];
-            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
             $file->move($this->getParameter('kernel.project_dir') . '/invoice/mission/' . $mission->getId(), $fileName);
             $invoice->setRealFilename($file->getClientOriginalName());
             $invoice->setFile($fileName);
@@ -124,6 +124,26 @@ class MissionController extends AbstractController
             'invoiceForm' => $invoiceForm->createView(),
         ]);
     }
+
+    #[Route('/{id}/invoice/edit', name: 'invoice_edit', methods: ['GET', 'POST'])]
+    public function invoiceEdit(Invoice $invoice, Request $request, EntityManagerInterface $em)
+    {
+        $form = $this->createForm(InvoiceType::class, $invoice);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            return $this->redirectToRoute('dashboard_mission_index');
+        }
+
+        $imagePath = $invoice->getRealFilename();
+
+        return $this->render('dashboard/mission/invoice_edit.html.twig', [
+            'mission' => $invoice,
+            'invoiceForm' => $form,
+            'imagePath' => $imagePath,
+        ]);
+    }
+
 
     #[Route('/{id}/invoice/{invoiceId}', name: 'invoice_show', methods: ['GET'])]
     public function invoiceShow(Mission $mission, $invoiceId, InvoiceRepository $invoiceRepository): Response
