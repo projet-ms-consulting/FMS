@@ -4,30 +4,30 @@
 
 {% block content %}
 
-    {% include 'dashboard/components/navbar_component.html.twig' with {
+	{% include 'dashboard/components/navbar_component.html.twig' with {
         'title': 'Mission',
         'text': 'Cette page vous permet de gérer les missions. Vous pouvez consulter, ajouter, modifier ou supprimer des missions selon vos besoins.',
         'button_text': 'Ajouter une mission',
         'button_url': path('dashboard_mission_new')
     } %}
 
-    <section>
-        <div class="mt-6 hidden md:flex md:flex-col">
-            <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+	<section>
+		<div class="mt-6 hidden md:flex md:flex-col">
+			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+				<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
 
-                    <table class="min-w-full divide-y divide-gray-300">
+					<table class="min-w-full divide-y divide-gray-300">
 
-                        <thead class="bg-gray-50 w-full">
-                        {% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Nom', 'Description', 'Prix', 'Client', 'Manageur', 'Fini', 'Créer le', 'Actions']} %}
-                        </thead>
+						<thead class="bg-gray-50 w-full">
+							{% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Nom', 'Description', 'Prix', 'Client', 'Administrateur', 'Fini', 'Créer le', 'Actions']} %}
+						</thead>
 
-                        {% include componentPath ~ 'table_body.html.twig' %}
+						{% include componentPath ~ 'table_body.html.twig' %}
 
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
 
 {% endblock %}
