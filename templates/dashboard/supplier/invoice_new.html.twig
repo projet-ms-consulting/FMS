@@ -1,0 +1,12 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+    <h1>Creation d'une facture</h1>
+
+    {{ form_start(invoiceForm) }}
+    {{ form_widget(invoiceForm) }}
+    <button type="submit" class="btn btn-primary">Créer</button>
+    {{ form_end(invoiceForm) }}
+    <a href="{{ path('dashboard_supplier_invoice', {'id': mission.id}) }}">annuler</a>
+{% endblock %}
+

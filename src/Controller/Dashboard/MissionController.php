@@ -2,9 +2,9 @@
 
 namespace App\Controller\Dashboard;
 
-use App\Entity\Invoice;
+use App\Entity\InvoiceMission;
 use App\Entity\Mission;
-use App\Form\InvoiceType;
+use App\Form\InvoiceMissionType;
 use App\Form\MissionType;
 use App\Repository\InvoiceRepository;
 use App\Repository\MissionRepository;
@@ -101,14 +101,14 @@ class MissionController extends AbstractController
     #[Route('/{id}/invoice/new', name: 'invoice_new', methods: ['GET', 'POST'])]
     public function invoiceNew(Request $request, Mission $mission, EntityManagerInterface $entityManager): Response
     {
-        $invoice = new Invoice();
-        $invoiceForm = $this->createForm(InvoiceType::class, $invoice);
+        $invoice = new InvoiceMission();
+        $invoiceForm = $this->createForm(InvoiceMissionType::class, $invoice);
         $invoiceForm->handleRequest($request);
 
         if ($invoiceForm->isSubmitted() && $invoiceForm->isValid()) {
-            $file = $request->files->get('invoice')['file'];
+            $file = $request->files->get('invoice_mission')['file'];
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-            $file->move($this->getParameter('kernel.project_dir') . '/invoice/mission/' . $mission->getId(), $fileName);
+            $file->move($this->getParameter('kernel.project_dir') . '/invoice/' . $mission->getId() . '/mission', $fileName);
             $invoice->setRealFilename($file->getClientOriginalName());
             $invoice->setFile($fileName);
             $invoice->setMission($mission);
@@ -126,9 +126,9 @@ class MissionController extends AbstractController
     }
 
     #[Route('/{id}/invoice/edit', name: 'invoice_edit', methods: ['GET', 'POST'])]
-    public function invoiceEdit(Invoice $invoice, Request $request, EntityManagerInterface $em)
+    public function invoiceEdit(InvoiceMission $invoice, Request $request, EntityManagerInterface $em)
     {
-        $form = $this->createForm(InvoiceType::class, $invoice);
+        $form = $this->createForm(InvoiceMissionType::class, $invoice);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
@@ -149,7 +149,7 @@ class MissionController extends AbstractController
     public function invoiceShow(Mission $mission, $invoiceId, InvoiceRepository $invoiceRepository): Response
     {
         $invoice = $invoiceRepository->find($invoiceId);
-        $file = $this->getParameter('kernel.project_dir') . '/invoice/mission/' . $mission->getId() . '/' . $invoice->getFile();
+        $file = $this->getParameter('kernel.project_dir') . '/invoice/' . $mission->getId() . '/mission/' . $invoice->getFile();
         return $this->render('dashboard/mission/invoice_show.html.twig', [
             'mission' => $mission,
             'invoice' => $invoice,
@@ -161,7 +161,7 @@ class MissionController extends AbstractController
     public function invoiceShowFile(Mission $mission, $invoiceId, InvoiceRepository $invoiceRepository): Response
     {
         $invoice = $invoiceRepository->find($invoiceId);
-        $file = $this->getParameter('kernel.project_dir') . '/invoice/mission/' . $mission->getId() . '/' . $invoice->getFile();
+        $file = $this->getParameter('kernel.project_dir') . '/invoice/' . $mission->getId() . '/mission/' . $invoice->getFile();
         return $this->file($file, $invoice->getFile(), ResponseHeaderBag::DISPOSITION_INLINE);
     }
 

@@ -1,0 +1,16 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+    <div>
+        <h2>Votre facture n°{{ invoice.billNum }}</h2>
+
+        {% dump(file) %}
+
+        <embed src="{{ path('dashboard_supplier_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename})}}" width="1080" height="720" type='application/pdf'>
+        <a href="{{ path('dashboard_supplier_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename}) }}">Ouvrir la facture</a>
+
+        <a href="{{ path('dashboard_supplier_invoice', {'id': mission.id}) }}">Retour a la liste</a>
+
+    </div>
+{% endblock %}
+

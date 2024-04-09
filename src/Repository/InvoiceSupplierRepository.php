@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\InvoiceMission;
+use App\Entity\InvoiceSupplier;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<InvoiceMission>
+ * @extends ServiceEntityRepository<InvoiceSupplier>
  *
- * @method InvoiceMission|null find($id, $lockMode = null, $lockVersion = null)
- * @method InvoiceMission|null findOneBy(array $criteria, array $orderBy = null)
- * @method InvoiceMission[]    findAll()
- * @method InvoiceMission[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method InvoiceSupplier|null find($id, $lockMode = null, $lockVersion = null)
+ * @method InvoiceSupplier|null findOneBy(array $criteria, array $orderBy = null)
+ * @method InvoiceSupplier[]    findAll()
+ * @method InvoiceSupplier[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class InvoiceRepository extends ServiceEntityRepository
+class InvoiceSupplierRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, InvoiceMission::class);
+        parent::__construct($registry, InvoiceSupplier::class);
     }
 
     //    /**
-    //     * @return Invoice[] Returns an array of Invoice objects
+    //     * @return InvoiceSupplier[] Returns an array of InvoiceSupplier objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class InvoiceRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Invoice
+    //    public function findOneBySomeField($value): ?InvoiceSupplier
     //    {
     //        return $this->createQueryBuilder('i')
     //            ->andWhere('i.exampleField = :val')

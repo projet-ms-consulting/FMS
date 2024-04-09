@@ -49,6 +49,7 @@
 										<input type="hidden" name="_method" value="DELETE">
 										<button type="submit">Supprimer</button>
 									</form>
+									<a href="{{ path('dashboard_supplier_invoice', { id: data.id }) }}">Facture</a>
 								</td>
 							</tr>
 						{% endfor %}

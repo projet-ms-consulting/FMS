@@ -2,13 +2,14 @@
 
 {% block content %}
 
-    <h1>invoice de la mission : {{ mission.name }}</h1>
+    <h1>invoice de la supplierMission : {{ mission.name }}</h1>
 
     <table>
         <thead>
         <tr>
             <th>billNum</th>
-            <th>mission</th>
+            <th>SupplierMission</th>
+            <th>InvoiceMission</th>
             <th>file</th>
             <th>deadline</th>
             <th>paid</th>
@@ -18,9 +19,10 @@
         {% for invoice in invoices %}
             <tr>
                 <td>{{ invoice.billNum }}</td>
-                <td>{{ invoice.mission.name ?? '' }}</td>
+                <td>{{ invoice.supplierMission.name ?? '' }}</td>
+                <td><a href="{{ path('dashboard_mission_invoice', {'id': invoice.supplierMission.mission.id}) }}">{{ invoice.invoiceMission.billNum ?? '' }}</a></td>
                 <td>
-                    <a href="{{ path('dashboard_mission_invoice_show', {'id': mission.id, 'invoiceId': invoice.id}) }}">{{ invoice.realFilename }}</a>
+                    <a href="{{ path('dashboard_supplier_invoice_show', {'id': mission.id, 'invoiceId': invoice.id}) }}">{{ invoice.realFilename }}</a>
                 </td>
                 {% if invoice.deadline %}
                     {% if not invoice.paid %}
@@ -40,7 +42,7 @@
                     <td>Date limite non définie</td>
                 {% endif %}
                 <td>{{ invoice.paid is defined and invoice.paid ? 'Payé' : 'Non payé' }}</td>
-                <td><a href="{{ path('dashboard_mission_invoice_edit', { id: invoice.id }) }}">Modifier</a></td>
+                <td><a href="{{ path('dashboard_supplier_invoice_edit', { id: invoice.id }) }}">Modifier</a></td>
             </tr>
         {% else %}
             <tr>
@@ -49,8 +51,7 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('dashboard_mission_invoice_new', {'id': mission.id}) }}">Create new invoice</a>
-    <a href="{{ path('dashboard_mission_index') }}">Retour a la liste des missions</a>
+    <a href="{{ path('dashboard_supplier_invoice_new', {'id': mission.id}) }}">Create new invoice</a>
+    <a href="{{ path('dashboard_supplier_index') }}">Retour a la liste des missions</a>
 
 {% endblock %}
-

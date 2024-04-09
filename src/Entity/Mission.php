@@ -22,7 +22,7 @@ class Mission
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'mission')]
+    #[ORM\OneToMany(targetEntity: InvoiceMission::class, mappedBy: 'mission')]
     private Collection $invoices;
 
     #[ORM\ManyToOne(inversedBy: 'clients')]
@@ -80,14 +80,14 @@ class Mission
     }
 
     /**
-     * @return Collection<int, Invoice>
+     * @return Collection<int, InvoiceMission>
      */
     public function getInvoices(): Collection
     {
         return $this->invoices;
     }
 
-    public function addInvoice(Invoice $invoice): static
+    public function addInvoice(InvoiceMission $invoice): static
     {
         if (!$this->invoices->contains($invoice)) {
             $this->invoices->add($invoice);
@@ -97,7 +97,7 @@ class Mission
         return $this;
     }
 
-    public function removeInvoice(Invoice $invoice): static
+    public function removeInvoice(InvoiceMission $invoice): static
     {
         if ($this->invoices->removeElement($invoice)) {
             // set the owning side to null (unless already changed)

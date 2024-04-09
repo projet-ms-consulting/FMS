@@ -26,9 +26,6 @@ class SupplierMission
     #[ORM\JoinColumn(nullable: false)]
     private ?Mission $mission = null;
 
-    #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'supplierMission')]
-    private Collection $invoices;
-
     #[ORM\ManyToOne(inversedBy: 'suppliers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $supplier = null;
@@ -42,9 +39,12 @@ class SupplierMission
     #[ORM\Column]
     private ?bool $finished = null;
 
+    #[ORM\OneToMany(targetEntity: InvoiceSupplier::class, mappedBy: 'supplierMission')]
+    private Collection $invoiceSuppliers;
+
     public function __construct()
     {
-        $this->invoices = new ArrayCollection();
+        $this->invoiceSuppliers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -84,36 +84,6 @@ class SupplierMission
     public function setMission(?Mission $mission): static
     {
         $this->mission = $mission;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Invoice>
-     */
-    public function getInvoices(): Collection
-    {
-        return $this->invoices;
-    }
-
-    public function addInvoice(Invoice $invoice): static
-    {
-        if (!$this->invoices->contains($invoice)) {
-            $this->invoices->add($invoice);
-            $invoice->setSupplierMission($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInvoice(Invoice $invoice): static
-    {
-        if ($this->invoices->removeElement($invoice)) {
-            // set the owning side to null (unless already changed)
-            if ($invoice->getSupplierMission() === $this) {
-                $invoice->setSupplierMission(null);
-            }
-        }
 
         return $this;
     }
@@ -162,6 +132,36 @@ class SupplierMission
     public function setFinished(bool $finished): static
     {
         $this->finished = $finished;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InvoiceSupplier>
+     */
+    public function getInvoiceSuppliers(): Collection
+    {
+        return $this->invoiceSuppliers;
+    }
+
+    public function addInvoiceSupplier(InvoiceSupplier $invoiceSupplier): static
+    {
+        if (!$this->invoiceSuppliers->contains($invoiceSupplier)) {
+            $this->invoiceSuppliers->add($invoiceSupplier);
+            $invoiceSupplier->setSupplierMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoiceSupplier(InvoiceSupplier $invoiceSupplier): static
+    {
+        if ($this->invoiceSuppliers->removeElement($invoiceSupplier)) {
+            // set the owning side to null (unless already changed)
+            if ($invoiceSupplier->getSupplierMission() === $this) {
+                $invoiceSupplier->setSupplierMission(null);
+            }
+        }
 
         return $this;
     }

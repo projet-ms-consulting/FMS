@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\InvoiceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
-class Invoice
+class InvoiceMission
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -23,9 +25,6 @@ class Invoice
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     private ?Mission $mission = null;
 
-    #[ORM\ManyToOne(inversedBy: 'invoices')]
-    private ?SupplierMission $supplierMission = null;
-
     #[ORM\Column(length: 255)]
     private ?string $realFilename = null;
 
@@ -34,6 +33,14 @@ class Invoice
 
     #[ORM\Column]
     private ?bool $paid = null;
+
+    #[ORM\OneToMany(targetEntity: InvoiceSupplier::class, mappedBy: 'invoiceMission')]
+    private Collection $invoiceSuppliers;
+
+    public function __construct()
+    {
+        $this->invoiceSuppliers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +127,36 @@ class Invoice
     public function setPaid(bool $paid): static
     {
         $this->paid = $paid;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InvoiceSupplier>
+     */
+    public function getInvoiceSuppliers(): Collection
+    {
+        return $this->invoiceSuppliers;
+    }
+
+    public function addInvoiceSupplier(InvoiceSupplier $invoiceSupplier): static
+    {
+        if (!$this->invoiceSuppliers->contains($invoiceSupplier)) {
+            $this->invoiceSuppliers->add($invoiceSupplier);
+            $invoiceSupplier->setInvoiceMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoiceSupplier(InvoiceSupplier $invoiceSupplier): static
+    {
+        if ($this->invoiceSuppliers->removeElement($invoiceSupplier)) {
+            // set the owning side to null (unless already changed)
+            if ($invoiceSupplier->getInvoiceMission() === $this) {
+                $invoiceSupplier->setInvoiceMission(null);
+            }
+        }
 
         return $this;
     }

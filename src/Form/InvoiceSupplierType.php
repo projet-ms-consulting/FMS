@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\Invoice;
+use App\Entity\InvoiceMission;
+use App\Entity\InvoiceSupplier;
+use App\Entity\SupplierMission;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -11,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
-class InvoiceType extends AbstractType
+class InvoiceSupplierType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -39,13 +42,18 @@ class InvoiceType extends AbstractType
             ->add('paid', CheckboxType::class, [
                 'label' => 'Paid',
                 'required' => false,
-            ]);
+            ])
+            ->add('invoiceMission', EntityType::class, [
+                'class' => InvoiceMission::class,
+                'choice_label' => 'billNum',
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Invoice::class,
+            'data_class' => InvoiceSupplier::class,
         ]);
     }
 }
