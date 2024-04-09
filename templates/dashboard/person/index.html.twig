@@ -1,61 +1,64 @@
-{% extends 'dashboard_layout.html.twig' %} {% block content %}
+{% extends 'dashboard_layout.html.twig' %}
+{% block content %}
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital, opsz, wght@0, 9..40, 100..1000;1, 9..40, 100..1000 &family=Inter:wght@100..900&family=Urbanist:ital, wght@0, 100..900;1, 100..900&display=swap');
 
-	td {
-        font-family: 'DM Sans', sans-serif;
-        -webkit-font-smoothing: antialiased;
-    }
-</style>
+		td {
+			font-family: 'DM Sans', sans-serif;
+			-webkit-font-smoothing: antialiased;
+		}
+	</style>
 
-<section>
-    {% include 'dashboard/components/navbar_component.html.twig' with {
+	<section>
+		{% include 'dashboard/components/navbar_component.html.twig' with {
     'title': 'Personne',
     'text': 'Cette page vous permet de gérer les personnes. Vous pouvez consulter, ajouter, modifier ou supprimer des personnes selon vos besoins.',
     'button_text': 'Ajouter une personne',
     'button_url': path('dashboard_person_new')
     } %}
-  <div class="mt-6 hidden md:flex md:flex-col">
-    <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-      <div
-        class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg"
-      >
-        <table class="min-w-full divide-y divide-gray-300">
-                  <thead class="bg-gray-50 w-full">
-            {% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Prénom', 'Nom', 'Téléphone', 'Entreprise', 'Créer le']}%}
-          </thead>
-          <tbody class="divide-y divide-gray-200 bg-white">
-            {% for person in persons %}
-            <tr>
-              <td
-                class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6"
-              >
-                {{ person.id }}
-              </td>
-              <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-                {{ person.lastname ?? 'null' }}
-              </td>
-              <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-                {{ person.firstname ?? 'null' }}
-              </td>
-              <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-                {{ person.phone ?? 'null' }}
-              </td>
-              <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-                <a href="#">{{ person.company.name ?? 'null' }}</a>
-              </td>
-              <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-                {{ person.createdAt|date('Y-m-d') }}
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      {{ knp_pagination_render(persons, 'dashboard/components/tailwind_pagination.html.twig', {'slidingPagination': false}) }}
-    </div>
-  </div>
-</section>
+		<div class="mt-6 hidden md:flex md:flex-col">
+			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+				<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+					<table class="min-w-full divide-y divide-gray-300">
+						<thead class="bg-gray-50 w-full">
+							{% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Prénom', 'Nom', 'Téléphone', 'Entreprise', 'Créer le', 'Actions']}%}
+						</thead>
+						<tbody class="divide-y divide-gray-200 bg-white">
+							{% for person in persons %}
+								<tr>
+									<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+										{{ person.id }}
+									</td>
+									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+										{{ person.lastname ?? 'null' }}
+									</td>
+									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+										{{ person.firstname ?? 'null' }}
+									</td>
+									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+										{{ person.phone ?? 'null' }}
+									</td>
+									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+										<a href="#">{{ person.company.name ?? 'null' }}</a>
+									</td>
+									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+										{{ person.createdAt|date('Y-m-d') }}
+									</td>
+									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+										<div class="space-x-1 opacity-80">
+											<a href="{{ path('dashboard_person_show', { id: person.id }) }}">Show</a>
+											<a href="{{ path('dashboard_person_edit', { id: person.id }) }}">Edit</a>
+										</div>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				{{ knp_pagination_render(persons, 'dashboard/components/tailwind_pagination.html.twig', {'slidingPagination': false}) }}
+			</div>
+		</div>
+	</section>
 
 {% endblock %}

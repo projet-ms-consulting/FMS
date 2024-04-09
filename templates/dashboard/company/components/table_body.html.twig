@@ -1,37 +1,36 @@
 <tbody class="divide-y divide-gray-200 bg-white">
-{% for company in companies %}
-    <tr>
-        <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-            {{ company.id }}
-        </td>
-        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-            {{ company.name|default('null') }}
-        </td>
-        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-            <a href="{{ path('address_detail', { id: company.getAddress().getId() }) }}"
-               class="underline opacity-75">
-                {{ company.getAddress().getNbStreet() ~ ' ' ~ company.getAddress().getStreet() }}
-            </a>
-        </td>
-        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-            {{ company.getType().getLabel() }}
-        </td>
-        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-            {% if company.isHeadOffice() == 1 %}
-                Yes
-            {% else %}
-                No
-            {% endif %}
-        </td>
-        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-            {{ company.createdAt|date('Y-m-d') }}
-        </td>
-        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-            <div>
-                <a href="{{ path('dashboard_company_show', { id: company.id }) }}">Détails</a>
-                <a href="{{ path('dashboard_company_edit', { id: company.id }) }}">Modifier</a>
-            </div>
-        </td>
-    </tr>
-{% endfor %}
+	{% for company in companies %}
+		<tr>
+			<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+				{{ company.id }}
+			</td>
+			<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+				{{ company.name|default('null') }}
+			</td>
+			<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+				<a href="{{ path('address_detail', { id: company.getAddress().getId() }) }}" class="underline opacity-75">
+					{{ company.getAddress().getNbStreet() ~ ' ' ~ company.getAddress().getStreet() }}
+				</a>
+			</td>
+			<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+				{{ company.getType().getLabel() }}
+			</td>
+			<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+				{% if company.isHeadOffice() == 1 %}
+					Yes
+				{% else %}
+					No
+				{% endif %}
+			</td>
+			<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+				{{ company.createdAt|date('Y-m-d') }}
+			</td>
+			<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+				<div class="space-x-1 opacity-80">
+					<a href="{{ path('dashboard_company_show', { id: company.id }) }}">Show</a>
+					<a href="{{ path('dashboard_company_edit', { id: company.id }) }}">Edit</a>
+				</div>
+			</td>
+		</tr>
+	{% endfor %}
 </tbody>
