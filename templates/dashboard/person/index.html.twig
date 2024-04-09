@@ -22,7 +22,7 @@
 				<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
 					<table class="min-w-full divide-y divide-gray-300">
 						<thead class="bg-gray-50 w-full">
-							{% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Prénom', 'Nom', 'Téléphone', 'Entreprise', 'Créer le', 'Actions']}%}
+							{% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Nom', 'Prénom', 'Téléphone', 'Entreprise', 'Créer le', 'Actions']}%}
 						</thead>
 						<tbody class="divide-y divide-gray-200 bg-white">
 							{% for person in persons %}
