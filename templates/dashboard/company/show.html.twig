@@ -23,7 +23,7 @@
     <a href="{{ path('dashboard_company_edit', {id: company.id}) }}">Edit</a>
     <a href="{{ path('dashboard_company_index') }}">Back to list</a>
 
-    {% include componentPath ~ 'delete_form.html.twig' %}
+    {% include 'dashboard/company/_delete_form.html.twig' %}
 
 {% endblock %}
 

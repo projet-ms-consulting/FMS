@@ -16,9 +16,11 @@ class CompanyController extends AbstractController
 {
 
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(CompanyRepository $companyRepository): Response
+    public function index(Request $request, CompanyRepository $companyRepository): Response
     {
-        $companies = $companyRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $companies = $companyRepository->paginateCompanies($page, $limit);
         return $this->render('dashboard/company/index.html.twig', [
             'companies' => $companies,
         ]);

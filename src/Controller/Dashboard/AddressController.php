@@ -8,13 +8,14 @@ use App\Repository\AddressRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/address', name: 'address_')]
+#[Route('/dashboard/address', name: 'dashboard_address_')]
 class AddressController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(AddressRepository $repository, Request $request)
+    public function index(AddressRepository $repository, Request $request): Response
     {
         $page = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 8);
@@ -27,7 +28,7 @@ class AddressController extends AbstractController
     }
 
     #[Route('/new', name: 'new')]
-    public function new(Request $request, EntityManagerInterface $em)
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
         $address = new Address();
         $form = $this->createForm(AddressType::class, $address);
@@ -35,7 +36,7 @@ class AddressController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($address);
             $em->flush();
-            return $this->redirectToRoute('address_index');
+            return $this->redirectToRoute('dashboard_address_index');
         }
         return $this->render('dashboard/address/new.html.twig', [
             'address' => $address,
@@ -43,23 +44,23 @@ class AddressController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'detail')]
-    public function detail(Address $address)
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    public function detail(Address $address): Response
     {
-        return $this->render('dashboard/address/detail.html.twig', [
+        return $this->render('dashboard/address/show.html.twig', [
             'address' => $address
         ]);
     }
 
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Address $address, Request $request, EntityManagerInterface $em)
+    public function edit(Address $address, Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            return $this->redirectToRoute('address_index');
+            return $this->redirectToRoute('dashboard_address_index');
         }
         return $this->render('dashboard/address/edit.html.twig', [
             'address' => $address,
@@ -67,11 +68,13 @@ class AddressController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
-    public function delete(Address $address, EntityManagerInterface $em)
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, Address $address, EntityManagerInterface $em): Response
     {
-        $em->remove($address);
-        $em->flush();
-        return $this->redirectToRoute('address_index');
+        if ($this->isCsrfTokenValid('delete'.$address->getId(), $request->request->get('_token'))) {
+            $em->remove($address);
+            $em->flush();
+        }
+        return $this->redirectToRoute('dashboard_address_index');
     }
 }

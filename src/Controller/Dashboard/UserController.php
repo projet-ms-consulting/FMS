@@ -91,5 +91,4 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('dashboard_user_index');
     }
-
 }
