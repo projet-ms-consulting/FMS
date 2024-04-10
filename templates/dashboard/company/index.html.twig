@@ -19,30 +19,30 @@
                 <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead class="bg-gray-50">
-                        <tr>
-                            {% set columns = {
-                                'Id': 'c.id',
-                                'Nom': 'c.name',
-                                'Adresse': 'a.street',
-                                'Position': 't.label',
-                                'Siège social': 'c.headOffice',
-                                'Créer le': 'c.createdAt'
-                            } %}
-                            {% for displayedName, realName in columns %}
+                            <tr>
+                                {% set columns = {
+                                    'Id': 'c.id',
+                                    'Nom': 'c.name',
+                                    'Adresse': 'a.street',
+                                    'Position': 't.label',
+                                    'Siège social': 'c.headOffice',
+                                    'Créer le': 'c.createdAt'
+                                } %}
+                                {% for displayedName, realName in columns %}
+                                    <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
+                                        {{ knp_pagination_sortable(companies, displayedName, realName) }}
+                                    </th>
+                                {% endfor %}
                                 <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
-                                    {{ knp_pagination_sortable(companies, displayedName, realName) }}
+                                    Actions
                                 </th>
-                            {% endfor %}
-                            <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
-                                Actions
-                            </th>
-                        </tr>
+                            </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white">
                         {% for company in companies %}
-                            <tr>
+                            <tr class="hover:bg-gray-100">
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    {{ company.id }}
+                                    <a href="{{ path('dashboard_company_show', {'id': company.id}) }}">{{ company.id }}</a>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                     {{ company.name|default('null') }}

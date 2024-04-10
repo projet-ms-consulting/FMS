@@ -6,7 +6,13 @@
         <p>lastname : {{ person.lastname ?? 'null' }}</p>
         <p>firstname : {{ person.firstname ?? 'null' }}</p>
         <p>phone : {{ person.phone ?? 'null' }}</p>
-        <p>company : <a href="#">{{ person.company.name ?? 'null' }}</a></p>
+        <p>company :
+            {% if person.company %}
+                <a href="{{ path('dashboard_company_show', {id: person.company.id}) }}">{{ person.company.name }}</a>
+            {% else %}
+                <b style="color: red">Aucune entreprise</b>
+            {% endif %}
+        </p>
         <p>created_at : {{ person.createdAt|date('d/m/Y H:i:s') }}</p>
     </div>
     <a href="{{ path('dashboard_person_edit', {id: person.id}) }}">Edit</a>

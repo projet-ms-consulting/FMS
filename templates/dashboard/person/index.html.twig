@@ -21,14 +21,31 @@
 			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
 				<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
 					<table class="min-w-full divide-y divide-gray-300">
-						<thead class="bg-gray-50 w-full">
-							{% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Nom', 'Prénom', 'Téléphone', 'Entreprise', 'Créer le', 'Actions']}%}
+						<thead class="bg-gray-50">
+						<tr>
+							{% set columns = {
+								'Id': 'p.id',
+								'Nom': 'p.lastName',
+								'Prénom': 'p.firstName',
+								'Téléphone': 'p.phone',
+								'Entreprise': 'c.name',
+								'Créer le': 'p.createdAt'
+							} %}
+							{% for displayedName, realName in columns %}
+								<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
+									{{ knp_pagination_sortable(persons, displayedName, realName) }}
+								</th>
+							{% endfor %}
+							<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
+								Actions
+							</th>
+						</tr>
 						</thead>
 						<tbody class="divide-y divide-gray-200 bg-white">
 							{% for person in persons %}
-								<tr>
+								<tr class="hover:bg-gray-100">
 									<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-										{{ person.id }}
+										<a href="{{ path('dashboard_person_show', {'id': person.id}) }}">{{ person.id }}</a>
 									</td>
 									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
 										{{ person.lastname ?? 'null' }}
@@ -40,7 +57,11 @@
 										{{ person.phone ?? 'null' }}
 									</td>
 									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-										<a href="#">{{ person.company.name ?? 'null' }}</a>
+										{% if person.company %}
+											<a href="{{ path('dashboard_company_show', {id: person.company.id}) }}">{{ person.company.name }}</a>
+										{% else %}
+											<b style="color: red">Aucune entreprise</b>
+										{% endif %}
 									</td>
 									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
 										{{ person.createdAt|date('Y-m-d') }}
