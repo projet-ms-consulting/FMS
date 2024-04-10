@@ -24,18 +24,36 @@
 				<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
 					<table class="min-w-full divide-y divide-gray-300">
 
-						<thead class="bg-gray-50 w-full">
-							{% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Personne', 'Email', 'Créer le', 'Actions']}%}
+						<thead class="bg-gray-50">
+						<tr>
+							{% set columns = {
+								'Id': 'u.id',
+								'Personne': 'p.lastName',
+								'Prénom': 'u.email',
+								'Créer le': 'u.createdAt'
+							} %}
+							{% for displayedName, realName in columns %}
+								<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
+									{{ knp_pagination_sortable(users, displayedName, realName) }}
+								</th>
+							{% endfor %}
+							<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
+								Actions
+							</th>
+						</tr>
 						</thead>
 						<tbody class="divide-y divide-gray-200 bg-white">
 							{% for user in users %}
-								<tr>
+								<tr class="hover:bg-gray-100">
 									<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-										{{ user.id }}
+										<a href="{{ path('dashboard_user_show', {'id': user.id}) }}">{{ user.id }}</a>
 									</td>
 									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-										<a href="{{ path('dashboard_person_show', { id: user.person.id }) }}">{{ user.person.firstName }}
-											{{ user.person.lastName }}</a>
+										{% if user.person %}
+											<a href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{ user.person.firstName }} {{ user.person.lastName }}</a>
+										{% else %}
+											<b style="color: red">Aucune personne</b>
+										{% endif %}
 									</td>
 									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
 										{{ user.email }}

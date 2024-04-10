@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -63,15 +64,30 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher, SessionInterface $session): Response
     {
-        $userForm = $this->createForm(UserType::class, $user);
+        $oldEmail = $user->getEmail();
+        $oldPassword = $user->getPassword();
+        $userForm = $this->createForm(UserType::class, $user, [
+            'page' => 'edit',
+        ]);
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
-            $hash = $hasher->hashPassword($user, $userForm->get('password')->getData());
-            $user->setPassword($hash);
+            if ($userForm->get('password')->getData() != null) {
+                $hash = $hasher->hashPassword($user, $userForm->get('password')->getData());
+                $user->setPassword($hash);
+            } else {
+                $user->setPassword($oldPassword);
+            }
             $entityManager->flush();
+            $newPassword = $user->getPassword();
+            $newEmail = $user->getEmail();
+
+            if (($this->getUser() && $this->getUser()->getId() === $user->getId()) && ($oldEmail != $newEmail || $oldPassword != $newPassword)) {
+                return $this->redirectToRoute('app_logout');
+            }
+
             return $this->redirectToRoute('dashboard_user_index');
         }
 

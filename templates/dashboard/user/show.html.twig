@@ -3,7 +3,13 @@
 {% block content %}
     <div>
         <p>id : {{ user.id }}</p>
-        <p>Person : <a href="{{ path('dashboard_person_show', {'id': user.person.id}) }}">{{ user.person.lastName }} {{ user.person.firstName }}</a></p>
+        <p>Person :
+            {% if user.person %}
+                <a href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{ user.person.firstName }} {{ user.person.lastName }}</a>
+            {% else %}
+                <b style="color: red">Aucune personne</b>
+            {% endif %}
+        </p>
         <p>Email : {{ user.email }}</p>
         <p>Roles : {{ user.roles|join(', ') }}</p>
         <p>Created at : {{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</p>
