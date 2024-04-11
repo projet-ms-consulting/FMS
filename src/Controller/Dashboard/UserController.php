@@ -93,7 +93,7 @@ class UserController extends AbstractController
 
         return $this->render('dashboard/user/edit.html.twig', [
             'user' => $user,
-            'userForm' => $userForm,
+            'userForm' => $userForm->createView(),
         ]);
     }
 

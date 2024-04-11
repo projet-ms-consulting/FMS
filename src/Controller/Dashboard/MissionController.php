@@ -139,7 +139,7 @@ class MissionController extends AbstractController
 
         return $this->render('dashboard/mission/invoice_edit.html.twig', [
             'mission' => $invoice,
-            'invoiceForm' => $form,
+            'invoiceForm' => $form->createView(),
             'imagePath' => $imagePath,
         ]);
     }

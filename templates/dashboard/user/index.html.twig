@@ -29,7 +29,7 @@
 							{% set columns = {
 								'Id': 'u.id',
 								'Personne': 'p.lastName',
-								'Prénom': 'u.email',
+								'Email': 'u.email',
 								'Créer le': 'u.createdAt'
 							} %}
 							{% for displayedName, realName in columns %}

@@ -44,7 +44,7 @@ class PersonController extends AbstractController
 
         return $this->render('dashboard/person/new.html.twig', [
             'person' => $person,
-            'personForm' => $personForm,
+            'personForm' => $personForm->createView(),
         ]);
     }
 
@@ -71,7 +71,7 @@ class PersonController extends AbstractController
         }
 
         return $this->render('dashboard/person/edit.html.twig', [
-            'personForm' => $personForm,
+            'personForm' => $personForm->createView(),
             'person' => $person,
         ]);
     }
