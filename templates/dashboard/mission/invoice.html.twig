@@ -51,6 +51,7 @@
     </table>
     <a href="{{ path('dashboard_mission_invoice_new', {'id': mission.id}) }}">Create new invoice</a>
     <a href="{{ path('dashboard_mission_index') }}">Retour a la liste des missions</a>
+    <a href="{{ path('app_zip_generator', {id: mission.id}) }}">Download les données</a>
 
 {% endblock %}
 

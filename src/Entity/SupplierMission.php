@@ -139,12 +139,12 @@ class SupplierMission
     /**
      * @return Collection<int, InvoiceSupplier>
      */
-    public function getInvoiceSuppliers(): Collection
+    public function getInvoices(): Collection
     {
         return $this->invoiceSuppliers;
     }
 
-    public function addInvoiceSupplier(InvoiceSupplier $invoiceSupplier): static
+    public function addInvoice(InvoiceSupplier $invoiceSupplier): static
     {
         if (!$this->invoiceSuppliers->contains($invoiceSupplier)) {
             $this->invoiceSuppliers->add($invoiceSupplier);
@@ -154,7 +154,7 @@ class SupplierMission
         return $this;
     }
 
-    public function removeInvoiceSupplier(InvoiceSupplier $invoiceSupplier): static
+    public function removeInvoice(InvoiceSupplier $invoiceSupplier): static
     {
         if ($this->invoiceSuppliers->removeElement($invoiceSupplier)) {
             // set the owning side to null (unless already changed)

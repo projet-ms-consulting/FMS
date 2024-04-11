@@ -6,8 +6,8 @@ use App\Entity\Mission;
 use App\Entity\SupplierMission;
 use App\Repository\InvoiceRepository;
 use App\Repository\MissionRepository;
+use App\Repository\SupplierMissionRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-
 use PhpZip\ZipFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,37 +15,44 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ZipGeneratorController extends AbstractController
 {
-    /**
-     * @throws \Exception
-     */
     #[Route('/zip/generator/{id}', name: 'app_zip_generator')]
-    public function index(InvoiceRepository $invoiceRepository, MissionRepository $missionRepository, $id, Mission $mission): void
+    public function index(InvoiceRepository $invoiceRepository, MissionRepository $missionRepository, SupplierMissionRepository $supplierRepository, $id, Mission $mission): void
     {
         $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
         $mission = $missionRepository->find($id);
-        $invoices = $mission->getInvoices()->getValues();
+        $supplier = $supplierRepository->find($id);
+        $invoiceMissions = $mission->getInvoices()->getValues();
         $outputFilename = 'factures.zip';
         // create new archive
         $zipFile = new ZipFile();
         try{
-            $invoiceDir = $this->getParameter('kernel.project_dir') . '/invoice/mission/' . $id . '/';
-            $files = array_diff(scandir($invoiceDir), array('.', '..'));
+            // Dossier mission
+            $invoiceDirMission = $this->getParameter('kernel.project_dir') . '/invoice/' . $id . '/mission/';
+            $filesMission = array_diff(scandir($invoiceDirMission), array('.', '..'));
 
-            foreach ($files as $file) {
+            foreach ($filesMission as $file) {
                 $invoice = $invoiceRepository->findOneBy(['file' => $file]);
                 $newName = $invoice->getBillNum() . '_' . $invoice->getRealFilename();
-                $zipFile->addFile($invoiceDir . $file, 'factures/' . $newName);
+                $zipFile->addFile($invoiceDirMission . $file, 'mission/' . $newName);
             }
 
             $data = [
-                ['BillNum', 'RealFilename', 'File'],
+                ['BillNum', 'RealFilename', 'File', 'Deadline', 'IsPaid'],
             ];
-            foreach ($invoices as $invoice) {
+            foreach ($invoiceMissions as $invoice) {
+                if ($invoice->isPaid() === true) {
+                    $paid = 'Yes';
+                } else {
+                    $paid = 'No';
+                }
                 $data[] = [
                     $invoice->getBillNum(),
                     $invoice->getRealFilename(),
                     $invoice->getFile(),
+                    $invoice->getDeadline()->format('Y-m-d'),
+                    $paid,
                 ];
+
             }
 
             $csvFilename = 'factures.csv';
