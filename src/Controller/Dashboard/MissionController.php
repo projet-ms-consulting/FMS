@@ -20,9 +20,11 @@ class MissionController extends AbstractController
 {
 
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(MissionRepository $missionRepository): Response
+    public function index(MissionRepository $missionRepository, Request $request): Response
     {
-        $missions = $missionRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $missions = $missionRepository->paginateMissions($page, $limit);
         return $this->render('dashboard/mission/index.html.twig', [
             'missions' => $missions,
         ]);
