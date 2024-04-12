@@ -48,7 +48,7 @@
 									<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
 										<a href="{{ path('dashboard_user_show', {'id': user.id}) }}">{{ user.id }}</a>
 									</td>
-									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+									<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
 										{% if user.person %}
 											<a href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{ user.person.firstName }} {{ user.person.lastName }}</a>
 										{% else %}
@@ -58,7 +58,7 @@
 									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
 										{{ user.email }}
 									</td>
-									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+									<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
 										{{ user.createdAt|date('Y-m-d') }}
 									</td>
 									<td class="whitespace-nowrap px-6 py-4 text-gray-500">

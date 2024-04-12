@@ -36,21 +36,21 @@
 						<tbody class="divide-y divide-gray-200 bg-white">
 							{% for data in address %}
 								<tr class="">
-									<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6 hover:bg-gray-200">
+									<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
 										<a href="{{ path('dashboard_address_show', {'id': data.id}) }}">{{ data.id }}</a>
 									</td>
 									{% for property in ['nbStreet', 'street', 'zipCode', 'city'] %}
 										{% if loop.index is odd %}
-											<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-100 hover:bg-gray-200">
+											<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
 												{{ attribute(data, property)|default('') }}
 											</td>
 										{% else %}
-											<td class="whitespace-nowrap px-6 py-4 text-gray-500 hover:bg-gray-200">
+											<td class="whitespace-nowrap px-6 py-4 text-gray-500">
 												{{ attribute(data, property)|default('') }}
 											</td>
 										{% endif %}
 									{% endfor %}
-									<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6 bg-gray-100 hover:bg-gray-200">
+									<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6 bg-gray-200">
 										{% if data.company is not null %}
 											<a href="{{ path('dashboard_company_show', {'id': data.company.id}) }}">{{ data.company.name }}</a>
 										{% else %}
