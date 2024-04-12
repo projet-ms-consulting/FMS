@@ -31,7 +31,7 @@ class SupplierMissionType extends AbstractType
                     return $er->createQueryBuilder('c')
                         ->join('c.type', 't')
                         ->where('t.label = :type')
-                        ->setParameter('type', 'supplier');
+                        ->setParameter('type', 'Fournisseur');
                 },
             ])
         ;
