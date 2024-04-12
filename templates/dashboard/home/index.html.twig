@@ -2,25 +2,35 @@
 
 {% block content %}
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
-
-        h2, p, span {
-            font-family: 'DM Sans', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-    </style>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <main>
-        <div class="flex items-center justify-between p-4 antialiased">
-            <div class="flex flex-col space-y-2 w-1/2">
-                {% if app.user %}
-                    <h2 class="text-5xl font-semibold">Bienvenue {{ app.user.getPerson().getFirstName() }} !</h2>
-                {% endif %}
-            </div>
-        </div>
-    </main>
+	<main class="p-20">
+		<div class="p-4 max-w-7xl grid gap-4 sm:grid-cols-2">
+			<h1 class="text-4xl font-extrabold xs:col-span-2 xs:grid xs:gap-4 xs:grid-cols-2">
+				<span>
+					Bienvenue,
+					{{ app.user.getPerson().getFirstName() }}
+				</span>
+			</h1>
+			<p>
+				Vous êtes connecté au dashboard en tant que
+				{{ app.user.getEmail() }}.
+			</p>
+			<div class="h-16 bg-slate-200 sm:h-32 rounded-xl flex items-center px-10">
+				<h3 class="text-7xl font-extrabold">{{ userCount }}
+					<span class="text-3xl font-medium opacity-70">utilisateurs.</span>
+				</h3>
+			</div>
+			<div class="h-16 bg-green-200 sm:h-32 rounded-xl flex items-center px-10">
+				<h3 class="text-7xl font-extrabold">{{ missionCount }}
+					<span class="text-3xl font-medium opacity-70">missions.</span>
+				</h3>
+			</div>
+			<div class="h-16 bg-slate-200 sm:h-32 rounded-xl flex items-center px-10">
+				<h3 class="text-7xl font-extrabold">{{ companyCount }}
+					<span class="text-3xl font-medium opacity-70">entreprises.</span>
+				</h3>
+			</div>
+			<p class="self-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste facere sequi nostrum neque voluptatum beatae, quo, sint debitis vel ut, rem magni maxime itaque placeat alias pariatur accusamus non minima.</p>
+		</div>
+	</main>
 
 {% endblock %}
