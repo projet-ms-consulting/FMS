@@ -32,7 +32,7 @@ class InvoiceMissionType extends AbstractType
                 ],
             ])
             ->add('deadline', DateType::class, [
-                'label' => 'Date',
+                'label' => 'Date d\'éxpiration',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ])
