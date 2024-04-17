@@ -114,6 +114,7 @@ class MissionController extends AbstractController
             $invoice->setRealFilename($file->getClientOriginalName());
             $invoice->setFile($fileName);
             $invoice->setMission($mission);
+            $invoice->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($invoice);
             $entityManager->flush();
 
@@ -133,6 +134,7 @@ class MissionController extends AbstractController
         $form = $this->createForm(InvoiceMissionType::class, $invoice);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $invoice->setUpdatedAt(new \DateTimeImmutable());
             $em->flush();
             return $this->redirectToRoute('dashboard_mission_index');
         }
