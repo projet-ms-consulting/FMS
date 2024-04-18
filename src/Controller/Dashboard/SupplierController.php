@@ -113,6 +113,7 @@ class SupplierController extends AbstractController
             $invoice->setRealFilename($file->getClientOriginalName());
             $invoice->setFile($fileName);
             $invoice->setSupplierMission($mission);
+            $invoice->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($invoice);
             $entityManager->flush();
 
@@ -132,6 +133,7 @@ class SupplierController extends AbstractController
         $form = $this->createForm(InvoiceSupplierType::class, $invoice);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $invoice->setUpdatedAt(new \DateTimeImmutable());
             $em->flush();
             return $this->redirectToRoute('dashboard_supplier_index');
         }
