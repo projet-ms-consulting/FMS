@@ -21,12 +21,12 @@ class SupplierMissionType extends AbstractType
             ->add('mission', EntityType::class, [
                 'class' => Mission::class,
                 'choice_label' => 'name',
-                'placeholder' => 'Choisir une mission',
+                'placeholder' => 'Choisissez une mission',
             ])
             ->add('supplier', EntityType::class, [
                 'class' => Company::class,
                 'choice_label' => 'name',
-                'placeholder' => 'Chosissez un supplier',
+                'placeholder' => 'Choisissez un supplier',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->join('c.type', 't')

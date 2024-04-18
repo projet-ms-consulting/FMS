@@ -21,7 +21,7 @@ class MissionType extends AbstractType
             ->add('client', EntityType::class, [
                 'class' => company::class,
                 'choice_label' => 'name',
-                'placeholder' => 'Chosissez un client',
+                'placeholder' => 'Choisissez un client',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->join('c.type', 't')
@@ -32,7 +32,7 @@ class MissionType extends AbstractType
             ->add('manager', EntityType::class, [
                 'class' => company::class,
                 'choice_label' => 'name',
-                'placeholder' => 'Chosissez un manager',
+                'placeholder' => 'Choisissez un manager',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->join('c.type', 't')
