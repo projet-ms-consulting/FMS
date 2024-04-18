@@ -34,6 +34,7 @@ class AddressController extends AbstractController
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $address->setCreatedAt(new \DateTimeImmutable());
             $em->persist($address);
             $em->flush();
             return $this->redirectToRoute('dashboard_address_index');
@@ -59,6 +60,7 @@ class AddressController extends AbstractController
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $address->setUpdatedAt(new \DateTimeImmutable());
             $em->flush();
             return $this->redirectToRoute('dashboard_address_index');
         }
