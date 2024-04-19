@@ -1,31 +1,46 @@
 {% block body %}
 
-    <div class="w-full px-4 sm:px-6 lg:px-8 pt-6">
-        <div class="flex h-16 items-center justify-between">
-            <div class="flex items-center">
-                <a href="{{ path('app_home') }}">
-                    <div class="h-10 w-10 bg-black"></div>
-                </a>
-                <div class="ml-10 flex items-baseline space-x-9 text-lg">
-                    <a class="text-lg" href="#">Product</a>
-                    <a class="text-lg" href="#"> Solutions</a>
-                    <a class="text-lg" href="#">Ressources</a>
-                    <a class="text-lg" href="#">Pricing</a>
-                </div>
+<div class="w-full px-4 sm:px-6 lg:px-8 pt-6">
+    <div class="flex h-16 items-center justify-between">
+        <div class="flex items-center">
+            <a href="{{ path('app_home') }}">
+                <div class="h-10 w-10 bg-black"></div>
+            </a>
+            <div class="ml-10 flex items-baseline space-x-9 text-lg">
+                <a class="text-lg" href="#">Produit</a>
+                <a class="text-lg" href="#"> Solutions</a>
+                <a class="text-lg" href="#">Ressources</a>
+                <a class="text-lg" href="#">Prix</a>
             </div>
-            {% if app.request.attributes.get('_route') != 'app_login' %}
-                <a href="{{ path('app_login') }}">
-                    <button
-                            class="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-6 font-medium text-neutral-200">
-                        <span class="text-lg antialiased">Sign in</span>
-                        <div
-                                class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]">
-                            <div class="relative h-full w-8 bg-white/20"></div>
-                        </div>
-                    </button>
-                </a>
-            {% endif %}
         </div>
+        {% if app.user %}
+        <div class="space-x-3">
+            <a href="{{ path('dashboard_index') }}">
+                <button
+                    class="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-6 font-medium text-neutral-200">
+                    <span class="text-lg antialiased">Dashboard</span>
+                </button>
+            </a>
+            <a href="{{ path('app_logout') }}">
+                <button
+                    class="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-6 font-medium text-neutral-200">
+                    <span class="text-lg antialiased">Se déconnecter</span>
+                </button>
+            </a>
+        </div>
+        {% else %}
+        <a href="{{ path('app_login') }}">
+            <button
+                class="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-6 font-medium text-neutral-200">
+                <span class="text-lg antialiased">Se connecter</span>
+                <div
+                    class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]">
+                    <div class="relative h-full w-8 bg-white/20"></div>
+                </div>
+            </button>
+        </a>
+        {% endif %}
     </div>
+</div>
 
 {% endblock %}
