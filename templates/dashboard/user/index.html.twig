@@ -1,79 +1,83 @@
 {% extends 'dashboard_layout.html.twig' %}
 {% block content %}
 
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital, opsz, wght@0, 9..40, 100..1000;1, 9..40, 100..1000 &family=Inter:wght@100..900&family=Urbanist:ital, wght@0, 100..900;1, 100..900&display=swap');
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital, opsz, wght@0, 9..40, 100..1000;1, 9..40, 100..1000 &family=Inter:wght@100..900&family=Urbanist:ital, wght@0, 100..900;1, 100..900&display=swap');
 
-		td {
-			font-family: 'DM Sans', sans-serif;
-			-webkit-font-smoothing: antialiased;
-		}
-	</style>
+	td {
+		font-family: 'DM Sans', sans-serif;
+		-webkit-font-smoothing: antialiased;
+	}
+</style>
 
 
-	<section>
-		{% include 'dashboard/components/navbar_component.html.twig' with {
-    'title': 'Utilisateur',
-    'text': 'Cette page vous permet de gérer les utilisateurs. Vous pouvez consulter, ajouter, modifier ou supprimer des utilisateurs selon vos besoins.',
-    'button_text': 'Ajouter un utilisateur',
-    'button_url': path('dashboard_user_new')
-    } %}
+<section>
+	{% include 'dashboard/components/navbar_component.html.twig' with {
+	'title': 'Utilisateur',
+	'text': 'Cette page vous permet de gérer les utilisateurs. Vous pouvez consulter, ajouter, modifier ou supprimer des
+	utilisateurs selon vos besoins.',
+	'button_text': 'Ajouter un utilisateur',
+	'button_url': path('dashboard_user_new')
+	} %}
 
-		<div class="mt-6 hidden md:flex md:flex-col">
-			<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-				<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-					<table class="min-w-full divide-y divide-gray-300">
+	<div class="mt-6 hidden md:flex md:flex-col">
+		<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+			<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+				<table class="min-w-full divide-y divide-gray-300">
 
-						<thead class="bg-gray-50">
+					<thead class="bg-gray-50">
 						<tr>
 							{% set columns = {
-								'Id': 'u.id',
-								'Personne': 'p.lastName',
-								'Email': 'u.email',
-								'Créer le': 'u.createdAt'
+							'Id': 'u.id',
+							'Personne': 'p.lastName',
+							'Email': 'u.email',
+							'Créer le': 'u.createdAt'
 							} %}
 							{% for displayedName, realName in columns %}
-								<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
-									{{ knp_pagination_sortable(users, displayedName, realName) }}
-								</th>
+							<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
+								{{ knp_pagination_sortable(users, displayedName, realName) }}
+							</th>
 							{% endfor %}
 							<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
 								Actions
 							</th>
 						</tr>
-						</thead>
-						<tbody class="divide-y divide-gray-200 bg-white">
-							{% for user in users %}
-								<tr class="hover:bg-gray-100">
-									<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-										<a href="{{ path('dashboard_user_show', {'id': user.id}) }}">{{ user.id }}</a>
-									</td>
-									<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-										{% if user.person %}
-											<a href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{ user.person.firstName }} {{ user.person.lastName }}</a>
-										{% else %}
-											<b style="color: red">Aucune personne</b>
-										{% endif %}
-									</td>
-									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-										{{ user.email }}
-									</td>
-									<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-										{{ user.createdAt|date('Y-m-d') }}
-									</td>
-									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-										<div class="space-x-1 opacity-80">
-											<a href="{{ path('dashboard_user_show', { id: user.id }) }}">Show</a>
-											<a href="{{ path('dashboard_user_edit', { id: user.id }) }}">Edit</a>
-										</div>
-									</td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-				{{ knp_pagination_render(users, 'dashboard/components/tailwind_pagination.html.twig', {'slidingPagination': false}) }}
+					</thead>
+					<tbody class="divide-y divide-gray-200 bg-white">
+						{% for user in users %}
+						<tr class="hover:bg-gray-100">
+							<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+								<a href="{{ path('dashboard_user_show', {'id': user.id}) }}">{{ user.id }}</a>
+							</td>
+							<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+								{% if user.person %}
+								<a href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{
+									user.person.firstName }} {{ user.person.lastName }}</a>
+								{% else %}
+								<b style="color: red">Aucune personne</b>
+								{% endif %}
+							</td>
+							<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+								{{ user.email }}
+							</td>
+							<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+								{{ user.createdAt|date('Y-m-d') }}
+							</td>
+							<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+								<div class="space-x-1 opacity-80">
+									<a href="{{ path('dashboard_user_show', { id: user.id }) }}">Show</a>
+									<a href="{{ path('dashboard_user_edit', { id: user.id }) }}">Edit</a>
+								</div>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
+			{{ knp_pagination_render(users, 'dashboard/components/tailwind_pagination.html.twig', {'slidingPagination':
+			false}) }}
 		</div>
 	</div>
-</div></section>{% endblock %}
+	</div>
+	</div>
+</section>{% endblock %}

@@ -2,34 +2,40 @@
 
 {% block content %}
 
-	<main class="p-20">
-		<div class="p-4 max-w-7xl grid gap-4 sm:grid-cols-2">
-			<h1 class="text-4xl font-extrabold xs:col-span-2 xs:grid xs:gap-4 xs:grid-cols-2">
-				<span>
-					Bienvenue,
-					{{ app.user.getPerson().getFirstName() }}
-				</span>
-			</h1>
-			<p>
-				Vous êtes connecté au dashboard en tant que
-				{{ app.user.getEmail() }}.
-			</p>
+<main class="p-20">
+	<div class="p-4 max-w-7xl grid gap-4 sm:grid-cols-2">
+		<h1 class="text-4xl font-extrabold xs:col-span-2 xs:grid xs:gap-4 xs:grid-cols-2">
+			<span>
+				Bienvenue,
+				{{ app.user.getPerson().getFirstName() }}
+			</span>
+		</h1>
+		<p>
+			Vous êtes connecté au dashboard en tant que
+			{{ app.user.getEmail() }}.
+		</p>
+		<a href="{{ path('dashboard_user_index') }}">
 			<div class="h-16 bg-slate-200 sm:h-32 rounded-xl flex items-center px-10">
 				<h3 class="text-7xl font-extrabold">{{ userCount }}
 					<span class="text-3xl font-medium opacity-70">utilisateurs.</span>
 				</h3>
 			</div>
+		</a>
+		<a href="{{ path('dashboard_mission_index') }}">
 			<div class="h-16 bg-green-200 sm:h-32 rounded-xl flex items-center px-10">
 				<h3 class="text-7xl font-extrabold">{{ missionCount }}
 					<span class="text-3xl font-medium opacity-70">missions.</span>
 				</h3>
 			</div>
+		</a>
+		<a href="{{ path('dashboard_company_index') }}">
 			<div class="h-16 bg-slate-200 sm:h-32 rounded-xl flex items-center px-10">
 				<h3 class="text-7xl font-extrabold">{{ companyCount }}
 					<span class="text-3xl font-medium opacity-70">entreprises.</span>
 				</h3>
 			</div>
-		</div>
-	</main>
+		</a>
+	</div>
+</main>
 
 {% endblock %}
