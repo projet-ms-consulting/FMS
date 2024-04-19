@@ -1,14 +1,30 @@
 {% extends 'dashboard_layout.html.twig' %}
 
 {% block content %}
-<div>
-    <p>id : {{ address.id ?? "NULL" }}</p>
-    <p>nbStreet : {{ address.nbStreet }}</p>
-    <p>street : {{ address.street }}</p>
-    <p>zipCode : {{ address.zipCode }}</p>
-    <p>city : {{ address.city }}</p>
-    <a href="{{ path('dashboard_address_edit', {'id': address.id}) }}">Edit</a>
-    <a href="{{ path('dashboard_address_index') }}">Back to list</a>
-    {{ include('dashboard/address/_delete_form.html.twig') }}
+<div class="p-10 space-y-3">
+    <p>Id : {{ address.id ?? "NULL" }}</p>
+    <p>Numéro de rue : {{ address.nbStreet }}</p>
+    <p>Rue : {{ address.street }}</p>
+    <p>Code postal : {{ address.zipCode }}</p>
+    <p>Ville : {{ address.city }}</p>
+    <div class="space-x-3 flex">
+        <a href="{{ path('dashboard_address_index') }}">
+            <div
+                class="relative rounded px-5 py-2.5 overflow-hidden group bg-slate-500 relative hover:bg-gradient-to-r hover:from-slate-500 hover:to-slate-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-slate-400 transition-all ease-out duration-300">
+                <span
+                    class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span class="relative">Retour</span>
+            </div>
+        </a>
+        {{ include('dashboard/address/_delete_form.html.twig') }}
+        <a href="{{ path('dashboard_address_edit', {'id': address.id}) }}">
+            <div
+                class="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
+                <span
+                    class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span class="relative">Modifier</span>
+            </div>
+        </a>
+    </div>
 </div>
 {% endblock %}
