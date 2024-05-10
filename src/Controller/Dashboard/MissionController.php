@@ -67,6 +67,7 @@ class MissionController extends AbstractController
         $missionForm->handleRequest($request);
 
         if ($missionForm->isSubmitted() && $missionForm->isValid()) {
+            $mission->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
 
             return $this->redirectToRoute('dashboard_mission_index');

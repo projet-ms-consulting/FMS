@@ -80,10 +80,6 @@
 								<a href="{{ path('dashboard_mission_invoice_show', {'id': mission.id, 'invoiceId': invoice.id}) }}">Show</a>
 							</td>
 						</tr>
-						{% else %}
-						<tr>
-							<td colspan="4">no records found</td>
-						</tr>
 						{% endfor %}
 					</tbody>
 				</table>
