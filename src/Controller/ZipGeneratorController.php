@@ -56,7 +56,6 @@ class ZipGeneratorController extends AbstractController
             }
 
             $csvFilename = 'factures.csv';
-
             $csvFile = fopen($csvFilename, 'w');
 
             if ($csvFile === false) {
