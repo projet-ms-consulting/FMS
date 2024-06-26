@@ -1,18 +1,45 @@
 {% extends 'dashboard_layout.html.twig' %}
 
-{% block content %}
-    <div>
-        <p>id : {{ mission.id }}</p>
-        <p>name : {{ mission.name }}</p>
-        <p>description : {{ mission.description }}</p>
-        <p>client : {{ mission.client.name }}</p>
-        <p>manager : {{ mission.manager.name }}</p>
-        <p>price : {{ mission.price }}</p>
-        <p>finished : {{ mission.isFinished ? 'Yes' : 'No' }}</p>
-        <p>created_at : {{ mission.createdAt|date('d/m/Y H:i:s') }}</p>
-    </div>
-    <a href="{{ path('dashboard_mission_edit', {id: mission.id}) }}">Edit</a>
-    <a href="{{ path('dashboard_mission_index') }}">Back to list</a>
-    {{ include('dashboard/mission/_delete_form.html.twig') }}
-{% endblock %}
+{% set componentPath = 'dashboard/company/components/' %}
 
+{% block content %}
+    <div class="p-10 space-y-3">
+        <p>Id : {{ mission.id }}</p>
+        <p>Nom : {{ mission.name }}</p>
+        <p>Description : {{ mission.description }}</p>
+        <p>Client : {{ mission.client.name }}</p>
+        <p>Manager : {{ mission.manager.name }}</p>
+        <p>Prix : {{ mission.price }}</p>
+        <p>Fini :
+            {% if mission.isfinished == 'yes' %}
+                <span class="text-green-600">Oui</span>
+            {% else %}
+                <span class="text-red-600 font-bold">Non</span>
+            {% endif %}
+        </p>
+        <p>Crée le : {{ mission.createdAt|date('d/m/Y H:i:s') }}</p>
+        {% if mission.updatedAt != null %}
+            <p>Dernière modification : {{ mission.updatedAt|date('d/m/Y H:i:s') }}</p>
+        {% endif %}
+        <div class="space-x-3 flex">
+            <a href="{{ path('dashboard_mission_index') }}">
+                <div
+                        class="relative rounded px-5 py-2.5 overflow-hidden group bg-slate-500 relative hover:bg-gradient-to-r hover:from-slate-500 hover:to-slate-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-slate-400 transition-all ease-out duration-300">
+                <span
+                        class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span class="relative">Retour</span>
+                </div>
+            </a>
+            {{ include('dashboard/mission/_delete_form.html.twig') }}
+            <a href="{{ path('dashboard_mission_edit', {id: mission.id}) }}">
+                <div
+                        class="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
+                <span
+                        class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span class="relative">Modifier</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
