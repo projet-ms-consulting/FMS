@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\SupplierMission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<SupplierMission>
@@ -16,33 +18,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SupplierMissionRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private PaginatorInterface $paginator)
     {
         parent::__construct($registry, SupplierMission::class);
     }
 
-    //    /**
-    //     * @return SupplierMission[] Returns an array of SupplierMission objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-//        public function findOneBySomeField($value): ?SupplierMission
-//        {
-//            return $this->createQueryBuilder('s')
-//                ->andWhere('s.exampleField = :val')
-//                ->setParameter('val', $value)
-//                ->getQuery()
-//                ->getOneOrNullResult()
-//            ;
-//        }
+    public function paginateSupplierMissions(int $page, int $limit): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->createQueryBuilder('s')
+                ->leftJoin('s.supplier', 'c')
+                ->select('s', 'c'),
+            $page,
+            $limit,
+            [
+                'defaultSortFieldName' => 's.id',
+                'defaultSortDirection' => 'asc',
+            ]
+        );
+    }
 }
