@@ -1,16 +1,57 @@
 {% extends 'dashboard_layout.html.twig' %}
 
+{% set componentPath = 'dashboard/company/components/' %}
+
 {% block content %}
 
-    <div>
-        <h2>Votre facture n°{{ invoice.billNum }}</h2>
+    <div class="p-10 space-y-3">
+        <p>Id : {{ invoice.id }}</p>
+        <p>Numéro de facture : {{ invoice.billNum }}</p>
+        <p>Nom de la facture : {{ invoice.realFilename }}</p>
+        <p>Nom de la mission: {{ invoice.mission.name }}</p>
+        <p>Date d'expiration : {{ invoice.deadline|date('d/m/Y') }}</p>
+        <p>Payé ? :
+            {% if invoice.paid == true %}
+                <span style="color: green">Oui</span>
+            {% else %}
+                <span style="color: red">Non</span>
+            {% endif %}
+        </p>
+        <p>Crée le : {{ invoice.createdAt|date('d/m/Y H:i:s') }}</p>
+        {% if invoice.updatedAt != null %}
+            <p>Dernière modification : {{ invoice.updatedAt|date('d/m/Y H:i:s') }}</p>
+        {% endif %}
 
-        {% dump(file) %}
+        {% dump(invoice) %}
 
-        <embed src="{{ path('dashboard_mission_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename})}}" width="1080" height="720" type='application/pdf'>
-        <a href="{{ path('dashboard_mission_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename}) }}">Ouvrir la facture</a>
+        <embed src="{{ path('dashboard_mission_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename})}}" width="500" height="500" type='application/pdf'>
 
-        <a href="{{ path('dashboard_mission_invoice', {'id': mission.id}) }}">Retour a la liste</a>
+        <div class="space-x-3 flex">
+            <a href="{{ path('dashboard_mission_invoice', {'id': mission.id}) }}">
+                <div
+                        class="relative rounded px-5 py-2.5 overflow-hidden group bg-slate-500 relative hover:bg-gradient-to-r hover:from-slate-500 hover:to-slate-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-slate-400 transition-all ease-out duration-300">
+                <span
+                        class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span class="relative">Retour</span>
+                </div>
+            </a>
+            <a href="{{ path('dashboard_mission_invoice_edit', {id: mission.id}) }}">
+                <div
+                        class="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
+                <span
+                        class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span class="relative">Modifier</span>
+                </div>
+            </a>
+            <a href="{{ path('dashboard_mission_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename}) }}" target="_blank">
+                <div
+                        class="relative rounded px-5 py-2.5 overflow-hidden group bg-yellow-500 relative hover:bg-gradient-to-r hover:from-yellow-500 hover:to-yellow-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400 transition-all ease-out duration-300">
+                <span
+                        class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span class="relative">Ouvrir la facture</span>
+                </div>
+            </a>
+        </div>
 
     </div>
 

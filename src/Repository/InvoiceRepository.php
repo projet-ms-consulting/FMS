@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\InvoiceMission;
+use App\Entity\Mission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<InvoiceMission>
@@ -16,33 +19,25 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class InvoiceRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private PaginatorInterface $paginator)
     {
         parent::__construct($registry, InvoiceMission::class);
     }
 
-    //    /**
-    //     * @return Invoice[] Returns an array of Invoice objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('i')
-    //            ->andWhere('i.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('i.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Invoice
-    //    {
-    //        return $this->createQueryBuilder('i')
-    //            ->andWhere('i.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function paginateinvoices(int $page, int $limit, Mission $mission): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->createQueryBuilder('i')
+                ->leftJoin('i.mission', 'm')
+                ->where('m.id = :missionId')
+                ->setParameter('missionId', $mission->getId())
+                ->select('m', 'i'),
+            $page,
+            $limit,
+            [
+                'defaultSortFieldName' => 'm.id',
+                'defaultSortDirection' => 'asc',
+            ]
+        );
+    }
 }

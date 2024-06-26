@@ -91,10 +91,11 @@ class MissionController extends AbstractController
     }
 
     #[Route('/{id}/invoice', name: 'invoice', methods: ['GET'])]
-    public function invoice(Mission $mission, InvoiceRepository $invoiceRepository): Response
+    public function invoice(Mission $mission, InvoiceRepository $invoiceRepository, Request $request): Response
     {
-        $invoices = $invoiceRepository->findAll();
-
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $invoices = $invoiceRepository->paginateinvoices($page, $limit, $mission);
         return $this->render('dashboard/mission/invoice.html.twig', [
             'invoices' => $invoices,
             'mission' => $mission,
@@ -132,20 +133,21 @@ class MissionController extends AbstractController
     #[Route('/{id}/invoice/edit', name: 'invoice_edit', methods: ['GET', 'POST'])]
     public function invoiceEdit(InvoiceMission $invoice, Request $request, EntityManagerInterface $em)
     {
-        $form = $this->createForm(InvoiceMissionType::class, $invoice);
+        $mission = $invoice->getMission();
+        $form = $this->createForm(InvoiceMissionType::class, $invoice, [
+            'page' => 'edit',
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $invoice->setUpdatedAt(new \DateTimeImmutable());
             $em->flush();
-            return $this->redirectToRoute('dashboard_mission_index');
+            return $this->redirectToRoute('dashboard_mission_invoice', ['id' => $mission->getId()]);
         }
 
-        $imagePath = $invoice->getRealFilename();
-
         return $this->render('dashboard/mission/invoice_edit.html.twig', [
-            'mission' => $invoice,
+            'invoice' => $invoice,
+            'mission' => $mission,
             'invoiceForm' => $form->createView(),
-            'imagePath' => $imagePath,
         ]);
     }
 
