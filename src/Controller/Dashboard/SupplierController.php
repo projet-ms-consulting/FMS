@@ -21,9 +21,11 @@ class SupplierController extends AbstractController
 {
 
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(SupplierMissionRepository $supplierMissionRepository): Response
+    public function index(SupplierMissionRepository $supplierMissionRepository, Request $request): Response
     {
-        $supplierMission = $supplierMissionRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $supplierMission = $supplierMissionRepository->paginateSupplierMissions($page, $limit);
         return $this->render('dashboard/supplier/index.html.twig', [
             'supplierMissions' => $supplierMission,
         ]);

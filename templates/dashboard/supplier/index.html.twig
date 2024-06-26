@@ -14,42 +14,58 @@
 				<div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
 					<table class="min-w-full divide-y divide-gray-300">
 						<thead class="bg-gray-50">
-							{% include 'dashboard/components/table_header_row.html.twig' with {'columns': ['Id', 'Mission', 'Nom',
-                        'Description', 'finished', 'Crée le', 'Actions']}%}
+						<tr>
+							{% set columns = {
+								'Id': 's.id',
+								'Nom': 's.name',
+								'Description': 's.description',
+								'Mission': 's.name',
+								'supplier': 'c.name',
+								'Créer le': 's.createdAt'
+							} %}
+							{% for displayedName, realName in columns %}
+								<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
+									{{ knp_pagination_sortable(supplierMissions, displayedName, realName) }}
+								</th>
+							{% endfor %}
+							<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
+								Actions
+							</th>
+						</tr>
 						</thead>
 						<tbody class="divide-y divide-gray-200 bg-white">
-						{% for data in supplierMissions %}
+						{% for supplierMission in supplierMissions %}
 							<tr>
-								{% for property in ['id'] %}
-									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-										{{ attribute(data, property)|default('') }}
-									</td>
-								{% endfor %}
-								<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-									{% if data.mission is not null %}
-										<a href="{{ path('dashboard_mission_show', {'id': data.mission.id}) }}">{{ data.mission.name }}</a>
-									{% else %}
-										Non renseigné
-									{% endif %}
+								<td class="whitespace-nowrap px-6 py-4 text-gray-900 sm:pl-6">
+									{{ supplierMission.id }}
 								</td>
-								{% for property in ['name', 'description'] %}
-									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-										{{ attribute(data, property)|default('') }}
-									</td>
-								{% endfor %}
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-									{{ data.finished ? 'Oui' : 'Non' }}
+								<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+									{{ supplierMission.name }}
 								</td>
 								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-									{{ data.createdAt|date('d/m/Y') }}
+									{{ supplierMission.description|length > 30 ? supplierMission.description|slice(0, 30) ~ '...' : supplierMission.description }}
 								</td>
-								<td>
-									<a href="{{ path('dashboard_supplier_edit', { id: data.id }) }}">Modifier</a>
-									<form action="{{ path('dashboard_supplier_delete', { id: data.id }) }}">
-										<input type="hidden" name="_method" value="DELETE">
-										<button type="submit">Supprimer</button>
-									</form>
-									<a href="{{ path('dashboard_supplier_invoice', { id: data.id }) }}">Facture</a>
+								<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+									<a href="{{ path('dashboard_mission_show', { id: supplierMission.getMission().getId() }) }}"
+									   class="underline opacity-75">
+										{{ supplierMission.getMission().getName() }}
+									</a>
+								</td>
+								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+									<a href="{{ path('dashboard_company_show', { id: supplierMission.getSupplier().getId() }) }}"
+									   class="underline opacity-75">
+										{{ supplierMission.getSupplier().getName() }}
+									</a>
+								</td>
+								<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+									{{ supplierMission.createdAt|date('Y-m-d') }}
+								</td>
+								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+									<div class="space-x-1 opacity-80">
+										<a href="{{ path('dashboard_supplier_show', { id: supplierMission.id }) }}">Détails</a>
+										<a href="{{ path('dashboard_supplier_edit', { id: supplierMission.id }) }}">Modifier</a>
+										<a href="{{ path('dashboard_supplier_invoice', { id: supplierMission.id }) }}">Factures</a>
+									</div>
 								</td>
 							</tr>
 						{% endfor %}
