@@ -2,18 +2,20 @@
 
 {% block content %}
 <div class="p-10 space-y-3">
-    <p>id : {{ user.id }}</p>
-    <p>Person :
+    <p>Id : {{ user.id }}</p>
+    <p>Personne :
         {% if user.person %}
-        <a href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{ user.person.firstName }} {{
-            user.person.lastName }}</a>
+            <a href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{ user.person.firstName }} {{ user.person.lastName }}</a>
         {% else %}
-        <b style="color: red">Aucune personne</b>
+            <span class="font-bold text-red-600">Aucune personne</span>
         {% endif %}
     </p>
     <p>Email : {{ user.email }}</p>
     <p>Roles : {{ user.roles|join(', ') }}</p>
-    <p>Created at : {{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</p>
+    <p>Crée le : {{ user.createdAt|date('d/m/Y H:i:s') }}</p>
+    {% if user.updatedAt != null %}
+        <p>Dernière modification : {{ user.updatedAt|date('d/m/Y H:i:s') }}</p>
+    {% endif %}
     <div class="space-x-3 flex">
         <a href="{{ path('dashboard_user_index') }}">
             <div

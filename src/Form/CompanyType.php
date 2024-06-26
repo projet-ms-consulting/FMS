@@ -16,18 +16,30 @@ class CompanyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('numTva')
-            ->add('siret')
-            ->add('siren')
-            ->add('headOffice')
+            ->add('name', null, [
+                'label' => 'Nom'
+            ])
+            ->add('numTva', null, [
+                'label' => 'Numéro de TVA'
+            ])
+            ->add('siret', null, [
+                'label' => 'Siret'
+            ])
+            ->add('siren', null, [
+                'label' => 'Siren'
+            ])
+            ->add('headOffice', null, [
+                'label' => 'Siège social'
+            ])
             ->add('type', EntityType::class, [
                 'class' => TypeCompany::class,
+                'label' => 'Role',
                 'choice_label' => 'label',
-                'placeholder' => 'Chosissez un type',
+                'placeholder' => 'Chosissez un role',
             ])
             ->add('address', EntityType::class, [
                 'class' => Address::class,
+                'label' => 'Adresse',
                 'choice_label' => function(Address $address) {
                     return $address->getFullAddress();
                 },

@@ -2,18 +2,21 @@
 
 {% block content %}
 <div class="p-10 space-y-3">
-    <p>id : {{ person.id }}</p>
-    <p>lastname : {{ person.lastname ?? 'null' }}</p>
-    <p>firstname : {{ person.firstname ?? 'null' }}</p>
-    <p>phone : {{ person.phone ?? 'null' }}</p>
-    <p>company :
+    <p>Id : {{ person.id }}</p>
+    <p>Nom : {{ person.lastname ?? 'null' }}</p>
+    <p>Prénom : {{ person.firstname ?? 'null' }}</p>
+    <p>Numéro de téléphone : {{ person.phone ?? 'null' }}</p>
+    <p>Entreprise :
         {% if person.company %}
         <a href="{{ path('dashboard_company_show', {id: person.company.id}) }}">{{ person.company.name }}</a>
         {% else %}
         <b style="color: red">Aucune entreprise</b>
         {% endif %}
     </p>
-    <p>created_at : {{ person.createdAt|date('d/m/Y H:i:s') }}</p>
+    <p>Crée le : {{ person.createdAt|date('d/m/Y H:i:s') }}</p>
+    {% if person.updatedAt != null %}
+        <p>Dernière modification : {{ person.updatedAt|date('d/m/Y H:i:s') }}</p>
+    {% endif %}
     <div class="space-x-3 flex">
         <a href="{{ path('dashboard_person_index') }}">
             <div

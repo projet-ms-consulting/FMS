@@ -24,6 +24,7 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'label' => 'Mot de passe',
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -40,6 +41,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('person', EntityType::class, [
                 'class' => Person::class,
+                'label' => 'Personne',
                 'choice_label' => function (Person $person) {
                     return $person->getLastName() . ' ' . $person->getFirstName();
                 },

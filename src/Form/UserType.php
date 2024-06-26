@@ -6,6 +6,7 @@ use App\Entity\Person;
 use App\Entity\User;
 use App\Repository\PersonRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -18,36 +19,44 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('password', PasswordType::class, [
-                'attr' => ['autocomplete' => 'new-password'],
-                'required' => $options['page'] === 'edit' ? false : true,
-                'empty_data' => '',
-            ])
             ->add('person', EntityType::class, [
                 'class' => Person::class,
+                'label' => 'Personne',
                 'choice_label' => function (Person $person) {
                     return $person->getLastName() . ' ' . $person->getFirstName();
                 },
-                'placeholder' => 'Chosissez une personne',
-                'query_builder' => function (PersonRepository $pr) use ($options) {
-                    if ($options['page'] === 'edit') {
-                        return $pr->createQueryBuilder('p')
-                            ->leftJoin('p.user', 'u');
+                'placeholder' => 'Choisissez une personne',
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    $currentPerson = $options['data']->getPerson();
+
+                    $qb = $er->createQueryBuilder('p');
+                    $qb->leftJoin('p.user', 'u')
+                        ->where('u.person IS NULL');
+
+                    if ($currentPerson) {
+                        $qb->orWhere('p.id = :currentPersonId')
+                            ->setParameter('currentPersonId', $currentPerson->getId());
                     }
 
-                    return $pr->createQueryBuilder('p')
-                        ->leftJoin('p.user', 'u')
-                        ->where('u.person IS NULL');
+                    return $qb;
                 },
             ])
         ;
+        if ($options['page'] !== 'edit') {
+            $builder->add('password', PasswordType::class, [
+                'label' => 'Mot de passe',
+                'attr' => ['autocomplete' => 'new-password'],
+                'required' => true,
+                'empty_data' => '',
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'page' => null, // Add this line
+            'page' => null,
         ]);
     }
 }

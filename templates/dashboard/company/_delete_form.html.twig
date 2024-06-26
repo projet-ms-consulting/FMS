@@ -1,5 +1,5 @@
 <form method="post" action="{{ path('dashboard_company_delete', {'id': company.id}) }}"
-    onsubmit="return confirm('Are you sure you want to delete this item?');">
+    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette entreprise ? Cette action est irréversible.');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ company.id) }}">
     <button class="relative rounded px-5 py-2.5 overflow-hidden group bg-red-500 relative hover:bg-gradient-to-r
     hover:from-red-500 hover:to-red-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-red-400

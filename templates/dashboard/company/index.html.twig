@@ -22,7 +22,7 @@
                                     'Id': 'c.id',
                                     'Nom': 'c.name',
                                     'Adresse': 'a.street',
-                                    'Position': 't.label',
+                                    'Role': 't.label',
                                     'Siège social': 'c.headOffice',
                                     'Créer le': 'c.createdAt'
                                 } %}
@@ -55,9 +55,9 @@
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                     {% if company.isHeadOffice() == 1 %}
-                                        Yes
+                                        <span class="text-green-600">Oui</span>
                                     {% else %}
-                                        No
+                                        <span class="text-red-600">Non</span>
                                     {% endif %}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
@@ -65,8 +65,8 @@
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                     <div class="space-x-1 opacity-80">
-                                        <a href="{{ path('dashboard_company_show', { id: company.id }) }}">Show</a>
-                                        <a href="{{ path('dashboard_company_edit', { id: company.id }) }}">Edit</a>
+                                        <a href="{{ path('dashboard_company_show', { id: company.id }) }}">Détails</a>
+                                        <a href="{{ path('dashboard_company_edit', { id: company.id }) }}">Modifié</a>
                                     </div>
                                 </td>
                             </tr>

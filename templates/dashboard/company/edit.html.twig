@@ -4,13 +4,29 @@
 
 {% block content %}
 
-    <h1>Edit de la company <span>{{ company.name }}</span></h1>
+    <h1>Modification de l'entreprise <span>{{ company.name }}</span></h1>
 
     {{ form_start(companyForm) }}
     {{ form_widget(companyForm) }}
-    <button type="submit" class="btn btn-primary">Modifier</button>
+    <div class="flex justify-end mt-6">
+        <div class="space-x-3 flex">
+            <a href="{{ path('dashboard_company_index') }}">
+                <div
+                        class="relative rounded px-5 py-2.5 overflow-hidden group bg-slate-500 relative hover:bg-gradient-to-r hover:from-slate-500 hover:to-slate-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-slate-400 transition-all ease-out duration-300">
+                <span
+                        class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span class="relative">Retour</span>
+                </div>
+            </a>
+            <button type="submit"
+                    class="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
+            <span
+                    class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span class="relative">Modifier</span>
+            </button>
+        </div>
+    </div>
     {{ form_end(companyForm) }}
-    <a href="{{ path('dashboard_company_index') }}">Back to list</a>
 
 {% endblock %}
 
