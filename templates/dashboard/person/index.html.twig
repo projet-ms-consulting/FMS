@@ -58,9 +58,9 @@
 									</td>
 									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
 										{% if person.company %}
-											<a href="{{ path('dashboard_company_show', {id: person.company.id}) }}">{{ person.company.name }}</a>
+											<a class="font-bold" href="{{ path('dashboard_company_show', {id: person.company.id}) }}">{{ person.company.name }}</a>
 										{% else %}
-											<b style="color: red">Aucune entreprise</b>
+											<span class="font-bold text-red-600">Aucune entreprise</span>
 										{% endif %}
 									</td>
 									<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
@@ -68,8 +68,8 @@
 									</td>
 									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
 										<div class="space-x-1 opacity-80">
-											<a href="{{ path('dashboard_person_show', { id: person.id }) }}">Show</a>
-											<a href="{{ path('dashboard_person_edit', { id: person.id }) }}">Edit</a>
+											<a href="{{ path('dashboard_person_show', { id: person.id }) }}">Détails</a>
+											<a href="{{ path('dashboard_person_edit', { id: person.id }) }}">Modifié</a>
 										</div>
 									</td>
 								</tr>

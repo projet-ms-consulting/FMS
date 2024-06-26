@@ -7,6 +7,10 @@
     <p>Rue : {{ address.street }}</p>
     <p>Code postal : {{ address.zipCode }}</p>
     <p>Ville : {{ address.city }}</p>
+    <p>Crée le : {{ address.createdAt|date('d/m/Y H:i:s') }}</p>
+    {% if address.updatedAt != null %}
+        <p>Dernière modification : {{ address.updatedAt|date('d/m/Y H:i:s') }}</p>
+    {% endif %}
     <div class="space-x-3 flex">
         <a href="{{ path('dashboard_address_index') }}">
             <div

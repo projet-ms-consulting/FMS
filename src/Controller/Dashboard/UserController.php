@@ -74,17 +74,11 @@ class UserController extends AbstractController
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
-            if ($userForm->get('password')->getData() != null) {
-                $hash = $hasher->hashPassword($user, $userForm->get('password')->getData());
-                $user->setPassword($hash);
-            } else {
-                $user->setPassword($oldPassword);
-            }
+            $user->setPassword($oldPassword);
             $entityManager->flush();
-            $newPassword = $user->getPassword();
             $newEmail = $user->getEmail();
 
-            if (($this->getUser() && $this->getUser()->getId() === $user->getId()) && ($oldEmail != $newEmail || $oldPassword != $newPassword)) {
+            if (($this->getUser() && $this->getUser()->getId() === $user->getId()) && ($oldEmail != $newEmail)) {
                 return $this->redirectToRoute('app_logout');
             }
 

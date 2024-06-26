@@ -15,11 +15,18 @@ class PersonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('lastName')
-            ->add('firstName')
-            ->add('phone')
+            ->add('lastName', null, [
+                'label' => 'Nom'
+            ])
+            ->add('firstName', null, [
+                'label' => 'Prénom'
+            ])
+            ->add('phone', null, [
+                'label' => 'Télephone'
+            ])
             ->add('company', EntityType::class, [
                 'class' => Company::class,
+                'label' => 'Entreprise',
                 'choice_label' => 'name',
                 'required' => false,
                 'placeholder' => 'Chosissez une company',

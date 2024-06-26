@@ -4,21 +4,24 @@
 
 {% block content %}
 <div class="p-10 space-y-3">
-    <p>id : {{ company.id }}</p>
-    <p>name : {{ company.name }}</p>
-    <p>address : {{ company.address.city ?? 'null' }}</p>
-    <p>num_tva : {{ company.numTva }}</p>
-    <p>siret : {{ company.siret }}</p>
-    <p>siren : {{ company.siren }}</p>
-    <p>head_office :
+    <p>Id : {{ company.id }}</p>
+    <p>Nom : {{ company.name }}</p>
+    <p>Adresse : {{ company.address.city ?? 'null' }}</p>
+    <p>Numéro de TVA : {{ company.numTva }}</p>
+    <p>Siret : {{ company.siret }}</p>
+    <p>Siren : {{ company.siren }}</p>
+    <p>Siège social :
         {% if company.headOffice == true %}
-        <span style="color: green">Yes</span>
+        <span style="color: green">Oui</span>
         {% else %}
-        <span style="color: red">No</span>
+        <span style="color: red">Non</span>
         {% endif %}
     </p>
-    <p>type : {{ company.type.label }}</p>
-    <p>created_at : {{ company.createdAt|date('d/m/Y H:i:s') }}</p>
+    <p>Role : {{ company.type.label }}</p>
+    <p>Crée le : {{ company.createdAt|date('d/m/Y H:i:s') }}</p>
+    {% if company.updatedAt != null %}
+        <p>Dernière modification : {{ company.updatedAt|date('d/m/Y H:i:s') }}</p>
+    {% endif %}
     <div class="space-x-3 flex">
         <a href="{{ path('dashboard_company_index') }}">
             <div

@@ -45,16 +45,16 @@
 					</thead>
 					<tbody class="divide-y divide-gray-200 bg-white">
 						{% for user in users %}
-						<tr class="hover:bg-gray-100">
+						<tr>
 							<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
 								<a href="{{ path('dashboard_user_show', {'id': user.id}) }}">{{ user.id }}</a>
 							</td>
 							<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
 								{% if user.person %}
-								<a href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{
+								<a class="font-bold" href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{
 									user.person.firstName }} {{ user.person.lastName }}</a>
 								{% else %}
-								<b style="color: red">Aucune personne</b>
+								<span class="font-bold text-red-600">Aucune personne</span>
 								{% endif %}
 							</td>
 							<td class="whitespace-nowrap px-6 py-4 text-gray-500">
@@ -65,8 +65,8 @@
 							</td>
 							<td class="whitespace-nowrap px-6 py-4 text-gray-500">
 								<div class="space-x-1 opacity-80">
-									<a href="{{ path('dashboard_user_show', { id: user.id }) }}">Show</a>
-									<a href="{{ path('dashboard_user_edit', { id: user.id }) }}">Edit</a>
+									<a href="{{ path('dashboard_user_show', { id: user.id }) }}">Détails</a>
+									<a href="{{ path('dashboard_user_edit', { id: user.id }) }}">Modifié</a>
 								</div>
 							</td>
 						</tr>
