@@ -6,7 +6,7 @@
 <div class="p-10 space-y-3">
     <p>Id : {{ company.id }}</p>
     <p>Nom : {{ company.name }}</p>
-    <p>Adresse : {{ company.address.city ?? 'null' }}</p>
+    <p>Adresse : {{ company.address.fullAddress ?? 'null' }}</p>
     <p>Numéro de TVA : {{ company.numTva }}</p>
     <p>Siret : {{ company.siret }}</p>
     <p>Siren : {{ company.siren }}</p>
