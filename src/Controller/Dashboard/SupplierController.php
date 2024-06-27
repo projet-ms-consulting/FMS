@@ -68,6 +68,7 @@ class SupplierController extends AbstractController
         $supplierMissionForm->handleRequest($request);
 
         if ($supplierMissionForm->isSubmitted() && $supplierMissionForm->isValid()) {
+            $supplierMission->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
 
             return $this->redirectToRoute('dashboard_supplier_index');
