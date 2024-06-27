@@ -1,17 +1,44 @@
 {% extends 'dashboard_layout.html.twig' %}
 
+{% set componentPath = 'dashboard/company/components/' %}
+
 {% block content %}
-    <div>
-        <p>id : {{ supplierMission.id }}</p>
-        <p>name : {{ supplierMission.name }}</p>
-        <p>description : {{ supplierMission.description }}</p>
-        <p>supplier : {{ supplierMission.supplier.name }}</p>
-        <p>mission : {{ supplierMission.mission.name }}</p>
-        <p>finished : {{ supplierMission.isFinished ? 'Yes' : 'No' }}</p>
-        <p>created_at : {{ supplierMission.createdAt|date('d/m/Y H:i:s') }}</p>
+    <div class="p-10 space-y-3">
+        <p>Id : {{ supplierMission.id }}</p>
+        <p>Nom : {{ supplierMission.name }}</p>
+        <p>Description : {{ supplierMission.description }}</p>
+        <p>Fournisseur : {{ supplierMission.supplier.name }}</p>
+        <p>Mission : {{ supplierMission.mission.name }}</p>
+        <p>Fini :
+            {% if supplierMission.isfinished == 'yes' %}
+                <span class="text-green-600">Oui</span>
+            {% else %}
+                <span class="text-red-600 font-bold">Non</span>
+            {% endif %}
+        </p>
+        <p>Crée le : {{ supplierMission.createdAt|date('d/m/Y H:i:s') }}</p>
+        {% if supplierMission.updatedAt != null %}
+            <p>Dernière modification : {{ supplierMission.updatedAt|date('d/m/Y H:i:s') }}</p>
+        {% endif %}
+        <div class="space-x-3 flex">
+            <a href="{{ path('dashboard_supplier_index') }}">
+                <div
+                        class="relative rounded px-5 py-2.5 overflow-hidden group bg-slate-500 relative hover:bg-gradient-to-r hover:from-slate-500 hover:to-slate-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-slate-400 transition-all ease-out duration-300">
+                <span
+                        class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span class="relative">Retour</span>
+                </div>
+            </a>
+            {{ include('dashboard/supplier/_delete_form.html.twig') }}
+            <a href="{{ path('dashboard_supplier_edit', {id: supplierMission.id}) }}">
+                <div
+                        class="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
+                <span
+                        class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span class="relative">Modifier</span>
+                </div>
+            </a>
+        </div>
     </div>
-    <a href="{{ path('dashboard_supplier_edit', {id: supplierMission.id}) }}">Edit</a>
-    <a href="{{ path('dashboard_supplier_index') }}">Back to list</a>
-    {{ include('dashboard/supplier/_delete_form.html.twig') }}
 {% endblock %}
 
