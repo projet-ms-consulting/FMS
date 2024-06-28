@@ -86,8 +86,10 @@
 							{{ invoice.createdAt|date('Y-m-d') }}
 						</td>
 						<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-							<a href="{{ path('dashboard_mission_invoice_edit', { id: invoice.id }) }}">Modifier</a>
-							<a href="{{ path('dashboard_mission_invoice_show', {'id': mission.id, 'invoiceId': invoice.id}) }}">Show</a>
+							<div class="space-x-1 opacity-80">
+								<a href="{{ path('dashboard_mission_invoice_show', {'id': mission.id, 'invoiceId': invoice.id}) }}">Détails</a>
+								<a href="{{ path('dashboard_mission_invoice_edit', { id: invoice.id }) }}">Modifier</a>
+							</div>
 						</td>
 					</tr>
 					{% endfor %}
