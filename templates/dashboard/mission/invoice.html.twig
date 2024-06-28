@@ -57,39 +57,39 @@
 						<td class="whitespace-nowrap px-6 py-4 text-gray-500">
 							{{ invoice.type }}
 						</td>
-						<td class="whitespace-nowrap px-6 py-4 text-gray-500 underline">
+						<td class="whitespace-nowrap px-6 py-4 text-gray-500 underline bg-gray-200">
 							<a href="{{ path('dashboard_mission_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename}) }}" target="_blank">{{ invoice.realFilename }}</a>
 						</td>
 						{% if invoice.deadline %}
 							{% if not invoice.paid %}
 								{% set remainingDays = (invoice.deadline | date('U') - 'now' | date('U')) / (60 * 60 * 24) %}
 								{% if remainingDays > 0 %}
-									<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
 										Temps restant : {{ remainingDays | round(0, 'floor') + 1 }} jour{{ remainingDays > 1 ? 's' : '' }}
 									</td>
 								{% else %}
 									{% set daysLate = ('now' | date('U') - invoice.deadline | date('U')) / (60 * 60 * 24) %}
-									<td class="whitespace-nowrap px-6 py-4 text-red-500 bg-gray-200">
+									<td class="whitespace-nowrap px-6 py-4 text-red-500">
 										Retard de {{ daysLate | round(0, 'floor') + 1 }} jour{{ daysLate > 1 ? 's' : '' }}
 									</td>
 								{% endif %}
 							{% else %}
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">A jour</td>
+								<td class="whitespace-nowrap px-6 py-4 text-gray-500">A jour</td>
 							{% endif %}
 						{% else %}
-							<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">Date limite non définie</td>
+							<td class="whitespace-nowrap px-6 py-4 text-gray-500">Date limite non définie</td>
 						{% endif %}
-						<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+						<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
 							{% if invoice.paid == 'yes' %}
 								<span class="text-green-600">Oui</span>
 							{% else %}
 								<span>Non</span>
 							{% endif %}
 						</td>
-						<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+						<td class="whitespace-nowrap px-6 py-4 text-gray-500">
 							{{ invoice.createdAt|date('Y-m-d') }}
 						</td>
-						<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+						<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
 							<div class="space-x-1 opacity-80">
 								<a href="{{ path('dashboard_mission_invoice_show', {'id': mission.id, 'invoiceId': invoice.id}) }}">Détails</a>
 								<a href="{{ path('dashboard_mission_invoice_edit', { id: invoice.id }) }}">Modifier</a>
