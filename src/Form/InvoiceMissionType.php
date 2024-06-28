@@ -37,6 +37,9 @@ class InvoiceMissionType extends AbstractType
             ->add('billNum', null, [
                 'label' => 'Numéro de facture'
             ])
+            ->add('word', null, [
+                'label' => 'Libellé'
+            ])
             ->add('file', FileType::class, [
                 'label' => 'Fichier',
                 'mapped' => false,

@@ -37,7 +37,7 @@ class ZipGeneratorController extends AbstractController
             }
 
             $data = [
-                ['Numéro de facture', 'RealFilename', 'File', 'Date limite', 'Payé ?', 'Créer le', 'Dernière modification'],
+                ['Numéro de facture', 'Libellé', 'RealFilename', 'File', 'Date limite', 'Payé ?', 'Créer le', 'Dernière modification'],
             ];
             foreach ($invoiceMissions as $invoice) {
                 if ($invoice->isPaid() === true) {
@@ -48,6 +48,7 @@ class ZipGeneratorController extends AbstractController
                 $updatedAt = $invoice->getUpdatedAt() ? $invoice->getUpdatedAt()->format('Y-m-d') : '';
                 $data[] = [
                     $invoice->getBillNum(),
+                    $invoice->getWord(),
                     $invoice->getRealFilename(),
                     $invoice->getFile(),
                     $invoice->getDeadline()->format('Y-m-d'),

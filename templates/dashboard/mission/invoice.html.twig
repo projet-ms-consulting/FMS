@@ -28,6 +28,7 @@
 					{% set columns = {
 						'Id': 'i.id',
 						'Numéro de facture': 'i.billNum',
+						'Libellé': 'i.word',
 						'Fichier': 'i.realFilename',
 						'Temps restants': 'i.deadline',
 						'Payé': 'i.paid',
@@ -52,6 +53,9 @@
 						</td>
 						<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
 							{{ invoice.billNum }}
+						</td>
+						<td class="whitespace-nowrap px-6 py-4 text-gray-500">
+							{{ invoice.word ?? '' }}
 						</td>
 						<td class="whitespace-nowrap px-6 py-4 text-gray-500 underline">
 							<a href="{{ path('dashboard_mission_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename}) }}" target="_blank">{{ invoice.realFilename }}</a>
