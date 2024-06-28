@@ -12,17 +12,38 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class InvoiceSupplierType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // Définition de la fonction de validation
+        $validator = function($date, ExecutionContextInterface $context) {
+            $oneMonthAgo = new \DateTime('-1 month');
+            if ($date < $oneMonthAgo) {
+                $context->buildViolation('La date ne peut pas être antérieure à un mois avant aujourd\'hui. (minimum : ' . $oneMonthAgo->format('d-m-Y') . ')')
+                    ->addViolation();
+            }
+        };
+
+        $constraints = [];
+        if ($options['page'] !== 'edit') {
+            $constraints[] = new Callback([
+                'callback' => $validator,
+            ]);
+        }
         $builder
-            ->add('billNum')
+            ->add('billNum', null, [
+                'label' => 'Numéro de facture'
+            ])
             ->add('file', FileType::class, [
-                'label' => 'File',
+                'label' => 'Fichier',
                 'mapped' => false,
+                'required' => $options['page'] !== 'edit',
                 'constraints' => [
                     new File([
                         'maxSize' => '4096k',
@@ -30,22 +51,27 @@ class InvoiceSupplierType extends AbstractType
                             'application/pdf',
                             'application/x-pdf',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                        'mimeTypesMessage' => 'Veuillez télécharger un document PDF valide',
                     ])
                 ],
             ])
             ->add('deadline', DateType::class, [
-                'label' => 'Date',
+                'label' => 'Date d\'éxpiration',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
+                'required' => false,
+                'constraints' => $constraints,
             ])
             ->add('paid', CheckboxType::class, [
-                'label' => 'Paid',
+                'label' => 'Payé ?',
                 'required' => false,
             ])
             ->add('invoiceMission', EntityType::class, [
+                'label' => 'Facture liée',
                 'class' => InvoiceMission::class,
                 'choice_label' => 'billNum',
+                'required' => false,
+                'placeholder' => 'Choisissez une facture à liée',
             ])
         ;
     }
@@ -54,6 +80,7 @@ class InvoiceSupplierType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => InvoiceSupplier::class,
+            'page' => null,
         ]);
     }
 }

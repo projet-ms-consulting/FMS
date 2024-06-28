@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\InvoiceSupplier;
+use App\Entity\SupplierMission;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<InvoiceSupplier>
@@ -16,33 +19,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class InvoiceSupplierRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private PaginatorInterface $paginator)
     {
         parent::__construct($registry, InvoiceSupplier::class);
     }
 
-    //    /**
-    //     * @return InvoiceSupplier[] Returns an array of InvoiceSupplier objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('i')
-    //            ->andWhere('i.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('i.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?InvoiceSupplier
-    //    {
-    //        return $this->createQueryBuilder('i')
-    //            ->andWhere('i.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function paginateinvoices(int $page, int $limit, SupplierMission $supplierMission): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->createQueryBuilder('s')
+                ->leftJoin('s.supplierMission', 'm')
+                ->leftJoin('s.invoiceMission', 'i')
+                ->where('m.id = :missionId')
+                ->setParameter('missionId', $supplierMission->getId())
+                ->select('m', 's', 'i'),
+            $page,
+            $limit,
+            [
+                'defaultSortFieldName' => 'm.id',
+                'defaultSortDirection' => 'asc',
+            ]
+        );
+    }
 }

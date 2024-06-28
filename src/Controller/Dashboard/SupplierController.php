@@ -92,13 +92,14 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/{id}/invoice', name: 'invoice', methods: ['GET'])]
-    public function invoice(SupplierMission $mission, InvoiceSupplierRepository $invoiceRepository): Response
+    public function invoice(SupplierMission $supplierMission, InvoiceSupplierRepository $invoiceSupplierRepository, Request $request): Response
     {
-        $invoices = $invoiceRepository->findAll();
-
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $invoices = $invoiceSupplierRepository->paginateinvoices($page, $limit, $supplierMission);
         return $this->render('dashboard/supplier/invoice.html.twig', [
             'invoices' => $invoices,
-            'mission' => $mission,
+            'supplierMission' => $supplierMission,
         ]);
     }
 
@@ -133,20 +134,21 @@ class SupplierController extends AbstractController
     #[Route('/{id}/invoice/edit', name: 'invoice_edit', methods: ['GET', 'POST'])]
     public function invoiceEdit(InvoiceSupplier $invoice, Request $request, EntityManagerInterface $em)
     {
-        $form = $this->createForm(InvoiceSupplierType::class, $invoice);
+        $mission = $invoice->getSupplierMission();
+        $form = $this->createForm(InvoiceSupplierType::class, $invoice, [
+            'page' => 'edit',
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $invoice->setUpdatedAt(new \DateTimeImmutable());
             $em->flush();
-            return $this->redirectToRoute('dashboard_supplier_index');
+            return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $mission->getId()]);
         }
 
-        $imagePath = $invoice->getRealFilename();
-
         return $this->render('dashboard/supplier/invoice_edit.html.twig', [
-            'mission' => $invoice,
-            'invoiceForm' => $form,
-            'imagePath' => $imagePath,
+            'invoice' => $invoice,
+            'mission' => $mission,
+            'invoiceForm' => $form->createView(),
         ]);
     }
 
