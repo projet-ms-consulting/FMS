@@ -1,101 +1,229 @@
-<div class="fixed top-0 left-0 h-screen w-16 m-0 flex items-center flex-col justify-between bg-white shadow-lg py-9">
-
-    <div class="flex flex-col space-y-9">
-        {# home #}
-        <a up-target="#content" up-href="{{ path('dashboard_index') }}" up-history="replace">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-home">
-                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
+<aside class = "w-60 -translate-x-48 fixed transition transform ease-in-out duration-1000 z-50 flex h-screen bg-[#1E293B] ">
+    <!-- open sidebar button -->
+    <div class = "max-toolbar translate-x-24 scale-x-0 w-full -right-6 transition transform ease-in duration-300 flex items-center justify-between border-4 border-white bg-[#1E293B]  absolute top-2 rounded-full h-12">
+        <div  class = "flex items-center ml-3 group bg-gradient-to-r from-green-500 pl-10 pr-2 py-1 rounded-full text-white">
+            <div class= "transform ease-in-out duration-300 mr-12">
+                Dashboard
+            </div>
+        </div>
+    </div>
+    <div onclick="openNav()" class = "-right-6 transition transform ease-in-out duration-500 flex border-4 border-white bg-[#1E293B] hover:bg-green-600 absolute top-2 p-3 rounded-full text-white hover:rotate-45">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" class="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+        </svg>
+    </div>
+    <!-- MAX SIDEBAR-->
+    <div class= "max hidden text-white mt-20 flex-col space-y-2 w-full h-[calc(100vh)]">
+        <a href="{{ path('dashboard_index') }}">
+            <div class =  "hover:ml-4 w-full text-white hover:text-green-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-home">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <div>
+                    Accueil
+                </div>
+            </div>
         </a>
-
-        {# address #}
-        <a up-target="#content" up-href="{{ path('dashboard_address_index') }}" up-history="replace">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-locate">
-                <line x1="2" x2="5" y1="12" y2="12"/>
-                <line x1="19" x2="22" y1="12" y2="12"/>
-                <line x1="12" x2="12" y1="2" y2="5"/>
-                <line x1="12" x2="12" y1="19" y2="22"/>
-                <circle cx="12" cy="12" r="7"/>
-            </svg>
+        <a href="{{ path('dashboard_address_index') }}">
+            <div class =  "hover:ml-4 w-full text-white hover:text-green-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-locate">
+                    <line x1="2" x2="5" y1="12" y2="12"/>
+                    <line x1="19" x2="22" y1="12" y2="12"/>
+                    <line x1="12" x2="12" y1="2" y2="5"/>
+                    <line x1="12" x2="12" y1="19" y2="22"/>
+                    <circle cx="12" cy="12" r="7"/>
+                </svg>
+                <div>
+                    Adresse
+                </div>
+            </div>
         </a>
-
-        {# company #}
-        <a up-target="#content" up-href="{{ path('dashboard_company_index') }}" up-history="replace">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-building-2">
-                <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/>
-                <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/>
-                <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/>
-                <path d="M10 6h4"/>
-                <path d="M10 10h4"/>
-                <path d="M10 14h4"/>
-                <path d="M10 18h4"/>
-            </svg>
+        <a href="{{ path('dashboard_company_index') }}">
+            <div class =  "hover:ml-4 w-full text-white hover:text-green-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-building-2">
+                    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/>
+                    <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/>
+                    <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/>
+                    <path d="M10 6h4"/>
+                    <path d="M10 10h4"/>
+                    <path d="M10 14h4"/>
+                    <path d="M10 18h4"/>
+                </svg>
+                <div>
+                    Entreprise
+                </div>
+            </div>
         </a>
-
-        {# person #}
-        <a up-target="#content" up-href="{{ path('dashboard_person_index') }}" up-history="replace">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-user-round-search">
-                <circle cx="10" cy="8" r="5"/>
-                <path d="M2 21a8 8 0 0 1 10.434-7.62"/>
-                <circle cx="18" cy="18" r="3"/>
-                <path d="m22 22-1.9-1.9"/>
-            </svg>
+        <a href="{{ path('dashboard_person_index') }}">
+            <div class =  "hover:ml-4 w-full text-white hover:text-green-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-user-round-search">
+                    <circle cx="10" cy="8" r="5"/>
+                    <path d="M2 21a8 8 0 0 1 10.434-7.62"/>
+                    <circle cx="18" cy="18" r="3"/>
+                    <path d="m22 22-1.9-1.9"/>
+                </svg>
+                <div>
+                    Personne
+                </div>
+            </div>
         </a>
-
-        {# user #}
-        <a up-target="#content" up-href="{{ path('dashboard_user_index') }}" up-history="replace">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-user-round">
-                <circle cx="12" cy="8" r="5"/>
-                <path d="M20 21a8 8 0 0 0-16 0"/>
-            </svg>
+        <a href="{{ path('dashboard_user_index') }}">
+            <div class =  "hover:ml-4 w-full text-white hover:text-green-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-user-round">
+                    <circle cx="12" cy="8" r="5"/>
+                    <path d="M20 21a8 8 0 0 0-16 0"/>
+                </svg>
+                <div>
+                    Utilisateur
+                </div>
+            </div>
         </a>
-
-        {# mission #}
-        <a up-target="#content" up-href="{{ path('dashboard_mission_index') }}" up-history="replace">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-file-minus-2">
-                <path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4"/>
-                <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
-                <path d="M3 15h6"/>
-            </svg>
+        <a href="{{ path('dashboard_mission_index') }}">
+            <div class =  "hover:ml-4 w-full text-white hover:text-green-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-file-minus-2">
+                    <path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4"/>
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+                    <path d="M3 15h6"/>
+                </svg>
+                <div>
+                    Mission
+                </div>
+            </div>
         </a>
-
-        {# supplier #}
-        <a up-target="#content" up-href="{{ path('dashboard_supplier_index') }}" up-history="replace">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-file-code-2">
-                <path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4"/>
-                <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
-                <path d="m5 12-3 3 3 3"/>
-                <path d="m9 18 3-3-3-3"/>
-            </svg>
+        <a href="{{ path('dashboard_supplier_index') }}">
+            <div class =  "hover:ml-4 w-full text-white hover:text-green-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-file-code-2">
+                    <path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4"/>
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+                    <path d="m5 12-3 3 3 3"/>
+                    <path d="m9 18 3-3-3-3"/>
+                </svg>
+                <div>
+                    Fournisseur
+                </div>
+            </div>
+        </a>
+        <a href="{{ path('app_logout') }}" class="mt-auto mb-4">
+            <div class="hover:ml-4 w-full text-white hover:text-green-500 bg-[#1E293B] p-2 pl-8 rounded-full transform ease-in-out duration-300 flex flex-row items-center space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" x2="9" y1="12" y2="12"/>
+                </svg>
+                <div>
+                    Logout
+                </div>
+            </div>
         </a>
     </div>
-
-    <div>
-        {# log-out #}
-        <a href="{{ path('app_logout') }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-log-out">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                <polyline points="16 17 21 12 16 7"/>
-                <line x1="21" x2="9" y1="12" y2="12"/>
-            </svg>
+    <!-- MINI SIDEBAR-->
+    <div class= "mini mt-20 flex flex-col space-y-2 w-full h-[calc(100vh)]">
+        <a href="{{ path('dashboard_index') }}">
+            <div class= "hover:ml-4 justify-end pr-5 text-white hover:text-green-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-home">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+        </a>
+        <a href="{{ path('dashboard_address_index') }}">
+            <div class= "hover:ml-4 justify-end pr-5 text-white hover:text-green-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-locate">
+                    <line x1="2" x2="5" y1="12" y2="12"/>
+                    <line x1="19" x2="22" y1="12" y2="12"/>
+                    <line x1="12" x2="12" y1="2" y2="5"/>
+                    <line x1="12" x2="12" y1="19" y2="22"/>
+                    <circle cx="12" cy="12" r="7"/>
+                </svg>
+            </div>
+        </a>
+        <a href="{{ path('dashboard_company_index') }}">
+            <div class= "hover:ml-4 justify-end pr-5 text-white hover:text-green-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-building-2">
+                    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/>
+                    <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/>
+                    <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/>
+                    <path d="M10 6h4"/>
+                    <path d="M10 10h4"/>
+                    <path d="M10 14h4"/>
+                    <path d="M10 18h4"/>
+                </svg>
+            </div>
+        </a>
+        <a href="{{ path('dashboard_person_index') }}">
+            <div class= "hover:ml-4 justify-end pr-5 text-white hover:text-green-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-user-round-search">
+                    <circle cx="10" cy="8" r="5"/>
+                    <path d="M2 21a8 8 0 0 1 10.434-7.62"/>
+                    <circle cx="18" cy="18" r="3"/>
+                    <path d="m22 22-1.9-1.9"/>
+                </svg>
+            </div>
+        </a>
+        <a href="{{ path('dashboard_user_index') }}">
+            <div class= "hover:ml-4 justify-end pr-5 text-white hover:text-green-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-user-round">
+                    <circle cx="12" cy="8" r="5"/>
+                    <path d="M20 21a8 8 0 0 0-16 0"/>
+                </svg>
+            </div>
+        </a>
+        <a href="{{ path('dashboard_mission_index') }}">
+            <div class= "hover:ml-4 justify-end pr-5 text-white hover:text-green-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-file-minus-2">
+                    <path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4"/>
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+                    <path d="M3 15h6"/>
+                </svg>
+            </div>
+        </a>
+        <a href="{{ path('dashboard_supplier_index') }}">
+            <div class= "hover:ml-4 justify-end pr-5 text-white hover:text-green-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="lucide lucide-file-code-2">
+                    <path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4"/>
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4"/>
+                    <path d="m5 12-3 3 3 3"/>
+                    <path d="m9 18 3-3-3-3"/>
+                </svg>
+            </div>
+        </a>
+        <a href="{{ path('app_logout') }}" class="mt-auto mb-4">
+            <div class="hover:ml-4 justify-end pr-5 text-white hover:text-green-500 w-full bg-[#1E293B] p-3 rounded-full transform ease-in-out duration-300 flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" x2="9" y1="12" y2="12"/>
+                </svg>
+            </div>
         </a>
     </div>
-
-</div>
+</aside>
