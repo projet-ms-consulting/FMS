@@ -20,8 +20,8 @@ class InvoiceMission
     #[ORM\Column(length: 255)]
     private ?string $billNum = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $word = null;
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
 
     #[ORM\Column(length: 255)]
     private ?string $file = null;
@@ -69,14 +69,14 @@ class InvoiceMission
         return $this;
     }
 
-    public function getWord(): ?string
+    public function getType(): ?string
     {
-        return $this->word;
+        return $this->type;
     }
 
-    public function setWord(?string $word): static
+    public function setType(?string $type): static
     {
-        $this->word = $word;
+        $this->type = $type;
 
         return $this;
     }

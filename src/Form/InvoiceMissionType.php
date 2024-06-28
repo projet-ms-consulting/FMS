@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\InvoiceMission;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -37,8 +38,14 @@ class InvoiceMissionType extends AbstractType
             ->add('billNum', null, [
                 'label' => 'Numéro de facture'
             ])
-            ->add('word', null, [
-                'label' => 'Libellé'
+            ->add('type', ChoiceType::class, [
+                'label' => 'Type',
+                'choices'  => [
+                    'Facture' => 'Facture',
+                    'Devis' => 'Devis',
+                    'Bon de commande' => 'Bon de commande',
+                ],
+                'empty_data' => 'Facture'
             ])
             ->add('file', FileType::class, [
                 'label' => 'Fichier',
