@@ -16,15 +16,21 @@ class SupplierMissionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('description')
+            ->add('name', null, [
+                'label' => 'Nom'
+            ])
+            ->add('description', null, [
+                'label' => 'Description'
+            ])
             ->add('mission', EntityType::class, [
                 'class' => Mission::class,
+                'label' => 'Mission',
                 'choice_label' => 'name',
                 'placeholder' => 'Choisissez une mission',
             ])
             ->add('supplier', EntityType::class, [
                 'class' => Company::class,
+                'label' => 'Fournisseur',
                 'choice_label' => 'name',
                 'placeholder' => 'Choisissez un supplier',
                 'query_builder' => function (EntityRepository $er) {
