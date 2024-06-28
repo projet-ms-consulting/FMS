@@ -32,7 +32,7 @@ class SupplierMissionType extends AbstractType
                 'class' => Company::class,
                 'label' => 'Fournisseur',
                 'choice_label' => 'name',
-                'placeholder' => 'Choisissez un supplier',
+                'placeholder' => 'Choisissez un Fournisseur',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->join('c.type', 't')

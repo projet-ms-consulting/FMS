@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use AllowDynamicProperties;
 use App\Repository\InvoiceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: InvoiceRepository::class)]
+#[AllowDynamicProperties] #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
 class InvoiceMission
 {
     #[ORM\Id]
@@ -18,6 +19,9 @@ class InvoiceMission
 
     #[ORM\Column(length: 255)]
     private ?string $billNum = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $word = null;
 
     #[ORM\Column(length: 255)]
     private ?string $file = null;
@@ -61,6 +65,18 @@ class InvoiceMission
     public function setBillNum(string $billNum): static
     {
         $this->billNum = $billNum;
+
+        return $this;
+    }
+
+    public function getWord(): ?string
+    {
+        return $this->word;
+    }
+
+    public function setWord(?string $word): static
+    {
+        $this->word = $word;
 
         return $this;
     }
