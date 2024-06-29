@@ -20,7 +20,7 @@ class AddressController extends AbstractController
         $page = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 8);
         $address = $repository->paginateAdresses($page, $limit);
-        return $this->render('dashboard/address/index.html.twig', [ 
+        return $this->render('dashboard/address/index.html.twig', [
             'address' => $address,
             'page' => $page,
             'limit' => $limit,

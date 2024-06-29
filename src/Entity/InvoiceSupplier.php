@@ -18,6 +18,9 @@ class InvoiceSupplier
     private ?string $billNum = null;
 
     #[ORM\Column(length: 255)]
+    private ?string $type = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $file = null;
 
     #[ORM\Column(length: 255)]
@@ -54,6 +57,18 @@ class InvoiceSupplier
     public function setBillNum(string $billNum): static
     {
         $this->billNum = $billNum;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }
