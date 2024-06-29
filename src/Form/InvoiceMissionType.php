@@ -45,7 +45,6 @@ class InvoiceMissionType extends AbstractType
                     'Devis' => 'Devis',
                     'Bon de commande' => 'Bon de commande',
                 ],
-                'empty_data' => 'Facture'
             ])
             ->add('file', FileType::class, [
                 'label' => 'Fichier',

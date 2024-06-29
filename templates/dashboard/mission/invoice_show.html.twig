@@ -23,8 +23,6 @@
             <p>Dernière modification : {{ invoice.updatedAt|date('d/m/Y H:i:s') }}</p>
         {% endif %}
 
-        {% dump(invoice) %}
-
         <embed src="{{ path('dashboard_mission_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename})}}" width="500" height="500" type='application/pdf'>
 
         <div class="space-x-3 flex">

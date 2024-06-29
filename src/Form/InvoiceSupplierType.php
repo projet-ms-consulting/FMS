@@ -8,6 +8,7 @@ use App\Entity\SupplierMission;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -39,6 +40,14 @@ class InvoiceSupplierType extends AbstractType
         $builder
             ->add('billNum', null, [
                 'label' => 'Numéro de facture'
+            ])
+            ->add('type', ChoiceType::class, [
+                'label' => 'Type',
+                'choices'  => [
+                    'Facture' => 'Facture',
+                    'Devis' => 'Devis',
+                    'Bon de commande' => 'Bon de commande',
+                ],
             ])
             ->add('file', FileType::class, [
                 'label' => 'Fichier',
