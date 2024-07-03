@@ -112,7 +112,7 @@ class MissionController extends AbstractController
         if ($invoiceForm->isSubmitted() && $invoiceForm->isValid()) {
             $file = $request->files->get('invoice_mission')['file'];
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-            $file->move($this->getParameter('kernel.project_dir') . '/invoice/' . $mission->getId() . '/mission', $fileName);
+            $file->move($this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId(), $fileName);
             $invoice->setRealFilename($file->getClientOriginalName());
             $invoice->setFile($fileName);
             $invoice->setMission($mission);
@@ -139,6 +139,20 @@ class MissionController extends AbstractController
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // ajout du nouveau fichier
+            if ($request->files->get('invoice_mission')['file']) {
+                $oldFile = $invoice->getFile();
+                // Suppression de l'ancien fichier
+                if (file_exists($this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/' . $oldFile)) {
+                    unlink($this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/' . $oldFile);
+                }
+                // Ajout du nouveau fichier
+                $file = $request->files->get('invoice_mission')['file'];
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move($this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId(), $fileName);
+                $invoice->setRealFilename($file->getClientOriginalName());
+                $invoice->setFile($fileName);
+            }
             $invoice->setUpdatedAt(new \DateTimeImmutable());
             $em->flush();
             return $this->redirectToRoute('dashboard_mission_invoice', ['id' => $mission->getId()]);
@@ -156,7 +170,7 @@ class MissionController extends AbstractController
     public function invoiceShow(Mission $mission, $invoiceId, InvoiceRepository $invoiceRepository): Response
     {
         $invoice = $invoiceRepository->find($invoiceId);
-        $file = $this->getParameter('kernel.project_dir') . '/invoice/' . $mission->getId() . '/mission/' . $invoice->getFile();
+        $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/' . $invoice->getFile();
         return $this->render('dashboard/mission/invoice_show.html.twig', [
             'mission' => $mission,
             'invoice' => $invoice,
@@ -168,7 +182,7 @@ class MissionController extends AbstractController
     public function invoiceShowFile(Mission $mission, $invoiceId, InvoiceRepository $invoiceRepository): Response
     {
         $invoice = $invoiceRepository->find($invoiceId);
-        $file = $this->getParameter('kernel.project_dir') . '/invoice/' . $mission->getId() . '/mission/' . $invoice->getFile();
+        $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/' . $invoice->getFile();
         return $this->file($file, $invoice->getFile(), ResponseHeaderBag::DISPOSITION_INLINE);
     }
 

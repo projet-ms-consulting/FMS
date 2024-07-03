@@ -104,7 +104,7 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/{id}/invoice/new', name: 'invoice_new', methods: ['GET', 'POST'])]
-    public function invoiceNew(Request $request, SupplierMission $mission, EntityManagerInterface $entityManager): Response
+    public function invoiceNew(Request $request, SupplierMission $supplierMission, EntityManagerInterface $entityManager): Response
     {
         $invoice = new InvoiceSupplier();
         $invoiceForm = $this->createForm(InvoiceSupplierType::class, $invoice);
@@ -113,19 +113,19 @@ class SupplierController extends AbstractController
         if ($invoiceForm->isSubmitted() && $invoiceForm->isValid()) {
             $file = $request->files->get('invoice_supplier')['file'];
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-            $file->move($this->getParameter('kernel.project_dir') . '/invoice/' . $mission->getId() . '/supplier', $fileName);
+            $file->move($this->getParameter('kernel.project_dir') . '/facture/mission/' . $supplierMission->getMission()->getId() . '/supplier', $fileName);
             $invoice->setRealFilename($file->getClientOriginalName());
             $invoice->setFile($fileName);
-            $invoice->setSupplierMission($mission);
+            $invoice->setSupplierMission($supplierMission);
             $invoice->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($invoice);
             $entityManager->flush();
 
-            return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $mission->getId()]);
+            return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $supplierMission->getId()]);
         }
 
         return $this->render('dashboard/supplier/invoice_new.html.twig', [
-            'mission' => $mission,
+            'mission' => $supplierMission,
             'invoice' => $invoice,
             'invoiceForm' => $invoiceForm->createView(),
         ]);
