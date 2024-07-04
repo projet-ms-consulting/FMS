@@ -22,7 +22,7 @@ class Mission
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(targetEntity: InvoiceMission::class, mappedBy: 'mission')]
+    #[ORM\OneToMany(targetEntity: InvoiceMission::class, mappedBy: 'mission', cascade: ['persist', 'remove'])]
     private Collection $invoices;
 
     #[ORM\ManyToOne(inversedBy: 'clients')]
@@ -45,9 +45,13 @@ class Mission
     #[ORM\Column]
     private ?bool $finished = null;
 
+    #[ORM\OneToMany(targetEntity: SupplierMission::class, mappedBy: 'mission', cascade: ['persist', 'remove'])]
+    private Collection $supplierMission;
+
     public function __construct()
     {
         $this->invoices = new ArrayCollection();
+        $this->supplierMission = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,6 +181,36 @@ class Mission
     public function setFinished(bool $finished): static
     {
         $this->finished = $finished;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SupplierMission>
+     */
+    public function getSupplierMission(): Collection
+    {
+        return $this->supplierMission;
+    }
+
+    public function addSupplierMission(SupplierMission $supplierMission): static
+    {
+        if (!$this->supplierMission->contains($supplierMission)) {
+            $this->supplierMission->add($supplierMission);
+            $supplierMission->setMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSupplierMission(SupplierMission $supplierMission): static
+    {
+        if ($this->supplierMission->removeElement($supplierMission)) {
+            // set the owning side to null (unless already changed)
+            if ($supplierMission->getMission() === $this) {
+                $supplierMission->setMission(null);
+            }
+        }
 
         return $this;
     }

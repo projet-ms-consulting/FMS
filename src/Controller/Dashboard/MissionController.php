@@ -82,6 +82,17 @@ class MissionController extends AbstractController
     public function delete(Request $request, Mission $mission, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $mission->getId(), $request->request->get('_token'))) {
+
+            // suppression de toutes les factures liees
+            foreach ($mission->getInvoices() as $invoice) {
+                $this->deleteInvoiceSuppliers($invoice, $mission, $entityManager);
+            }
+
+            // suppression du dossier de la mission
+            if (file_exists($this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId())) {
+                $this->recursiveRemoveDirectory($this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId());
+            }
+
             $entityManager->remove($mission);
             $entityManager->flush();
         }
@@ -195,24 +206,55 @@ class MissionController extends AbstractController
             $invoice = $invoiceRepository->find($invoiceId);
 
             // suppression de toutes les factures liees
-            foreach ($invoice->getInvoiceSuppliers()->getValues() as $invoiceSupplier) {
-                $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/supplier/' . $invoiceSupplier->getFile();
-                if (file_exists($file)) {
-                    unlink($file);
-                }
-                $entityManager->remove($invoiceSupplier);
-            }
-
-            // suppression de la facture mission
-            $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/' . $invoice->getFile();
-            if (file_exists($file)) {
-                unlink($file);
-            }
-
-            $entityManager->remove($invoice);
+            $this->deleteInvoiceSuppliers($invoice, $mission, $entityManager);
             $entityManager->flush();
         }
         return $this->redirectToRoute('dashboard_mission_invoice', ['id' => $mission->getId()]);
+    }
+
+    private function recursiveRemoveDirectory($dir): void
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        $files = scandir($dir);
+        foreach ($files as $file) {
+            if ($file === '.' || $file === '..') {
+                continue;
+            }
+            $path = $dir . '/' . $file;
+            if (is_dir($path)) {
+                $this->recursiveRemoveDirectory($path);
+            } else {
+                unlink($path);
+            }
+        }
+        rmdir($dir);
+    }
+
+    /**
+     * @param mixed $invoice
+     * @param Mission $mission
+     * @param EntityManagerInterface $entityManager
+     * @return void
+     */
+    public function deleteInvoiceSuppliers(mixed $invoice, Mission $mission, EntityManagerInterface $entityManager): void
+    {
+        foreach ($invoice->getInvoiceSuppliers()->getValues() as $invoiceSupplier) {
+            $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/supplier/' . $invoiceSupplier->getFile();
+            if (file_exists($file)) {
+                unlink($file);
+            }
+            $entityManager->remove($invoiceSupplier);
+        }
+
+        // Delete invoice
+        $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/' . $invoice->getFile();
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        $entityManager->remove($invoice);
     }
 
 }

@@ -41,7 +41,7 @@ class InvoiceMission
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $paymentDate = null;
 
-    #[ORM\OneToMany(targetEntity: InvoiceSupplier::class, mappedBy: 'invoiceMission')]
+    #[ORM\OneToMany(targetEntity: InvoiceSupplier::class, mappedBy: 'invoiceMission', orphanRemoval: true)]
     private Collection $invoiceSuppliers;
 
     #[ORM\Column]

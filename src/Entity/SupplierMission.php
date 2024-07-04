@@ -22,10 +22,6 @@ class SupplierMission
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'supplier')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Mission $mission = null;
-
     #[ORM\ManyToOne(inversedBy: 'suppliers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $supplier = null;
@@ -39,8 +35,11 @@ class SupplierMission
     #[ORM\Column]
     private ?bool $finished = null;
 
-    #[ORM\OneToMany(targetEntity: InvoiceSupplier::class, mappedBy: 'supplierMission')]
+    #[ORM\OneToMany(targetEntity: InvoiceSupplier::class, mappedBy: 'supplierMission', cascade: ['persist', 'remove'])]
     private Collection $invoiceSuppliers;
+
+    #[ORM\ManyToOne(inversedBy: 'supplierMission')]
+    private ?Mission $mission = null;
 
     public function __construct()
     {
@@ -72,18 +71,6 @@ class SupplierMission
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getMission(): ?Mission
-    {
-        return $this->mission;
-    }
-
-    public function setMission(?Mission $mission): static
-    {
-        $this->mission = $mission;
 
         return $this;
     }
@@ -162,6 +149,18 @@ class SupplierMission
                 $invoiceSupplier->setSupplierMission(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMission(): ?Mission
+    {
+        return $this->mission;
+    }
+
+    public function setMission(?Mission $mission): static
+    {
+        $this->mission = $mission;
 
         return $this;
     }
