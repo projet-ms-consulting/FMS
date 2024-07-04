@@ -37,13 +37,8 @@ class CompanyType extends AbstractType
                 'choice_label' => 'label',
                 'placeholder' => 'Chosissez un role',
             ])
-            ->add('address', EntityType::class, [
-                'class' => Address::class,
-                'label' => 'Adresse',
-                'choice_label' => function (Address $address) {
-                    return $address->getFullAddress();
-                },
-                'placeholder' => 'Chosissez une adresse',
+            ->add('address', AddressAutocompleteField::class, [
+                'data' => $options['data']->getAddress(),
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     $currentAddress = $options['data']->getAddress();
 
