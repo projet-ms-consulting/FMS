@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<section class="Dashboard_address_index">
+<section>
 	{% include 'dashboard/components/navbar_component.html.twig' with {
 	'title': 'Adresse',
 	'text': 'Cette page vous offre la possibilité de gérer les adresses. Vous pouvez consulter, ajouter, modifier ou
@@ -10,11 +10,11 @@
 	'button_text': 'Ajouter une adresse',
 	'button_url': path('dashboard_address_new')
 	} %}
-	<div class="mt-6 flex md:flex-col">
-		<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-			<div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+	<div class="mt-6 flex xl:flex-col">
+		<div class="inline-block min-w-full py-2 align-middle xl:px-8">
+			<div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 xl:rounded-lg">
 				<table class="min-w-full divide-y divide-gray-300">
-					<thead class="bg-gray-50">
+					<thead class="bg-gray-50 overflow-y-hidden">
 						<tr>
 							{% set columns = {
 							'Id': 'a.id',
@@ -29,7 +29,7 @@
 								{{ knp_pagination_sortable(address, displayedName, realName) }}
 							</th>
 							{% endfor %}
-							<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 text-sm md:text-base">
+							<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
 								Actions
 							</th>
 						</tr>

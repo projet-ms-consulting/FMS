@@ -19,11 +19,11 @@
         </div>
     </div>
 
-    <div class="mt-6 hidden md:flex md:flex-col">
-        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+    <div class="mt-6 flex xl:flex-col">
+        <div class="inline-block min-w-full py-2 align-middle xl:px-8">
+            <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 xl:rounded-lg">
                 <table class="min-w-full divide-y divide-gray-300">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-gray-50 overflow-y-hidden">
                     <tr>
                         {% set columns = {
                             'Id': 's.id',
@@ -36,11 +36,11 @@
                             'Créer le': 's.createdAt'
                         } %}
                         {% for displayedName, realName in columns %}
-                            <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
+                            <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
                                 {{ knp_pagination_sortable(invoices, displayedName, realName) }}
                             </th>
                         {% endfor %}
-                        <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900">
+                        <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
                             Actions
                         </th>
                     </tr>
@@ -48,7 +48,7 @@
 
                     <tbody class="divide-y divide-gray-200 bg-white">
                     {% for invoice in invoices %}
-                        <tr>
+                        <tr class="text-sm md:text-base">
                             <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
                                 {{ invoice.id }}
                             </td>
