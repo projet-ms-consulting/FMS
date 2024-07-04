@@ -28,6 +28,7 @@ class PersonType extends AbstractType
                 'class' => Company::class,
                 'label' => 'Entreprise',
                 'choice_label' => 'name',
+                'group_by' => 'type.label',
                 'required' => false,
                 'placeholder' => 'Chosissez une company',
             ])
