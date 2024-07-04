@@ -24,7 +24,7 @@
 
   <div class="flex-col w-full h-screen">
     {% include 'components/sidebar.html.twig' %}
-    <div id="content" class="ml-12 md:p-4">
+    <div id="content" class="ml-12 xl:p-4">
       {% block content %}{% endblock %}
     </div>
   </div>
@@ -36,10 +36,14 @@
     const maxToolbar = document.querySelector(".max-toolbar")
     const logo = document.querySelector('.logo')
     const content = document.querySelector('.content')
+    const arrow = document.querySelector('.arrow')
 
     function openNav() {
       if(sidebar.classList.contains('-translate-x-48')){
         // max sidebar
+        arrow.classList.add("rotate-180")
+        arrow.classList.remove("hover:rotate-180")
+        arrow.classList.add("hover:-rotate-0")
         sidebar.classList.remove("-translate-x-48")
         sidebar.classList.add("translate-x-none")
         maxSidebar.classList.remove("hidden")
@@ -53,6 +57,9 @@
         content.classList.add("ml-12","md:ml-60")
       }else{
         // mini sidebar
+        arrow.classList.remove("rotate-180")
+        arrow.classList.add("hover:rotate-180")
+        arrow.classList.remove("hover:-rotate-0")
         sidebar.classList.add("-translate-x-48")
         sidebar.classList.remove("translate-x-none")
         maxSidebar.classList.add("hidden")
