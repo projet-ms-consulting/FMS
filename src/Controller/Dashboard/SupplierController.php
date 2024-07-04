@@ -165,11 +165,27 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/{id}/invoice/{invoiceId}/{name}', name: 'invoice_show_invoice', methods: ['GET'])]
-    public function invoiceShowFile(SupplierMission $mission, $invoiceId, InvoiceSupplierRepository $invoiceRepository): Response
+    public function invoiceShowFile(SupplierMission $supplierMission, $invoiceId, InvoiceSupplierRepository $invoiceRepository): Response
     {
         $invoice = $invoiceRepository->find($invoiceId);
-        $file = $this->getParameter('kernel.project_dir') . '/invoice/' . $mission->getId() . '/supplier/' . $invoice->getFile();
+        $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $supplierMission->getMission()->getId() . '/supplier/' . $invoice->getFile();
         return $this->file($file, $invoice->getFile(), ResponseHeaderBag::DISPOSITION_INLINE);
+    }
+
+    #[Route('/{id}/invoice/{invoiceId}/delete', name: 'invoice_delete', methods: ['POST'])]
+    public function invoiceDelete(InvoiceSupplierRepository $invoiceRepository, $invoiceId, SupplierMission $supplierMission, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $supplierMission->getId(), $request->request->get('_token'))) {
+            $invoiceSupplier = $invoiceRepository->find($invoiceId);
+            // suppression de la facture
+            $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $supplierMission->getMission()->getId() . '/supplier/' . $invoiceSupplier->getFile();
+            if (file_exists($file)) {
+                unlink($file);
+            }
+            $entityManager->remove($invoiceSupplier);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $invoiceSupplier->getSupplierMission()->getId()]);
     }
 
 }

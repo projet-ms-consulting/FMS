@@ -200,11 +200,9 @@ class MissionController extends AbstractController
     }
 
     #[Route('/{id}/invoice/{invoiceId}/delete', name: 'invoice_delete', methods: ['POST'])]
-    public function invoiceDelete(Request $request, Mission $mission, $invoiceId, InvoiceRepository $invoiceRepository, EntityManagerInterface $entityManager): Response
+    public function invoiceDelete(Request $request, Mission $mission, InvoiceMission $invoice, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $mission->getId(), $request->request->get('_token'))) {
-            $invoice = $invoiceRepository->find($invoiceId);
-
             // suppression de toutes les factures liees
             $this->deleteInvoiceSuppliers($invoice, $mission, $entityManager);
             $entityManager->flush();

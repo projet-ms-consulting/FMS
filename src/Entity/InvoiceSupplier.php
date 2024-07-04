@@ -44,6 +44,9 @@ class InvoiceSupplier
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $paymentDate = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -165,6 +168,18 @@ class InvoiceSupplier
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getPaymentDate(): ?\DateTimeInterface
+    {
+        return $this->paymentDate;
+    }
+
+    public function setPaymentDate(?\DateTimeInterface $paymentDate): static
+    {
+        $this->paymentDate = $paymentDate;
 
         return $this;
     }

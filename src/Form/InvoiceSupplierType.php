@@ -69,11 +69,7 @@ class InvoiceSupplierType extends AbstractType
                 'format' => 'yyyy-MM-dd',
                 'required' => false,
                 'constraints' => $constraints,
-                'data' => new \DateTime("now + 1 week"),
-            ])
-            ->add('paid', CheckboxType::class, [
-                'label' => 'Payé ?',
-                'required' => false,
+                'data' => $options['data']->getDeadline() ?? new \DateTime("now + 1 week"),
             ])
             ->add('invoiceMission', EntityType::class, [
                 'label' => 'Facture liée',
@@ -81,6 +77,25 @@ class InvoiceSupplierType extends AbstractType
                 'choice_label' => 'billNum',
                 'required' => false,
                 'placeholder' => 'Choisissez une facture à liée',
+            ])
+            ->add('paid', CheckboxType::class, [
+                'label' => 'Payé ?',
+                'required' => false,
+                'attr' => [
+                    'class' => 'paid mr-2',
+                    'onclick' => 'checkPaid();',
+                ],
+            ])
+            ->add('paymentDate', DateType::class, [
+                'label' => 'Date de payement de la facture',
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'required' => false,
+                'data' => $options['data']->getPaymentDate() ?? new \DateTime("now"),
+                'row_attr' => [
+                    'class' => 'paymentDate mb-6',
+                    'hidden' => true,
+                ],
             ])
         ;
     }
