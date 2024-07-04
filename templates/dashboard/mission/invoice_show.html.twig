@@ -18,6 +18,11 @@
                 <span style="color: red">Non</span>
             {% endif %}
         </p>
+        {% if invoice.paid == true %}
+            <p>
+                Date de payement : {{ invoice.paymentDate|date('d/m/Y') }}
+            </p>
+        {% endif %}
         <p>Crée le : {{ invoice.createdAt|date('d/m/Y H:i:s') }}</p>
         {% if invoice.updatedAt != null %}
             <p>Dernière modification : {{ invoice.updatedAt|date('d/m/Y H:i:s') }}</p>

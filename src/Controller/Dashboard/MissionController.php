@@ -114,6 +114,9 @@ class MissionController extends AbstractController
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
             $file->move($this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId(), $fileName);
             $invoice->setRealFilename($file->getClientOriginalName());
+            if (!$invoice->isPaid()) {
+                $invoice->setPaymentDate(null);
+            }
             $invoice->setFile($fileName);
             $invoice->setMission($mission);
             $invoice->setCreatedAt(new \DateTimeImmutable());

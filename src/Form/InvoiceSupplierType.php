@@ -70,6 +70,7 @@ class InvoiceSupplierType extends AbstractType
                 'format' => 'yyyy-MM-dd',
                 'required' => false,
                 'constraints' => $constraints,
+                'data' => new \DateTime("now + 1 week"),
             ])
             ->add('paid', CheckboxType::class, [
                 'label' => 'Payé ?',
