@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/dashboard/user', name: 'dashboard_user_')]
 class UserController extends AbstractController
 {
-
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(UserRepository $userRepository, Request $request): Response
     {

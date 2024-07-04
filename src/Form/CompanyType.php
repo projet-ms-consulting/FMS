@@ -40,7 +40,7 @@ class CompanyType extends AbstractType
             ->add('address', EntityType::class, [
                 'class' => Address::class,
                 'label' => 'Adresse',
-                'choice_label' => function(Address $address) {
+                'choice_label' => function (Address $address) {
                     return $address->getFullAddress();
                 },
                 'placeholder' => 'Chosissez une adresse',

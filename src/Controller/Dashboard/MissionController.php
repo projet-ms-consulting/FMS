@@ -18,7 +18,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/dashboard/mission', name: 'dashboard_mission_')]
 class MissionController extends AbstractController
 {
-
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(MissionRepository $missionRepository, Request $request): Response
     {
@@ -187,6 +186,33 @@ class MissionController extends AbstractController
         $invoice = $invoiceRepository->find($invoiceId);
         $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/' . $invoice->getFile();
         return $this->file($file, $invoice->getFile(), ResponseHeaderBag::DISPOSITION_INLINE);
+    }
+
+    #[Route('/{id}/invoice/{invoiceId}/delete', name: 'invoice_delete', methods: ['POST'])]
+    public function invoiceDelete(Request $request, Mission $mission, $invoiceId, InvoiceRepository $invoiceRepository, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $mission->getId(), $request->request->get('_token'))) {
+            $invoice = $invoiceRepository->find($invoiceId);
+
+            // suppression de toutes les factures liees
+            foreach ($invoice->getInvoiceSuppliers()->getValues() as $invoiceSupplier) {
+                $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/supplier/' . $invoiceSupplier->getFile();
+                if (file_exists($file)) {
+                    unlink($file);
+                }
+                $entityManager->remove($invoiceSupplier);
+            }
+
+            // suppression de la facture mission
+            $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/' . $invoice->getFile();
+            if (file_exists($file)) {
+                unlink($file);
+            }
+
+            $entityManager->remove($invoice);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('dashboard_mission_invoice', ['id' => $mission->getId()]);
     }
 
 }

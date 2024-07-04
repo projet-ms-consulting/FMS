@@ -19,7 +19,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/dashboard/supplier', name: 'dashboard_supplier_')]
 class SupplierController extends AbstractController
 {
-
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(SupplierMissionRepository $supplierMissionRepository, Request $request): Response
     {

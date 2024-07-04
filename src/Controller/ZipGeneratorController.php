@@ -25,7 +25,7 @@ class ZipGeneratorController extends AbstractController
         $outputFilename = 'factures.zip';
         // create new archive
         $zipFile = new ZipFile();
-        try{
+        try {
             // Dossier mission
             $invoiceDirMission = $this->getParameter('kernel.project_dir') . '/invoice/' . $id . '/mission/';
             $filesMission = array_diff(scandir($invoiceDirMission), array('.', '..'));
@@ -95,12 +95,10 @@ class ZipGeneratorController extends AbstractController
 
             $zipFile->saveAsFile($outputFilename)->close();
 
-        }
-        catch(\PhpZip\Exception\ZipException $e){
+        } catch(\PhpZip\Exception\ZipException $e) {
             // handle exception
             error_log($e->getMessage());
-        }
-        finally{
+        } finally {
             $zipFile->close();
         }
         // Check if the file exists and is readable

@@ -19,11 +19,10 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class InvoiceSupplierType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         // Définition de la fonction de validation
-        $validator = function($date, ExecutionContextInterface $context) {
+        $validator = function ($date, ExecutionContextInterface $context) {
             $oneMonthAgo = new \DateTime('-1 month');
             if ($date < $oneMonthAgo) {
                 $context->buildViolation('La date ne peut pas être antérieure à un mois avant aujourd\'hui. (minimum : ' . $oneMonthAgo->format('d-m-Y') . ')')
