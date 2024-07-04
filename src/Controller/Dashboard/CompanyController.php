@@ -14,7 +14,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/dashboard/company', name: 'dashboard_company_')]
 class CompanyController extends AbstractController
 {
-
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(Request $request, CompanyRepository $companyRepository): Response
     {

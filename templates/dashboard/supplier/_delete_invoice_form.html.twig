@@ -1,0 +1,11 @@
+<form method="post" action="{{ path('dashboard_supplier_invoice_delete', {'id': mission.id, 'invoiceId': invoice.id}) }}"
+      onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce document et tout les documents liée a celui ci ? Cette action est irréversible.');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ mission.id) }}">
+    <button class="relative rounded px-5 py-2.5 overflow-hidden group bg-red-500 relative hover:bg-gradient-to-r
+    hover:from-red-500 hover:to-red-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-red-400
+    transition-all ease-out duration-300">
+        <span
+                class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+        <span class="relative">Supprimer</span>
+    </button>
+</form>

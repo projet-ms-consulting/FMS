@@ -19,7 +19,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/dashboard/supplier', name: 'dashboard_supplier_')]
 class SupplierController extends AbstractController
 {
-
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(SupplierMissionRepository $supplierMissionRepository, Request $request): Response
     {
@@ -104,7 +103,7 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/{id}/invoice/new', name: 'invoice_new', methods: ['GET', 'POST'])]
-    public function invoiceNew(Request $request, SupplierMission $mission, EntityManagerInterface $entityManager): Response
+    public function invoiceNew(Request $request, SupplierMission $supplierMission, EntityManagerInterface $entityManager): Response
     {
         $invoice = new InvoiceSupplier();
         $invoiceForm = $this->createForm(InvoiceSupplierType::class, $invoice);
@@ -113,19 +112,19 @@ class SupplierController extends AbstractController
         if ($invoiceForm->isSubmitted() && $invoiceForm->isValid()) {
             $file = $request->files->get('invoice_supplier')['file'];
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-            $file->move($this->getParameter('kernel.project_dir') . '/invoice/' . $mission->getId() . '/supplier', $fileName);
+            $file->move($this->getParameter('kernel.project_dir') . '/facture/mission/' . $supplierMission->getMission()->getId() . '/supplier', $fileName);
             $invoice->setRealFilename($file->getClientOriginalName());
             $invoice->setFile($fileName);
-            $invoice->setSupplierMission($mission);
+            $invoice->setSupplierMission($supplierMission);
             $invoice->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($invoice);
             $entityManager->flush();
 
-            return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $mission->getId()]);
+            return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $supplierMission->getId()]);
         }
 
         return $this->render('dashboard/supplier/invoice_new.html.twig', [
-            'mission' => $mission,
+            'mission' => $supplierMission,
             'invoice' => $invoice,
             'invoiceForm' => $invoiceForm->createView(),
         ]);
@@ -166,11 +165,27 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/{id}/invoice/{invoiceId}/{name}', name: 'invoice_show_invoice', methods: ['GET'])]
-    public function invoiceShowFile(SupplierMission $mission, $invoiceId, InvoiceSupplierRepository $invoiceRepository): Response
+    public function invoiceShowFile(SupplierMission $supplierMission, $invoiceId, InvoiceSupplierRepository $invoiceRepository): Response
     {
         $invoice = $invoiceRepository->find($invoiceId);
-        $file = $this->getParameter('kernel.project_dir') . '/invoice/' . $mission->getId() . '/supplier/' . $invoice->getFile();
+        $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $supplierMission->getMission()->getId() . '/supplier/' . $invoice->getFile();
         return $this->file($file, $invoice->getFile(), ResponseHeaderBag::DISPOSITION_INLINE);
+    }
+
+    #[Route('/{id}/invoice/{invoiceId}/delete', name: 'invoice_delete', methods: ['POST'])]
+    public function invoiceDelete(InvoiceSupplierRepository $invoiceRepository, $invoiceId, SupplierMission $supplierMission, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $supplierMission->getId(), $request->request->get('_token'))) {
+            $invoiceSupplier = $invoiceRepository->find($invoiceId);
+            // suppression de la facture
+            $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $supplierMission->getMission()->getId() . '/supplier/' . $invoiceSupplier->getFile();
+            if (file_exists($file)) {
+                unlink($file);
+            }
+            $entityManager->remove($invoiceSupplier);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $invoiceSupplier->getSupplierMission()->getId()]);
     }
 
 }

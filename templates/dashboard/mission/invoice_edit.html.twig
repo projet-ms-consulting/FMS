@@ -30,3 +30,23 @@
     <embed src="{{ path('dashboard_mission_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename})}}" width="300" height="300" type='application/pdf'>
     {{ form_end(invoiceForm) }}
 {% endblock %}
+
+{% block javascript %}
+const paymentDate = document.querySelector('.paymentDate')
+const paid = document.querySelector('.paid')
+const inputDate = paymentDate.querySelector('input')
+const labelDate = paymentDate.querySelector('label')
+checkPaid()
+function checkPaid() {
+    if (!paid.checked) {
+        labelDate.className = 'block text-gray-800';
+        inputDate.required = false;
+        paymentDate.hidden = true;
+    }
+    else {
+        labelDate.className = 'block text-gray-800 required';
+        inputDate.required = true;
+        paymentDate.hidden = false;
+    }
+}
+{% endblock %}

@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/dashboard/user', name: 'dashboard_user_')]
 class UserController extends AbstractController
 {
-
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(UserRepository $userRepository, Request $request): Response
     {
@@ -41,7 +40,6 @@ class UserController extends AbstractController
         if ($userForm->isSubmitted() && $userForm->isValid()) {
             $hash = $hasher->hashPassword($user, $userForm->get('plainPassword')->getData());
             $user->setPassword($hash);
-            $user->setRoles(['ROLE_USER']);
             $user->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($user);
             $entityManager->flush();
@@ -68,9 +66,7 @@ class UserController extends AbstractController
     {
         $oldEmail = $user->getEmail();
         $oldPassword = $user->getPassword();
-        $userForm = $this->createForm(UserType::class, $user, [
-            'page' => 'edit',
-        ]);
+        $userForm = $this->createForm(UserType::class, $user);
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {

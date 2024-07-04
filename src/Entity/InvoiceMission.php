@@ -38,7 +38,10 @@ class InvoiceMission
     #[ORM\Column]
     private ?bool $paid = null;
 
-    #[ORM\OneToMany(targetEntity: InvoiceSupplier::class, mappedBy: 'invoiceMission')]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $paymentDate = null;
+
+    #[ORM\OneToMany(targetEntity: InvoiceSupplier::class, mappedBy: 'invoiceMission', orphanRemoval: true)]
     private Collection $invoiceSuppliers;
 
     #[ORM\Column]
@@ -149,6 +152,18 @@ class InvoiceMission
     public function setPaid(bool $paid): static
     {
         $this->paid = $paid;
+
+        return $this;
+    }
+
+    public function getPaymentDate(): ?\DateTimeInterface
+    {
+        return $this->paymentDate;
+    }
+
+    public function setPaymentDate(?\DateTimeInterface $paymentDate): static
+    {
+        $this->paymentDate = $paymentDate;
 
         return $this;
     }

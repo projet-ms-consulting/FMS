@@ -61,8 +61,6 @@
                             <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
                                 {% if invoice.invoiceMission.billNum ?? '' != null %}
                                     <a href="{{ path('dashboard_mission_invoice_show', {'id': invoice.invoiceMission.mission.id, 'invoiceId': invoice.invoiceMission.id}) }}" class="underline">{{ invoice.invoiceMission.billNum }}</a>
-                                    {% else %}
-
                                 {% endif %}
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 text-gray-500 underline">

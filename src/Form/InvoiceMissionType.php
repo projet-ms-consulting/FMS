@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class InvoiceMissionType extends AbstractType
@@ -19,7 +20,7 @@ class InvoiceMissionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         // Définition de la fonction de validation
-        $validator = function($date, ExecutionContextInterface $context) {
+        $validator = function ($date, ExecutionContextInterface $context) {
             $oneMonthAgo = new \DateTime('-1 month');
             if ($date < $oneMonthAgo) {
                 $context->buildViolation('La date ne peut pas être antérieure à un mois avant aujourd\'hui. (minimum : ' . $oneMonthAgo->format('d-m-Y') . ')')
@@ -67,11 +68,28 @@ class InvoiceMissionType extends AbstractType
                 'format' => 'yyyy-MM-dd',
                 'required' => false,
                 'constraints' => $constraints,
+                'data' => $options['data']->getDeadline() ?? new \DateTime("now + 1 week"),
             ])
             ->add('paid', CheckboxType::class, [
                 'label' => 'Payé ?',
                 'required' => false,
-            ]);
+                'attr' => [
+                    'class' => 'paid mr-2',
+                    'onclick' => 'checkPaid();',
+                ],
+            ])
+            ->add('paymentDate', DateType::class, [
+                'label' => 'Date de payement de la facture',
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+                'required' => false,
+                'data' => $options['data']->getPaymentDate() ?? new \DateTime("now"),
+                'row_attr' => [
+                    'class' => 'paymentDate mb-6',
+                    'hidden' => true,
+                ],
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

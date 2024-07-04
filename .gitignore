@@ -1,4 +1,5 @@
-/invoice
+.php-cs-fixer.cache
+/facture
 /.idea
 ###> symfony/framework-bundle ###
 /.env.local

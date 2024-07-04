@@ -18,6 +18,11 @@
                 <span style="color: red">Non</span>
             {% endif %}
         </p>
+        {% if invoice.paid == true %}
+            <p>
+                Date de payement : {{ invoice.paymentDate|date('d/m/Y') }}
+            </p>
+        {% endif %}
         <p>Crée le : {{ invoice.createdAt|date('d/m/Y H:i:s') }}</p>
         {% if invoice.updatedAt != null %}
             <p>Dernière modification : {{ invoice.updatedAt|date('d/m/Y H:i:s') }}</p>
@@ -34,7 +39,8 @@
                     <span class="relative">Retour</span>
                 </div>
             </a>
-            <a href="{{ path('dashboard_mission_invoice_edit', {id: mission.id}) }}">
+            {{ include('dashboard/mission/_delete_invoice_form.html.twig') }}
+            <a href="{{ path('dashboard_mission_invoice_edit', {id: invoice.id}) }}">
                 <div
                         class="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
                 <span
