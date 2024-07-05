@@ -47,7 +47,7 @@
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                     <a href="{{ path('dashboard_address_show', { id: company.getAddress().getId() }) }}" class="underline opacity-75 hover:bg-gray-100">
-                                        {{ company.getAddress().getNbStreet() ~ ' ' ~ company.getAddress().getStreet() ~ ', ' ~ company.getAddress().getZipCode() ~ ' ' ~ company.getAddress().getCity()}}
+                                        {{ company.getAddress.getFullAddress }}
                                     </a>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">

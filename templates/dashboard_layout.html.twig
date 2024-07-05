@@ -17,7 +17,10 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <link href="{{ asset('./styles/css/dashboard_layout.css')}}" rel="stylesheet" />
+    <link href="{{ asset('./styles/css/dashboard_layout.css')}}" rel="stylesheet" />
+    {% block javascripts %}
+      {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
 </head>
 
 <body>
@@ -73,11 +76,6 @@
         content.classList.add("ml-12")
       }
     }
-  </script>
-
-  <script>
-    {% block javascript %}
-    {% endblock %}
   </script>
 </body>
 </html>
