@@ -26,13 +26,30 @@ class UserType extends AbstractType
             ->add('email', null, [
                 'label' => 'Email',
             ])
-            ->add('person', EntityType::class, [
-                'class' => Person::class,
-                'label' => 'Personne',
-                'choice_label' => function (Person $person) {
-                    return $person->getLastName() . ' ' . $person->getFirstName();
-                },
-                'placeholder' => 'Choisissez une personne',
+//            ->add('person', EntityType::class, [
+//                'class' => Person::class,
+//                'label' => 'Personne',
+//                'choice_label' => function (Person $person) {
+//                    return $person->getLastName() . ' ' . $person->getFirstName();
+//                },
+//                'placeholder' => 'Choisissez une personne',
+//                'query_builder' => function (EntityRepository $er) use ($options) {
+//                    $currentPerson = $options['data']->getPerson();
+//
+//                    $qb = $er->createQueryBuilder('p');
+//                    $qb->leftJoin('p.user', 'u')
+//                        ->where('u.person IS NULL');
+//
+//                    if ($currentPerson) {
+//                        $qb->orWhere('p.id = :currentPersonId')
+//                            ->setParameter('currentPersonId', $currentPerson->getId());
+//                    }
+//
+//                    return $qb;
+//                },
+//            ])
+            ->add('person', PersonAutocompleteField::class, [
+                'data' => $options['data']->getPerson(),
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     $currentPerson = $options['data']->getPerson();
 
