@@ -57,9 +57,9 @@ class CompanyType extends AbstractType
                     'placeholder_attr' => ['hidden' => true],
                     'mapped' => false,
                     'choices' => [
+                        'Je ne veux pas d\'adresse' => null,
                         'Oui' => true,
                         'Non' => false,
-                        'Je ne veux pas d\'adresse' => 'Pas d\'adresse'
                     ],
                 ])
             ->addDependent('address', 'checkAddress', function (DependentField $field, ?bool $checkAddress) {
