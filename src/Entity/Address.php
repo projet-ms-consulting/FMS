@@ -135,6 +135,6 @@ class Address
 
     public function getFullAddress(): string
     {
-        return $this->nbStreet . ' ' . $this->street . ', ' . $this->zipCode . ' ' . $this->city;
+        return $this->nbStreet . ' ' . $this->street . ', ' . $this->city . ' ' . $this->zipCode;
     }
 }
