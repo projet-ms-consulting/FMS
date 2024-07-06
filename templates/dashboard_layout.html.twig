@@ -5,7 +5,6 @@
     <link rel="icon" href="https://msconsulting-europe.com/wp-content/uploads/2024/05/cropped-logo-square.jpg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="{{ asset('./styles/css/home.css')}}" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/unpoly@3.7.3/unpoly.min.js"></script>
     <link
@@ -17,8 +16,10 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
     <link href="{{ asset('./styles/css/dashboard_layout.css')}}" rel="stylesheet" />
     {% block javascripts %}
+      <script src="https://cdn.tailwindcss.com"></script>
       {% block importmap %}{{ importmap('app') }}{% endblock %}
     {% endblock %}
 </head>

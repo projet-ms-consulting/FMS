@@ -51,6 +51,23 @@ class CompanyType extends AbstractType
                 'choice_label' => 'label',
                 'placeholder' => 'Choisissez un role',
             ])
+            ->add('address', AddressAutocompleteField::class, [
+                'data' => $options['data']->getAddress(),
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    $currentAddress = $options['data']->getAddress();
+
+                    $qb = $er->createQueryBuilder('a');
+                    $qb->leftJoin('a.company', 'c')
+                        ->where('c.address IS NULL');
+
+                    if ($currentAddress) {
+                        $qb->orWhere('a.id = :currentAddressId')
+                            ->setParameter('currentAddressId', $currentAddress->getId());
+                    }
+
+                    return $qb;
+                },
+            ])
             ->add('checkAddress', ChoiceType::class, [
                     'label' => 'Avez vous déja créer une adresse ?',
                     'placeholder' => 'Choisissez une option',
