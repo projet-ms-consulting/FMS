@@ -50,6 +50,24 @@ class InvoiceMission
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column]
+    private ?float $price = null;
+
+    #[ORM\Column]
+    private ?float $quantity = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $unit = null;
+
+    #[ORM\Column]
+    private ?float $tva = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $issueDate = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $paymentTypology = null;
+
     public function __construct()
     {
         $this->invoiceSuppliers = new ArrayCollection();
@@ -218,6 +236,78 @@ class InvoiceMission
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): static
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?float
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(float $quantity): static
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getUnit(): ?string
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(string $unit): static
+    {
+        $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getTva(): ?float
+    {
+        return $this->tva;
+    }
+
+    public function setTva(float $tva): static
+    {
+        $this->tva = $tva;
+
+        return $this;
+    }
+
+    public function getIssueDate(): ?\DateTimeImmutable
+    {
+        return $this->issueDate;
+    }
+
+    public function setIssueDate(?\DateTimeImmutable $issueDate): static
+    {
+        $this->issueDate = $issueDate;
+
+        return $this;
+    }
+
+    public function getPaymentTypology(): ?string
+    {
+        return $this->paymentTypology;
+    }
+
+    public function setPaymentTypology(string $paymentTypology): static
+    {
+        $this->paymentTypology = $paymentTypology;
 
         return $this;
     }

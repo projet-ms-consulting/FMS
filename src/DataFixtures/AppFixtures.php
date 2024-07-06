@@ -147,10 +147,14 @@ class AppFixtures extends Fixture
             $listMission[] = $mission;
 
             // création de factures pour mission
+            $tva = [0, 2.1, 5.5, 10, 20];
+            $paymentTypology = ['comptant', 'fin de mois', '45 jours fin de mois', '60 jours', '90 jours'];
+            $unite = ['forfait', 'heure', 'jour'];
             for ($j = 0; $j < 10; $j++) {
                 $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
                 $deadline = new DateTimeImmutable($this->faker->dateTimeBetween('now', '+2 week')->format('Y-m-d H:i:s'));
                 $paymentDate = new DateTimeImmutable($this->faker->dateTimeBetween('now', '+2 week')->format('Y-m-d H:i:s'));
+                $issueDate = new DateTimeImmutable($this->faker->dateTimeBetween('now', '+2 week')->format('Y-m-d H:i:s'));
                 $type = ['Facture', 'Devis', 'Bon de commande'];
                 $invoice = new InvoiceMission();
                 $invoice->setMission($mission);
@@ -163,6 +167,12 @@ class AppFixtures extends Fixture
                 if ($invoice->isPaid()) {
                     $invoice->setPaymentDate($paymentDate);
                 }
+                $invoice->setTva($tva[array_rand($tva)]);
+                $invoice->setPrice($this->faker->randomFloat(2, 50, 500));
+                $invoice->setQuantity($this->faker->randomNumber(2));
+                $invoice->setUnit($unite[array_rand($unite)]);
+                $invoice->setPaymentTypology($paymentTypology[array_rand($paymentTypology)]);
+                $invoice->setIssueDate($issueDate);
                 $invoice->setCreatedAt($date);
                 $manager->persist($invoice);
             }
@@ -188,6 +198,7 @@ class AppFixtures extends Fixture
                 $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
                 $deadline = new DateTimeImmutable($this->faker->dateTimeBetween('now', '+2 week')->format('Y-m-d H:i:s'));
                 $paymentDate = new DateTimeImmutable($this->faker->dateTimeBetween('now', '+2 week')->format('Y-m-d H:i:s'));
+                $issueDate = new DateTimeImmutable($this->faker->dateTimeBetween('now', '+2 week')->format('Y-m-d H:i:s'));
                 $type = ['Facture', 'Devis', 'Bon de commande'];
                 $invoice = new InvoiceSupplier();
                 $invoice->setBillNum($this->faker->ean8());
@@ -199,6 +210,12 @@ class AppFixtures extends Fixture
                 if ($invoice->isPaid()) {
                     $invoice->setPaymentDate($paymentDate);
                 }
+                $invoice->setTva($tva[array_rand($tva)]);
+                $invoice->setPrice($this->faker->randomFloat(2, 50, 500));
+                $invoice->setQuantity($this->faker->randomNumber(2));
+                $invoice->setUnit($unite[array_rand($unite)]);
+                $invoice->setPaymentTypology($paymentTypology[array_rand($paymentTypology)]);
+                $invoice->setIssueDate($issueDate);
                 $invoice->setSupplierMission($supplierMission);
                 $invoice->setCreatedAt($date);
                 $manager->persist($invoice);
