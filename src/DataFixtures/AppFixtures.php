@@ -4,6 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Address;
 use App\Entity\Company;
+use App\Entity\InvoiceMission;
+use App\Entity\InvoiceSupplier;
+use App\Entity\Mission;
+use App\Entity\SupplierMission;
 use App\Entity\TypeCompany;
 use App\Entity\Person;
 use App\Entity\User;
@@ -28,7 +32,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         //address
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             $address = new Address();
             $address->setNbStreet($this->faker->buildingNumber());
             $address->setStreet($this->faker->streetName());
@@ -53,7 +57,7 @@ class AppFixtures extends Fixture
 
         //company
         $randomTva = 'FR' . rand(100000000, 999999999);
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
             $company = new Company();
             $company->setAddress($listAddress[$i]);
@@ -111,6 +115,94 @@ class AppFixtures extends Fixture
             $user->setCreatedAt($date);
             $manager->persist($user);
             $listUser[] = $user;
+        }
+
+        // Filter companies with the type 'Client'
+        $clientCompanies = array_filter($listCompany, function ($company) {
+            return $company->getType()->getLabel() === 'Client';
+        });
+
+        // Filter companies with the type 'Fournisseur'
+        $fournisseurCompanies = array_filter($listCompany, function ($company) {
+            return $company->getType()->getLabel() === 'Fournisseur';
+        });
+
+        // Filter companies with the type 'Admin'
+        $adminCompanies = array_filter($listCompany, function ($company) {
+            return $company->getType()->getLabel() === 'Admin';
+        });
+
+        // Mission
+        for ($i = 0; $i < 10; $i++) {
+            $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
+            $mission = new Mission();
+            $mission->setName($this->faker->word());
+            $mission->setDescription($this->faker->sentence(30));
+            $mission->setPrice($this->faker->randomFloat(2, 200, 5000));
+            $mission->setClient($clientCompanies[array_rand($clientCompanies)]);
+            $mission->setManager($adminCompanies[array_rand($adminCompanies)]);
+            $mission->setFinished($this->faker->boolean());
+            $mission->setCreatedAt($date);
+            $manager->persist($mission);
+            $listMission[] = $mission;
+
+            // création de factures pour mission
+            for ($j = 0; $j < 10; $j++) {
+                $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
+                $deadline = new DateTimeImmutable($this->faker->dateTimeBetween('now', '+2 week')->format('Y-m-d H:i:s'));
+                $paymentDate = new DateTimeImmutable($this->faker->dateTimeBetween('now', '+2 week')->format('Y-m-d H:i:s'));
+                $type = ['Facture', 'Devis', 'Bon de commande'];
+                $invoice = new InvoiceMission();
+                $invoice->setMission($mission);
+                $invoice->setBillNum($this->faker->ean8());
+                $invoice->setFile($this->faker->word()  . '.pdf');
+                $invoice->setRealFilename($this->faker->word());
+                $invoice->setDeadline($deadline);
+                $invoice->setPaid($this->faker->boolean());
+                $invoice->setType($type[array_rand($type)]);
+                if ($invoice->isPaid()) {
+                    $invoice->setPaymentDate($paymentDate);
+                }
+                $invoice->setCreatedAt($date);
+                $manager->persist($invoice);
+            }
+        }
+
+        $manager->flush();
+
+        // Mission Fournisseur
+        for ($i = 0; $i < 20; $i++) {
+            $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
+            $supplierMission = new SupplierMission();
+            $supplierMission->setSupplier($fournisseurCompanies[array_rand($fournisseurCompanies)]);
+            $supplierMission->setMission($listMission[array_rand($listMission)]);
+            $supplierMission->setFinished($this->faker->boolean());
+            $supplierMission->setName($this->faker->word());
+            $supplierMission->setDescription($this->faker->sentence(30));
+            $supplierMission->setCreatedAt($date);
+            $manager->persist($supplierMission);
+            $listSupplierMission[] = $supplierMission;
+
+            // Création de factures pour mission fournisseur
+            for ($j = 0; $j < 10; $j++) {
+                $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
+                $deadline = new DateTimeImmutable($this->faker->dateTimeBetween('now', '+2 week')->format('Y-m-d H:i:s'));
+                $paymentDate = new DateTimeImmutable($this->faker->dateTimeBetween('now', '+2 week')->format('Y-m-d H:i:s'));
+                $type = ['Facture', 'Devis', 'Bon de commande'];
+                $invoice = new InvoiceSupplier();
+                $invoice->setBillNum($this->faker->ean8());
+                $invoice->setFile($this->faker->word()  . '.pdf');
+                $invoice->setRealFilename($this->faker->word());
+                $invoice->setDeadline($deadline);
+                $invoice->setPaid($this->faker->boolean());
+                $invoice->setType($type[array_rand($type)]);
+                if ($invoice->isPaid()) {
+                    $invoice->setPaymentDate($paymentDate);
+                }
+                $invoice->setSupplierMission($supplierMission);
+                $invoice->setCreatedAt($date);
+                $manager->persist($invoice);
+            }
         }
 
         $manager->flush();
