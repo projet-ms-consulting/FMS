@@ -42,6 +42,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('person', PersonAutocompleteField::class)
             ->add('roles', ChoiceType::class, [
                 'label' => 'Roles',
                 'multiple' => true,
@@ -54,19 +55,6 @@ class RegistrationFormType extends AbstractType
                     'Administrateur' => 'ROLE_ADMIN',
                     'Super Administrateur' => 'ROLE_SUPER_ADMIN',
                 ]
-            ])
-            ->add('person', EntityType::class, [
-                'class' => Person::class,
-                'label' => 'Personne',
-                'choice_label' => function (Person $person) {
-                    return $person->getLastName() . ' ' . $person->getFirstName();
-                },
-                'placeholder' => 'Chosissez une personne',
-                'query_builder' => function (PersonRepository $pr) {
-                    return $pr->createQueryBuilder('p')
-                        ->leftJoin('p.user', 'u')
-                        ->where('u.person IS NULL');
-                },
             ])
         ;
     }

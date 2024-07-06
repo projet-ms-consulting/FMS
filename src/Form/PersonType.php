@@ -24,13 +24,7 @@ class PersonType extends AbstractType
             ->add('phone', null, [
                 'label' => 'Télephone'
             ])
-            ->add('company', EntityType::class, [
-                'class' => Company::class,
-                'label' => 'Entreprise',
-                'choice_label' => 'name',
-                'required' => false,
-                'placeholder' => 'Chosissez une company',
-            ])
+            ->add('company', CompanyAutocompleteField::class)
         ;
     }
 

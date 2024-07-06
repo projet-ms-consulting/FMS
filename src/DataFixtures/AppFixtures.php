@@ -28,18 +28,19 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         //address
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $address = new Address();
             $address->setNbStreet($this->faker->buildingNumber());
             $address->setStreet($this->faker->streetName());
             $address->setZipCode($this->faker->postcode());
             $address->setCity($this->faker->city());
+            $address->setCreatedAt(new DateTimeImmutable());
             $manager->persist($address);
             $listAddress[] = $address;
         }
 
         //TypeCompany
-        $types = ['Manager', 'Client', 'Supplier'];
+        $types = ['Admin', 'Client', 'Fournisseur'];
         $i = 1;
         foreach ($types as $type) {
             $companyType = new TypeCompany();
@@ -52,7 +53,7 @@ class AppFixtures extends Fixture
 
         //company
         $randomTva = 'FR' . rand(100000000, 999999999);
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
             $company = new Company();
             $company->setAddress($listAddress[$i]);
@@ -76,7 +77,7 @@ class AppFixtures extends Fixture
         $manager->persist($superAdmin);
 
         // Person
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
             $person = new Person();
             $person->setFirstName($this->faker->firstName());
@@ -99,7 +100,7 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         // User (User)
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $date = new DateTimeImmutable($this->faker->dateTimeBetween('-1 week', 'now')->format('Y-m-d H:i:s'));
             $user = new User();
             $user->setEmail('user' . $i + 1 . '@user.fr');

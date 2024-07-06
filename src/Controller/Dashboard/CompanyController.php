@@ -2,6 +2,7 @@
 
 namespace App\Controller\Dashboard;
 
+use App\Entity\Address;
 use App\Entity\Company;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
@@ -33,6 +34,19 @@ class CompanyController extends AbstractController
         $companyForm->handleRequest($request);
 
         if ($companyForm->isSubmitted() && $companyForm->isValid()) {
+
+            $data = $request->request->all()['company'];
+
+            if ($data['checkAddress'] == 2) {
+                $address = new Address();
+                $address->setNbStreet($data['nbStreetNewAddress']);
+                $address->setStreet($data['streetNewAddress']);
+                $address->setZipCode($data['zipCodeNewAddress']);
+                $address->setCity($data['cityNewAddress']);
+                $address->setCreatedAt(new \DateTimeImmutable());
+                $entityManager->persist($address);
+                $company->setAddress($address);
+            }
             $company->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($company);
             $entityManager->flush();
