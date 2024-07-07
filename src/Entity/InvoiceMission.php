@@ -311,4 +311,15 @@ class InvoiceMission
 
         return $this;
     }
+
+    public function getTotalHT(): float
+    {
+        return $this->price * $this->quantity;
+    }
+
+    public function getTotalTTC(): float
+    {
+        return $this->getTotalHT() * (1 + $this->tva / 100);
+    }
+
 }

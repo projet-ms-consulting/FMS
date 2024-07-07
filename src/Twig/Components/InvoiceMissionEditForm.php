@@ -13,7 +13,7 @@ use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
 #[AsLiveComponent]
-final class InvoiceMissionForm extends AbstractController
+final class InvoiceMissionEditForm extends AbstractController
 {
     use ComponentWithFormTrait;
     use DefaultActionTrait;
@@ -28,6 +28,8 @@ final class InvoiceMissionForm extends AbstractController
     {
         $invoiceMissionData = $this->invoice instanceof InvoiceMission ? $this->invoice : null;
 
-        return $this->createForm(InvoiceMissionType::class, $invoiceMissionData);
+        return $this->createForm(InvoiceMissionType::class, $invoiceMissionData, [
+            'page' => 'edit',
+        ]);
     }
 }

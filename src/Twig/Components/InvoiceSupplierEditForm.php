@@ -2,9 +2,9 @@
 
 namespace App\Twig\Components;
 
-use App\Entity\InvoiceMission;
-use App\Entity\Mission;
-use App\Form\InvoiceMissionType;
+use App\Entity\InvoiceSupplier;
+use App\Entity\SupplierMission;
+use App\Form\InvoiceSupplierType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -13,21 +13,23 @@ use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
 #[AsLiveComponent]
-final class InvoiceMissionForm extends AbstractController
+final class InvoiceSupplierEditForm extends AbstractController
 {
     use ComponentWithFormTrait;
     use DefaultActionTrait;
 
     #[LiveProp]
-    public ?Mission $mission = null;
+    public ?SupplierMission $supplierMission = null;
 
     #[LiveProp]
-    public ?InvoiceMission $invoice = null;
+    public ?InvoiceSupplier $invoice = null;
 
     protected function instantiateForm(): FormInterface
     {
-        $invoiceMissionData = $this->invoice instanceof InvoiceMission ? $this->invoice : null;
+        $invoiceSupplierData = $this->invoice instanceof InvoiceSupplier ? $this->invoice : null;
 
-        return $this->createForm(InvoiceMissionType::class, $invoiceMissionData);
+        return $this->createForm(InvoiceSupplierType::class, $invoiceSupplierData, [
+            'page' => 'edit',
+        ]);
     }
 }

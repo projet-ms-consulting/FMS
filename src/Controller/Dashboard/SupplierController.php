@@ -124,7 +124,7 @@ class SupplierController extends AbstractController
         }
 
         return $this->render('dashboard/supplier/invoice_new.html.twig', [
-            'mission' => $supplierMission,
+            'supplierMission' => $supplierMission,
             'invoice' => $invoice,
             'invoiceForm' => $invoiceForm->createView(),
         ]);

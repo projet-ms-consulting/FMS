@@ -32,7 +32,7 @@ class InvoiceMissionType extends AbstractType
 
         $builder
             ->add('billNum', TextType::class, [
-                'label' => 'Numéro de facture'
+                'label' => 'Numéro de facture',
             ])
             ->add('type', ChoiceType::class, [
                 'label' => 'Type',
@@ -43,7 +43,8 @@ class InvoiceMissionType extends AbstractType
                 ],
             ])
             ->add('file', FileType::class, [
-                'label' => 'Fichier',
+                'label' => 'Fichier (PDF)',
+                'help' => $options['page'] === 'edit' ? 'Laissez vide pour conserver le fichier actuel' : null,
                 'mapped' => false,
                 'required' => $options['page'] !== 'edit',
                 'constraints' => [
@@ -59,9 +60,8 @@ class InvoiceMissionType extends AbstractType
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Prix unitaire',
-                'currency' => 'EUR',
+                'currency' => null,
                 'invalid_message' => 'Veuillez entrer un montant valide',
-                'divisor' => 100,
                 'attr' => [
                     'placeholder' => '0.00',
                 ],
@@ -70,15 +70,6 @@ class InvoiceMissionType extends AbstractType
                         'min' => 0,
                         'minMessage' => 'Le prix ne peut pas être négatif',
                     ]),
-                ],
-            ])
-            ->add('unit', ChoiceType::class, [
-                'label' => 'Unité',
-                'empty_data' => 'Heure',
-                'choices'  => [
-                    'Heure(s)' => 'Heure',
-                    'Jour(s)' => 'Jour',
-                    'Forfait' => 'Forfait',
                 ],
             ])
             ->add('quantity', NumberType::class, [
@@ -93,6 +84,15 @@ class InvoiceMissionType extends AbstractType
                         'min' => 1,
                         'minMessage' => 'La quantité ne peut pas être inférieure à 1',
                     ]),
+                ],
+            ])
+            ->add('unit', ChoiceType::class, [
+                'label' => 'Unité',
+                'empty_data' => 'Heure',
+                'choices'  => [
+                    'Heure(s)' => 'Heure',
+                    'Jour(s)' => 'Jour',
+                    'Forfait' => 'Forfait',
                 ],
             ])
             ->add('tva', ChoiceType::class, [
@@ -124,27 +124,32 @@ class InvoiceMissionType extends AbstractType
                 'format' => 'yyyy-MM-dd',
                 'data' => new \DateTime("now"),
             ])
-            ->add('deadline', DateType::class, [
-                'label' => 'Date limite de paiement',
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-                'required' => false,
-                'data' => $deadlineData,
-                'constraints' => [
-                    new Range([
-                        'min' => new \DateTime('-1 month'),
-                        'minMessage' => 'La date ne peut pas être antérieure à un mois avant aujourd\'hui. (minimum : ' . (new \DateTime('-1 month'))->format('d-m-Y') . ')',
-                    ]),
-                ],
-            ])
             ->add('paid', ChoiceType::class, [
                 'label' => 'Payé ?',
-                'data' => false,
                 'choices'  => [
-                    'Oui' => true,
                     'Non' => false,
+                    'Oui' => true,
                 ],
             ])
+            ->addDependent('deadline','paid', function (DependentField $field, ?bool $paid) use ($deadlineData, $options) {
+                if (!$paid) {
+                    $field->add(DateType::class, [
+                        'label' => 'Date limite de paiement de la facture',
+                        'widget' => 'single_text',
+                        'format' => 'yyyy-MM-dd',
+                        'required' => false,
+                        'attr' => [
+                            'value' => $deadlineData->format('Y-m-d'),
+                        ],
+                        'constraints' => [
+                            new Range([
+                                'min' => new \DateTime('-1 month'),
+                                'minMessage' => 'La date ne peut pas être antérieure à un mois avant aujourd\'hui. (minimum : ' . (new \DateTime('-1 month'))->format('d-m-Y') . ')',
+                            ]),
+                        ],
+                    ]);
+                }
+            })
             ->addDependent('paymentDate', 'paid', function (DependentField $field, ?bool $paid) use ($paymentDateData, $options) {
                 if ($paid) {
                     $field->add(DateType::class, [

@@ -45,22 +45,33 @@
 
         <div class="flex justify-end mt-6">
             <div class="space-x-3 flex">
+                <a href="{{ path('dashboard_mission_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename}) }}" target="_blank">
+                    <div
+                            class="relative rounded px-5 py-2.5 overflow-hidden group bg-yellow-500 relative hover:bg-gradient-to-r hover:from-yellow-500 hover:to-yellow-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400 transition-all ease-out duration-300">
+                <span
+                        class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                        <span class="relative">Ouvrir la facture actuel</span>
+                    </div>
+                </a>
                 <a href="{{ path('dashboard_mission_invoice', { id: mission.id }) }}">
                     <div
                             class="relative rounded px-5 py-2.5 overflow-hidden group bg-slate-500 relative hover:bg-gradient-to-r hover:from-slate-500 hover:to-slate-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-slate-400 transition-all ease-out duration-300">
-                    <span
-                            class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                        <span
+                                class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
                         <span class="relative">Annuler</span>
                     </div>
                 </a>
                 <button type="submit"
                         class="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
-                <span
-                        class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-                    <span class="relative">Créer</span>
+                    <span
+                            class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span class="relative">Modifier</span>
                 </button>
             </div>
         </div>
+
+        <p>PDF actuelle :</p>
+        <embed src="{{ path('dashboard_mission_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename})}}" width="500" height="500" type='application/pdf'>
 
     {{ form_end(form) }}
 </div>
