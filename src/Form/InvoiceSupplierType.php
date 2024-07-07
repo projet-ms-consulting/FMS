@@ -68,8 +68,7 @@ class InvoiceSupplierType extends AbstractType
                     return $er->createQueryBuilder('im')
                         ->leftJoin('im.invoiceSuppliers', 'is')
                         ->leftJoin('is.supplierMission', 'sm')
-                        ->where('sm.mission = :mission')
-                        ->setParameter('mission', 'im.mission')
+                        ->where('sm.mission = im.mission')
                         ->orderBy('im.billNum', 'ASC');
                 },
             ])
