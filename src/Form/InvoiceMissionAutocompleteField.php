@@ -20,11 +20,6 @@ class InvoiceMissionAutocompleteField extends AbstractType
             'choice_label' => 'billNum',
             'required' => false,
             'placeholder' => 'Choisissez une facture à liée',
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('im')
-
-                    ->orderBy('im.billNum', 'ASC');
-            },
         ]);
     }
 

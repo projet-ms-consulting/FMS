@@ -64,7 +64,14 @@ class InvoiceSupplierType extends AbstractType
                 ],
             ])
             ->add('invoiceMission', InvoiceMissionAutocompleteField::class, [
-
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('im')
+                        ->leftJoin('im.invoiceSuppliers', 'is')
+                        ->leftJoin('is.supplierMission', 'sm')
+                        ->where('sm.mission = :mission')
+                        ->setParameter('mission', 'im.mission')
+                        ->orderBy('im.billNum', 'ASC');
+                },
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Prix unitaire',
