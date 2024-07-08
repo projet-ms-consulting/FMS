@@ -21,11 +21,6 @@ class InvoiceMissionAutocompleteField extends AbstractType
             'choice_label' => 'billNum',
             'required' => false,
             'placeholder' => 'Choisissez une facture à liée',
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('i')
-                    ->where('i.mission = :id')
-                    ->setParameter('id', 1);
-            },
         ]);
     }
 

@@ -68,17 +68,18 @@ class InvoiceSupplierType extends AbstractType
                     ])
                 ],
             ])
-            ->add('invoiceMission', InvoiceMissionAutocompleteField::class, [
+            ->add('invoiceMission', EntityType::class, [
                 'label' => 'Facture liée',
                 'class' => InvoiceMission::class,
                 'choice_label' => 'billNum',
                 'required' => false,
                 'placeholder' => 'Choisissez une facture à liée',
-                'query_builder' => function (EntityRepository $er) use ($invoiceMissionId) {
+                'query_builder' => function (EntityRepository $er) use ($invoiceMissionId){
                     return $er->createQueryBuilder('i')
                         ->where('i.mission = :id')
-                        ->setParameter('id', 2);
+                        ->setParameter('id', $invoiceMissionId);
                 },
+                'autocomplete' => true,
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Prix unitaire',
