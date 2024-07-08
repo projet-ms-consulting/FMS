@@ -4,99 +4,99 @@
 
 {% block content %}
 
-	{% include 'dashboard/components/navbar_component.html.twig' with {
-        'title': 'Mission',
-        'text': 'Cette page vous permet de gérer les missions. Vous pouvez consulter, ajouter, modifier ou supprimer des missions selon vos besoins.',
-        'button_text': 'Ajouter une mission',
-        'button_url': path('dashboard_mission_new')
-    } %}
+    {{ include('dashboard/components/navbar_component.html.twig', {
+        title: 'Mission',
+        text: 'Cette page vous permet de gérer les missions. Vous pouvez consulter, ajouter, modifier ou supprimer des missions selon vos besoins.',
+        button_text: 'Ajouter une mission',
+        button_url: path('dashboard_mission_new')
+    }) }}
 
-	<section>
-		<div class="mt-6 flex xl:flex-col">
-			<div class="inline-block min-w-full py-2 align-middle xl:px-8">
-				<div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 xl:rounded-lg">
+    <section>
+        <div class="mt-6 flex xl:flex-col">
+            <div class="inline-block min-w-full py-2 align-middle xl:px-8">
+                <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 xl:rounded-lg">
 
-					<table class="min-w-full divide-y divide-gray-300">
+                    <table class="min-w-full divide-y divide-gray-300">
 
-						<thead class="bg-gray-50 overflow-y-hidden">
-							<tr>
-								{% set columns = {
-									'Id': 'm.id',
-									'Nom': 'm.name',
-									'Description': 'm.description',
-									'Prix': 'm.price',
-									'Client': 'c.name',
-									'Administrateur': 'c.name',
-									'Fini': 'm.finished',
-									'Créer le': 'm.createdAt'
-								} %}
-								{% for displayedName, realName in columns %}
-									<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
-										{{ knp_pagination_sortable(missions, displayedName, realName) }}
-									</th>
-								{% endfor %}
-								<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
-									Actions
-								</th>
-							</tr>
-						</thead>
+                        <thead class="bg-gray-50 overflow-y-hidden">
+                            <tr>
+                                {% set columns = {
+                                    Id: 'm.id',
+                                    Nom: 'm.name',
+                                    Description: 'm.description',
+                                    Prix: 'm.price',
+                                    Client: 'c.name',
+                                    Administrateur: 'c.name',
+                                    Fini: 'm.finished',
+                                    'Créer le': 'm.createdAt'
+                                } %}
+                                {% for displayedName, realName in columns %}
+                                    <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
+                                        {{ knp_pagination_sortable(missions, displayedName, realName) }}
+                                    </th>
+                                {% endfor %}
+                                <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
 
-						<tbody class="divide-y divide-gray-200 bg-white">
-						{% for mission in missions %}
-							<tr class="text-sm md:text-base">
-								<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-									{{ mission.id }}
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-									{{ mission.name }}
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-									{{ mission.description|length > 30 ? mission.description|slice(0, 30) ~ '...' : mission.description }}
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-									{% if mission.price is null or mission.price == 0 %}
-										<span class="font-bold text-red-600">non défini</span>
-									{% else %}
-										{{ mission.price|number_format(2, ',', ' ') }}
-									{% endif %}
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-									<a href="{{ path('dashboard_company_show', { id: mission.getClient().getId() }) }}"
-									   class="underline opacity-75">
-										{{ mission.getClient().getName() }}
-									</a>
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-									<a href="{{ path('dashboard_company_show', { id: mission.getManager().getId() }) }}"
-									   class="underline opacity-75">
-										{{ mission.getManager().getName() }}
-									</a>
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-									{% if mission.isfinished == 'yes' %}
-										<span class="text-green-600">Oui</span>
-									{% else %}
-										<span>Non</span>
-									{% endif %}
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-									{{ mission.createdAt|date('Y-m-d') }}
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-									<div class="space-x-1 opacity-80">
-										<a href="{{ path('dashboard_mission_show', { id: mission.id }) }}">Détails</a>
-										<a href="{{ path('dashboard_mission_edit', { id: mission.id }) }}">Modifier</a>
-										<a href="{{ path('dashboard_mission_invoice', { id: mission.id }) }}">Factures</a>
-									</div>
-								</td>
-							</tr>
-						{% endfor %}
-						</tbody>
-					</table>
-				</div>
-				{{ knp_pagination_render(missions) }}
-			</div>
-		</div>
-	</section>
+                        <tbody class="divide-y divide-gray-200 bg-white">
+                        {% for mission in missions %}
+                            <tr class="text-sm md:text-base">
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                    {{ mission.id }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+                                    {{ mission.name }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                                    {{ mission.description|length > 30 ? mission.description|slice(0, 30) ~ '...' : mission.description }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+                                    {% if mission.price is null or mission.price == 0 %}
+                                        <span class="font-bold text-red-600">non défini</span>
+                                    {% else %}
+                                        {{ mission.price|number_format(2, ',', ' ') }}
+                                    {% endif %}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                                    <a href="{{ path('dashboard_company_show', {id: mission.getClient().getId()}) }}"
+                                       class="underline opacity-75">
+                                        {{ mission.getClient().getName() }}
+                                    </a>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+                                    <a href="{{ path('dashboard_company_show', {id: mission.getManager().getId()}) }}"
+                                       class="underline opacity-75">
+                                        {{ mission.getManager().getName() }}
+                                    </a>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                                    {% if mission.isfinished == 'yes' %}
+                                        <span class="text-green-600">Oui</span>
+                                    {% else %}
+                                        <span>Non</span>
+                                    {% endif %}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+                                    {{ mission.createdAt|date('Y-m-d') }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                                    <div class="space-x-1 opacity-80">
+                                        <a href="{{ path('dashboard_mission_show', {id: mission.id}) }}">Détails</a>
+                                        <a href="{{ path('dashboard_mission_edit', {id: mission.id}) }}">Modifier</a>
+                                        <a href="{{ path('dashboard_mission_invoice', {id: mission.id}) }}">Factures</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {{ knp_pagination_render(missions) }}
+            </div>
+        </div>
+    </section>
 
 {% endblock %}

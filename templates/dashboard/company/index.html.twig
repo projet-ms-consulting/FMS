@@ -5,12 +5,12 @@
 {% block content %}
 
     <section>
-        {% include 'dashboard/components/navbar_component.html.twig' with {
-            'title': 'Entreprise',
-            'text': 'Cette section vous permet de gérer vos entreprises : consulter, ajouter, modifier ou supprimer des données d\'entreprise selon vos besoins.',
-            'button_text': 'Ajouter une entreprise',
-            'button_url': path('dashboard_company_new')
-        } %}
+        {{ include('dashboard/components/navbar_component.html.twig', {
+            title: 'Entreprise',
+            text: 'Cette section vous permet de gérer vos entreprises : consulter, ajouter, modifier ou supprimer des données d\'entreprise selon vos besoins.',
+            button_text: 'Ajouter une entreprise',
+            button_url: path('dashboard_company_new')
+        }) }}
 
         <div class="mt-6 flex xl:flex-col">
             <div class="inline-block min-w-full py-2 align-middle xl:px-4">
@@ -19,10 +19,10 @@
                         <thead class="bg-gray-50 overflow-y-hidden">
                             <tr>
                                 {% set columns = {
-                                    'Id': 'c.id',
-                                    'Nom': 'c.name',
-                                    'Adresse': 'a.street',
-                                    'Role': 't.label',
+                                    Id: 'c.id',
+                                    Nom: 'c.name',
+                                    Adresse: 'a.street',
+                                    Role: 't.label',
                                     'Siège social': 'c.headOffice',
                                     'Créer le': 'c.createdAt'
                                 } %}
@@ -40,14 +40,14 @@
                         {% for company in companies %}
                             <tr class="text-sm md:text-base">
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    <a href="{{ path('dashboard_company_show', {'id': company.id}) }}">{{ company.id }}</a>
+                                    <a href="{{ path('dashboard_company_show', {id: company.id}) }}">{{ company.id }}</a>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
                                     {{ company.name|default('null') }}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                     {% if company.getAddress() != null %}
-                                        <a href="{{ path('dashboard_address_show', { id: company.getAddress().getId() }) }}" class="underline opacity-75 hover:opacity-100">
+                                        <a href="{{ path('dashboard_address_show', {id: company.getAddress().getId()}) }}" class="underline opacity-75 hover:opacity-100">
                                             {{ company.getAddress.getFullAddress }}
                                         </a>
                                         {% else %}
@@ -69,8 +69,8 @@
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                     <div class="space-x-1 opacity-80">
-                                        <a href="{{ path('dashboard_company_show', { id: company.id }) }}">Détails</a>
-                                        <a href="{{ path('dashboard_company_edit', { id: company.id }) }}">Modifier</a>
+                                        <a href="{{ path('dashboard_company_show', {id: company.id}) }}">Détails</a>
+                                        <a href="{{ path('dashboard_company_edit', {id: company.id}) }}">Modifier</a>
                                     </div>
                                 </td>
                             </tr>

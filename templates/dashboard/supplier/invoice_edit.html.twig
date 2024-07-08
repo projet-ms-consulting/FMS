@@ -7,7 +7,7 @@
     {{ form_widget(invoiceForm) }}
     <div class="flex justify-end mt-6">
         <div class="space-x-3 flex">
-            <a href="{{ path('dashboard_supplier_invoice', {'id': mission.id}) }}">
+            <a href="{{ path('dashboard_supplier_invoice', {id: mission.id}) }}">
                 <div
                         class="relative rounded px-5 py-2.5 overflow-hidden group bg-slate-500 relative hover:bg-gradient-to-r hover:from-slate-500 hover:to-slate-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-slate-400 transition-all ease-out duration-300">
                 <span
@@ -25,8 +25,8 @@
     </div>
 
     <p>PDF actuelle :</p>
-    <a href="{{ path('dashboard_supplier_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename}) }}" target="_blank">Ouvrir le pdf</a>
-    <embed src="{{ path('dashboard_supplier_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename})}}" width="300" height="300" type='application/pdf'>
+    <a href="{{ path('dashboard_supplier_invoice_show_invoice', {id: mission.id, invoiceId: invoice.id, name: invoice.realFilename}) }}" target="_blank">Ouvrir le pdf</a>
+    <embed src="{{ path('dashboard_supplier_invoice_show_invoice', {id: mission.id, invoiceId: invoice.id, name: invoice.realFilename}) }}" width="300" height="300" type='application/pdf'>
     {{ form_end(invoiceForm) }}
 {% endblock %}
 

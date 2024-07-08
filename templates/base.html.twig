@@ -18,12 +18,12 @@
 <body>
     <div class="absolute inset-0 -z-10 h-full w-full bg-gradient-to-b from-slate-50 via-green-100 to-green-500">
         <div class="antialiased px-4 sm:px-6 md:px-8 h-screen">
-            {% include "components/navbar.html.twig" %}
+            {{ include('components/navbar.html.twig') }}
             <main>
                 {% block body %}
                 {% endblock %}
             </main>
-            {% include "components/footer.html.twig" %}
+            {{ include('components/footer.html.twig') }}
         </div>
     </div>
 </body>

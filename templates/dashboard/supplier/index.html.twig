@@ -2,79 +2,79 @@
 
 {% block content %}
 
-	<section>
-		{% include 'dashboard/components/navbar_component.html.twig' with {
-    		'title': 'Fournisseur',
-    		'text': 'Cette page vous permet de gérer les missions fournisseurs. Vous pouvez consulter, ajouter, modifier ou supprimer des missions fournisseurs selon vos besoins.',
-    		'button_text': 'Ajouter une mission fournisseur',
-    		'button_url': path('dashboard_supplier_new')
-    } %}
-		<div class="mt-6 flex xl:flex-col">
-			<div class="inline-block min-w-full py-2 align-middle xl:px-8">
-				<div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 xl:rounded-lg">
-					<table class="min-w-full divide-y divide-gray-300">
-						<thead class="bg-gray-50 overflow-y-hidden">
-						<tr>
-							{% set columns = {
-								'Id': 's.id',
-								'Nom': 's.name',
-								'Description': 's.description',
-								'Mission': 's.name',
-								'Fournisseur': 'c.name',
-								'Créer le': 's.createdAt'
-							} %}
-							{% for displayedName, realName in columns %}
-								<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
-									{{ knp_pagination_sortable(supplierMissions, displayedName, realName) }}
-								</th>
-							{% endfor %}
-							<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
-								Actions
-							</th>
-						</tr>
-						</thead>
-						<tbody class="divide-y divide-gray-200 bg-white">
-						{% for supplierMission in supplierMissions %}
-							<tr class="text-sm md:text-base">
-								<td class="whitespace-nowrap px-6 py-4 text-gray-900 sm:pl-6">
-									{{ supplierMission.id }}
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-									{{ supplierMission.name }}
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-									{{ supplierMission.description|length > 30 ? supplierMission.description|slice(0, 30) ~ '...' : supplierMission.description }}
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-									<a href="{{ path('dashboard_mission_show', { id: supplierMission.getMission().getId() }) }}"
-									   class="underline opacity-75">
-										{{ supplierMission.getMission().getName() }}
-									</a>
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-									<a href="{{ path('dashboard_company_show', { id: supplierMission.getSupplier().getId() }) }}"
-									   class="underline opacity-75">
-										{{ supplierMission.getSupplier().getName() }}
-									</a>
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-									{{ supplierMission.createdAt|date('Y-m-d') }}
-								</td>
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-									<div class="space-x-1 opacity-80">
-										<a href="{{ path('dashboard_supplier_show', { id: supplierMission.id }) }}">Détails</a>
-										<a href="{{ path('dashboard_supplier_edit', { id: supplierMission.id }) }}">Modifier</a>
-										<a href="{{ path('dashboard_supplier_invoice', { id: supplierMission.id }) }}">Factures</a>
-									</div>
-								</td>
-							</tr>
-						{% endfor %}
-						</tbody>
-					</table>
-				</div>
-				{{ knp_pagination_render(supplierMissions) }}
-			</div>
-		</div>
-	</section>
+    <section>
+        {{ include('dashboard/components/navbar_component.html.twig', {
+            title: 'Fournisseur',
+            text: 'Cette page vous permet de gérer les missions fournisseurs. Vous pouvez consulter, ajouter, modifier ou supprimer des missions fournisseurs selon vos besoins.',
+            button_text: 'Ajouter une mission fournisseur',
+            button_url: path('dashboard_supplier_new')
+    }) }}
+        <div class="mt-6 flex xl:flex-col">
+            <div class="inline-block min-w-full py-2 align-middle xl:px-8">
+                <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 xl:rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-300">
+                        <thead class="bg-gray-50 overflow-y-hidden">
+                        <tr>
+                            {% set columns = {
+                                Id: 's.id',
+                                Nom: 's.name',
+                                Description: 's.description',
+                                Mission: 's.name',
+                                Fournisseur: 'c.name',
+                                'Créer le': 's.createdAt'
+                            } %}
+                            {% for displayedName, realName in columns %}
+                                <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
+                                    {{ knp_pagination_sortable(supplierMissions, displayedName, realName) }}
+                                </th>
+                            {% endfor %}
+                            <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
+                                Actions
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 bg-white">
+                        {% for supplierMission in supplierMissions %}
+                            <tr class="text-sm md:text-base">
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-900 sm:pl-6">
+                                    {{ supplierMission.id }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+                                    {{ supplierMission.name }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                                    {{ supplierMission.description|length > 30 ? supplierMission.description|slice(0, 30) ~ '...' : supplierMission.description }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+                                    <a href="{{ path('dashboard_mission_show', {id: supplierMission.getMission().getId()}) }}"
+                                       class="underline opacity-75">
+                                        {{ supplierMission.getMission().getName() }}
+                                    </a>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                                    <a href="{{ path('dashboard_company_show', {id: supplierMission.getSupplier().getId()}) }}"
+                                       class="underline opacity-75">
+                                        {{ supplierMission.getSupplier().getName() }}
+                                    </a>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+                                    {{ supplierMission.createdAt|date('Y-m-d') }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                                    <div class="space-x-1 opacity-80">
+                                        <a href="{{ path('dashboard_supplier_show', {id: supplierMission.id}) }}">Détails</a>
+                                        <a href="{{ path('dashboard_supplier_edit', {id: supplierMission.id}) }}">Modifier</a>
+                                        <a href="{{ path('dashboard_supplier_invoice', {id: supplierMission.id}) }}">Factures</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {{ knp_pagination_render(supplierMissions) }}
+            </div>
+        </div>
+    </section>
 
 {% endblock %}

@@ -3,77 +3,77 @@
 {% block content %}
 
 <section>
-	{% include 'dashboard/components/navbar_component.html.twig' with {
-	'title': 'Adresse',
-	'text': 'Cette page vous offre la possibilité de gérer les adresses. Vous pouvez consulter, ajouter, modifier ou
+    {{ include('dashboard/components/navbar_component.html.twig', {
+    title: 'Adresse',
+    text: 'Cette page vous offre la possibilité de gérer les adresses. Vous pouvez consulter, ajouter, modifier ou
 	supprimer des adresses en fonction de vos besoins.',
-	'button_text': 'Ajouter une adresse',
-	'button_url': path('dashboard_address_new')
-	} %}
-	<div class="mt-6 flex xl:flex-col">
-		<div class="inline-block min-w-full py-2 align-middle xl:px-8">
-			<div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 xl:rounded-lg">
-				<table class="min-w-full divide-y divide-gray-300">
-					<thead class="bg-gray-50 overflow-y-hidden">
-						<tr>
-							{% set columns = {
-							'Id': 'a.id',
-							'Numéro de Rue': 'a.nbStreet',
-							'Rue': 'a.street',
-							'Code Postal': 'a.zipCode',
-							'Ville': 'a.city',
-							'Entreprise': 'c.name'
-							} %}
-							{% for displayedName, realName in columns %}
-							<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
-								{{ knp_pagination_sortable(address, displayedName, realName) }}
-							</th>
-							{% endfor %}
-							<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
-								Actions
-							</th>
-						</tr>
-					</thead>
-					<tbody class="divide-y divide-gray-200 bg-white">
-						{% for data in address %}
-						<tr class="text-sm md:text-base">
-							<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-								<a href="{{ path('dashboard_address_show', {'id': data.id}) }}">{{ data.id }}</a>
-							</td>
-							{% for property in ['nbStreet', 'street', 'zipCode', 'city'] %}
-							{% if loop.index is odd %}
-							<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-								{{ attribute(data, property)|default('') }}
-							</td>
-							{% else %}
-							<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-								{{ attribute(data, property)|default('') }}
-							</td>
-							{% endif %}
-							{% endfor %}
-							<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6 bg-gray-200">
-								{% if data.company is not null %}
-								<a href="{{ path('dashboard_company_show', {'id': data.company.id}) }}">{{
-									data.company.name }}</a>
-								{% else %}
-								Non renseigné
-								{% endif %}
-							</td>
-							<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-								<div class="space-x-1 opacity-80">
-									<a href="{{ path('dashboard_address_show', { id: data.id }) }}">Détails</a>
-									<a href="{{ path('dashboard_address_edit', { id: data.id }) }}">Modifier</a>
-								</div>
-							</td>
-						</tr>
-						{% endfor %}
-					</tbody>
+    button_text: 'Ajouter une adresse',
+    button_url: path('dashboard_address_new')
+    }) }}
+    <div class="mt-6 flex xl:flex-col">
+        <div class="inline-block min-w-full py-2 align-middle xl:px-8">
+            <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 xl:rounded-lg">
+                <table class="min-w-full divide-y divide-gray-300">
+                    <thead class="bg-gray-50 overflow-y-hidden">
+                        <tr>
+                            {% set columns = {
+                            Id: 'a.id',
+                            'Numéro de Rue': 'a.nbStreet',
+                            Rue: 'a.street',
+                            'Code Postal': 'a.zipCode',
+                            Ville: 'a.city',
+                            Entreprise: 'c.name'
+                            } %}
+                            {% for displayedName, realName in columns %}
+                            <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
+                                {{ knp_pagination_sortable(address, displayedName, realName) }}
+                            </th>
+                            {% endfor %}
+                            <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                        {% for data in address %}
+                        <tr class="text-sm md:text-base">
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                <a href="{{ path('dashboard_address_show', {id: data.id}) }}">{{ data.id }}</a>
+                            </td>
+                            {% for property in ['nbStreet', 'street', 'zipCode', 'city'] %}
+                            {% if loop.index is odd %}
+                            <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+                                {{ attribute(data, property)|default('') }}
+                            </td>
+                            {% else %}
+                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                                {{ attribute(data, property)|default('') }}
+                            </td>
+                            {% endif %}
+                            {% endfor %}
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6 bg-gray-200">
+                                {% if data.company is not null %}
+                                <a href="{{ path('dashboard_company_show', {id: data.company.id}) }}">{{
+                                    data.company.name }}</a>
+                                {% else %}
+                                Non renseigné
+                                {% endif %}
+                            </td>
+                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                                <div class="space-x-1 opacity-80">
+                                    <a href="{{ path('dashboard_address_show', {id: data.id}) }}">Détails</a>
+                                    <a href="{{ path('dashboard_address_edit', {id: data.id}) }}">Modifier</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
 
-				</table>
-			</div>
-			{{ knp_pagination_render(address) }}
-		</div>
-	</div>
+                </table>
+            </div>
+            {{ knp_pagination_render(address) }}
+        </div>
+    </div>
 </section>
 
 {% endblock %}
