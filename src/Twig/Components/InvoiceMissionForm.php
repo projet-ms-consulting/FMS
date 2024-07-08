@@ -26,6 +26,7 @@ final class InvoiceMissionForm extends AbstractController
 
     protected function instantiateForm(): FormInterface
     {
+
         $invoiceMissionData = $this->invoice instanceof InvoiceMission ? $this->invoice : null;
 
         return $this->createForm(InvoiceMissionType::class, $invoiceMissionData);

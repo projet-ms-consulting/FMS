@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\InvoiceMission;
 use App\Entity\InvoiceSupplier;
 use App\Entity\SupplierMission;
+use App\Repository\InvoiceSupplierRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -35,6 +36,9 @@ class InvoiceSupplierType extends AbstractType
         $deadlineData = isset($options['data']) && $options['data']->getDeadline() ? $options['data']->getDeadline() : new \DateTime("now + 1 week");
         $paymentDateData = isset($options['data']) && $options['data']->getPaymentDate() ? $options['data']->getPaymentDate() : new \DateTime("now");
 
+        $supplierMission = $options['supplierMission'];
+
+
         $builder
             ->add('billNum', TextType::class, [
                 'label' => 'Numéro de facture',
@@ -64,11 +68,10 @@ class InvoiceSupplierType extends AbstractType
                 ],
             ])
             ->add('invoiceMission', InvoiceMissionAutocompleteField::class, [
-                'query_builder' => function (EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) use ($supplierMission){
                     return $er->createQueryBuilder('im')
-                        ->leftJoin('im.invoiceSuppliers', 'is')
-                        ->leftJoin('is.supplierMission', 'sm')
-                        ->where('sm.mission = im.mission')
+                        ->where('im.mission = :supplierMission')
+                        ->setParameter('supplierMission', $supplierMission)
                         ->orderBy('im.billNum', 'ASC');
                 },
             ])
@@ -185,6 +188,7 @@ class InvoiceSupplierType extends AbstractType
         $resolver->setDefaults([
             'data_class' => InvoiceSupplier::class,
             'page' => null,
+            'supplierMission' => null,
         ]);
     }
 }
