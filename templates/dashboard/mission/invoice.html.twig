@@ -12,6 +12,10 @@
 		<a href="{{ path('app_zip_generator', {'id': mission.id}) }}"
 			class="relative rounded px-5 py-2.5 bg-gray-100">
 			Télécharger</a>
+		<a href="{{ path('dashboard_mission_invoice_links', {'id': mission.id}) }}"
+		   class="relative rounded px-5 py-2.5 bg-yellow-500 text-white">
+			Voir la liaisons des factures
+		</a>
 		<a href="{{ path('dashboard_mission_invoice_new', {'id': mission.id}) }}"
 			class="relative rounded px-5 py-2.5 bg-green-500 text-white">
 			Ajouter

@@ -36,8 +36,9 @@ class InvoiceSupplierType extends AbstractType
         $deadlineData = isset($options['data']) && $options['data']->getDeadline() ? $options['data']->getDeadline() : new \DateTime("now + 1 week");
         $paymentDateData = isset($options['data']) && $options['data']->getPaymentDate() ? $options['data']->getPaymentDate() : new \DateTime("now");
 
-        $supplierMission = $options['supplierMission'];
+        $invoiceMissionId = $options['invoiceMissionId'];
 
+        dump($invoiceMissionId);
 
         $builder
             ->add('billNum', TextType::class, [
@@ -68,11 +69,15 @@ class InvoiceSupplierType extends AbstractType
                 ],
             ])
             ->add('invoiceMission', InvoiceMissionAutocompleteField::class, [
-                'query_builder' => function (EntityRepository $er) use ($supplierMission){
-                    return $er->createQueryBuilder('im')
-                        ->where('im.mission = :supplierMission')
-                        ->setParameter('supplierMission', $supplierMission)
-                        ->orderBy('im.billNum', 'ASC');
+                'label' => 'Facture liée',
+                'class' => InvoiceMission::class,
+                'choice_label' => 'billNum',
+                'required' => false,
+                'placeholder' => 'Choisissez une facture à liée',
+                'query_builder' => function (EntityRepository $er) use ($invoiceMissionId) {
+                    return $er->createQueryBuilder('i')
+                        ->where('i.mission = :id')
+                        ->setParameter('id', 2);
                 },
             ])
             ->add('price', MoneyType::class, [
@@ -188,7 +193,7 @@ class InvoiceSupplierType extends AbstractType
         $resolver->setDefaults([
             'data_class' => InvoiceSupplier::class,
             'page' => null,
-            'supplierMission' => null,
+            'invoiceMissionId' => null,
         ]);
     }
 }

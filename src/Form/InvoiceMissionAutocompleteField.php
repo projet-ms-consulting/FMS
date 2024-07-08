@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\InvoiceMission;
+use App\Entity\InvoiceSupplier;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,6 +21,11 @@ class InvoiceMissionAutocompleteField extends AbstractType
             'choice_label' => 'billNum',
             'required' => false,
             'placeholder' => 'Choisissez une facture à liée',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('i')
+                    ->where('i.mission = :id')
+                    ->setParameter('id', 1);
+            },
         ]);
     }
 

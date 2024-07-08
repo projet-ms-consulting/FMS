@@ -105,10 +105,12 @@ class SupplierController extends AbstractController
     #[Route('/{id}/invoice/new', name: 'invoice_new', methods: ['GET', 'POST'])]
     public function invoiceNew(Request $request, SupplierMission $supplierMission, EntityManagerInterface $entityManager, InvoiceRepository $invoiceRepository): Response
     {
-        $invoiceMission = $invoiceRepository->findBy(['mission' => $supplierMission->getMission()]);
+        $invoiceMissionId = $invoiceRepository->findBy(['mission' => $supplierMission->getMission()]);
+        $invoiceMissionId = $invoiceMissionId[0]->getMission()->getId();
+
         $invoice = new InvoiceSupplier();
         $invoiceForm = $this->createForm(InvoiceSupplierType::class, $invoice, [
-            'supplierMission' => $supplierMission,
+            'invoiceMissionId' => $invoiceMissionId,
         ]);
         $invoiceForm->handleRequest($request);
 

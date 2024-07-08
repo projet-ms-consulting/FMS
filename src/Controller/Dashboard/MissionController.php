@@ -178,6 +178,19 @@ class MissionController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/invoice/links', name: 'invoice_links', methods: ['GET'])]
+    public function invoiceLinks(Mission $mission, InvoiceRepository $invoiceRepository, Request $request): Response
+    {
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+        $invoices = $invoiceRepository->findBy(['mission' => $mission], ['createdAt' => 'DESC'], $limit, ($page - 1) * $limit);
+        dump($mission);
+        dd($invoices);
+        return $this->render('dashboard/mission/invoice_links.html.twig', [
+            'invoices' => $invoices,
+            'mission' => $mission,
+        ]);
+    }
 
     #[Route('/{id}/invoice/{invoiceId}', name: 'invoice_show', methods: ['GET'])]
     public function invoiceShow(Mission $mission, $invoiceId, InvoiceRepository $invoiceRepository): Response
