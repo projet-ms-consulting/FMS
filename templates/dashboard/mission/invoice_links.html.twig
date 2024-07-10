@@ -74,7 +74,9 @@
                                     {% if invoice.paymentDate != null %}
                                         {{ invoice.paymentDate|date('d/m/Y') }}
                                         {% else %}
-                                        Pas encore payée
+                                            <span class="font-bold text-red-600">
+                                                Pas encore payée
+                                            </span>
                                     {% endif %}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
@@ -87,7 +89,9 @@
                                     {% if invoice.invoiceMission.paymentDate != null %}
                                         {{ invoice.invoiceMission.paymentDate|date('d/m/Y') }}
                                         {% else %}
-                                        Pas encore payée
+                                            <span class="font-bold text-red-600">
+                                                Pas encore payée
+                                            </span>
                                     {% endif %}
                                 </td>
                             </tr>

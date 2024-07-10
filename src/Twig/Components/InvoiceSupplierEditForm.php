@@ -30,6 +30,7 @@ final class InvoiceSupplierEditForm extends AbstractController
 
         return $this->createForm(InvoiceSupplierType::class, $invoiceSupplierData, [
             'page' => 'edit',
+            'invoiceMissionId' => $this->supplierMission->getMission()->getId(),
         ]);
     }
 }

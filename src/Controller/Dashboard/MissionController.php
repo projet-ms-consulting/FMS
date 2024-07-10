@@ -185,13 +185,7 @@ class MissionController extends AbstractController
     {
         $page = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 8);
-//        dump($mission->getInvoices());
-//        foreach ($mission->getInvoices() as $invoice) {
-//            dump($invoice);
-//            foreach ($invoice->getInvoiceSuppliers() as $inv) {
-//                dump($inv);
-//            }
-//        }
+
         return $this->render('dashboard/mission/invoice_links.html.twig', [
             'mission' => $mission,
         ]);
