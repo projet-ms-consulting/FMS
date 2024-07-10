@@ -1,0 +1,69 @@
+<div{{ attributes }}>
+    {{ form_start(form) }}
+    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="col-span-6">
+            {{ form_row(form.billNum) }}
+        </div>
+        <div class="col-span-3">
+            {{ form_row(form.type) }}
+        </div>
+        <div class="col-span-3">
+            {{ form_row(form.file) }}
+        </div>
+        <div class="col-span-6">
+            {{ form_row(form.invoiceMission) }}
+        </div>
+        <div class="col-span-2">
+            {{ form_row(form.price) }}
+        </div>
+        <div class="col-span-2">
+            {{ form_row(form.quantity) }}
+        </div>
+        <div class="col-span-1">
+            {{ form_row(form.unit) }}
+        </div>
+        <div class="col-span-1">
+            {{ form_row(form.tva) }}
+        </div>
+        <div class="col-span-6">
+            {{ form_row(form.paymentTypology) }}
+        </div>
+        <div class="col-span-6">
+            {{ form_row(form.issueDate) }}
+        </div>
+        <div class="col-span-3">
+            {{ form_row(form.paid) }}
+        </div>
+        {% if form.deadline is defined %}
+            <div class="col-span-3">
+                {{ form_row(form.deadline) }}
+            </div>
+        {% endif %}
+        {% if form.paymentDate is defined %}
+            <div class="col-span-3">
+                {{ form_row(form.paymentDate) }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="flex justify-end mt-6">
+        <div class="space-x-3 flex">
+            <a href="{{ path('dashboard_supplier_invoice', {id: supplierMission.id}) }}">
+                <div
+                        class="relative rounded px-5 py-2.5 overflow-hidden group bg-slate-500 relative hover:bg-gradient-to-r hover:from-slate-500 hover:to-slate-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-slate-400 transition-all ease-out duration-300">
+                    <span
+                            class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                    <span class="relative">Annuler</span>
+                </div>
+            </a>
+            <button type="submit"
+                    class="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
+                <span
+                        class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                <span class="relative">Créer</span>
+            </button>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+</div>

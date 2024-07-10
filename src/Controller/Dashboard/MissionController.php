@@ -7,7 +7,9 @@ use App\Entity\Mission;
 use App\Form\InvoiceMissionType;
 use App\Form\MissionType;
 use App\Repository\InvoiceRepository;
+use App\Repository\InvoiceSupplierRepository;
 use App\Repository\MissionRepository;
+use App\Repository\SupplierMissionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -178,6 +180,16 @@ class MissionController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/invoice/links', name: 'invoice_links', methods: ['GET'])]
+    public function invoiceLinks(Mission $mission, Request $request): Response
+    {
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 8);
+
+        return $this->render('dashboard/mission/invoice_links.html.twig', [
+            'mission' => $mission,
+        ]);
+    }
 
     #[Route('/{id}/invoice/{invoiceId}', name: 'invoice_show', methods: ['GET'])]
     public function invoiceShow(Mission $mission, $invoiceId, InvoiceRepository $invoiceRepository): Response

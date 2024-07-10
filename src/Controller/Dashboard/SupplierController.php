@@ -103,10 +103,15 @@ class SupplierController extends AbstractController
     }
 
     #[Route('/{id}/invoice/new', name: 'invoice_new', methods: ['GET', 'POST'])]
-    public function invoiceNew(Request $request, SupplierMission $supplierMission, EntityManagerInterface $entityManager): Response
+    public function invoiceNew(Request $request, SupplierMission $supplierMission, EntityManagerInterface $entityManager, InvoiceRepository $invoiceRepository): Response
     {
+        $invoiceMissionId = $invoiceRepository->findBy(['mission' => $supplierMission->getMission()]);
+        $invoiceMissionId = $invoiceMissionId[0]->getMission()->getId();
+
         $invoice = new InvoiceSupplier();
-        $invoiceForm = $this->createForm(InvoiceSupplierType::class, $invoice);
+        $invoiceForm = $this->createForm(InvoiceSupplierType::class, $invoice, [
+            'invoiceMissionId' => $invoiceMissionId,
+        ]);
         $invoiceForm->handleRequest($request);
 
         if ($invoiceForm->isSubmitted() && $invoiceForm->isValid()) {
@@ -124,30 +129,33 @@ class SupplierController extends AbstractController
         }
 
         return $this->render('dashboard/supplier/invoice_new.html.twig', [
-            'mission' => $supplierMission,
+            'supplierMission' => $supplierMission,
             'invoice' => $invoice,
             'invoiceForm' => $invoiceForm->createView(),
         ]);
     }
 
     #[Route('/{id}/invoice/edit', name: 'invoice_edit', methods: ['GET', 'POST'])]
-    public function invoiceEdit(InvoiceSupplier $invoice, Request $request, EntityManagerInterface $em)
+    public function invoiceEdit(InvoiceSupplier $invoice, Request $request, EntityManagerInterface $entityManager, InvoiceRepository $invoiceRepository)
     {
-        $mission = $invoice->getSupplierMission();
-        $form = $this->createForm(InvoiceSupplierType::class, $invoice, [
+        $supplierMission = $invoice->getSupplierMission();
+        $invoiceMissionId = $invoiceRepository->findBy(['mission' => $supplierMission->getMission()]);
+        $invoiceMissionId = $invoiceMissionId[0]->getMission()->getId();
+        $invoiceForm = $this->createForm(InvoiceSupplierType::class, $invoice, [
+            'invoiceMissionId' => $invoiceMissionId,
             'page' => 'edit',
         ]);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        $invoiceForm->handleRequest($request);
+        if ($invoiceForm->isSubmitted() && $invoiceForm->isValid()) {
             $invoice->setUpdatedAt(new \DateTimeImmutable());
-            $em->flush();
-            return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $mission->getId()]);
+            $entityManager->flush();
+            return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $supplierMission->getId()]);
         }
 
         return $this->render('dashboard/supplier/invoice_edit.html.twig', [
             'invoice' => $invoice,
-            'mission' => $mission,
-            'invoiceForm' => $form->createView(),
+            'supplierMission' => $supplierMission,
+            'invoiceForm' => $invoiceForm->createView(),
         ]);
     }
 

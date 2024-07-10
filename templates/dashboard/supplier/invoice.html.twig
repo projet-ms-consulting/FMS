@@ -12,7 +12,7 @@
             <a href=""
                class="relative rounded px-5 py-2.5 bg-gray-100 cursor-not-allowed">
                 Télécharger</a>
-            <a href="{{ path('dashboard_supplier_invoice_new', {'id': supplierMission.id}) }}"
+            <a href="{{ path('dashboard_supplier_invoice_new', {id: supplierMission.id}) }}"
                class="relative rounded px-5 py-2.5 bg-green-500 text-white">
                 Ajouter
             </a>
@@ -26,13 +26,13 @@
                     <thead class="bg-gray-50 overflow-y-hidden">
                     <tr>
                         {% set columns = {
-                            'Id': 's.id',
+                            Id: 's.id',
                             'Numéro de facture': 's.billNum',
-                            'Type': 's.type',
+                            Type: 's.type',
                             'Facture mission': 'i.invoiceMission',
-                            'Fichier': 's.realFilename',
+                            Fichier: 's.realFilename',
                             'Temps restants': 's.deadline',
-                            'Payé': 's.paid',
+                            Payé: 's.paid',
                             'Créer le': 's.createdAt'
                         } %}
                         {% for displayedName, realName in columns %}
@@ -60,23 +60,23 @@
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
                                 {% if invoice.invoiceMission.billNum ?? '' != null %}
-                                    <a href="{{ path('dashboard_mission_invoice_show', {'id': invoice.invoiceMission.mission.id, 'invoiceId': invoice.invoiceMission.id}) }}" class="underline">{{ invoice.invoiceMission.billNum }}</a>
+                                    <a href="{{ path('dashboard_mission_invoice_show', {id: invoice.invoiceMission.mission.id, invoiceId: invoice.invoiceMission.id}) }}" class="underline">{{ invoice.invoiceMission.billNum }}</a>
                                 {% endif %}
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 text-gray-500 underline">
-                                <a href="{{ path('dashboard_supplier_invoice_show_invoice', {'id': supplierMission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename}) }}" target="_blank">{{ invoice.realFilename }}</a>
+                                <a href="{{ path('dashboard_supplier_invoice_show_invoice', {id: supplierMission.id, invoiceId: invoice.id, name: invoice.realFilename}) }}" target="_blank">{{ invoice.realFilename }}</a>
                             </td>
                             {% if invoice.deadline %}
                                 {% if not invoice.paid %}
-                                    {% set remainingDays = (invoice.deadline | date('U') - 'now' | date('U')) / (60 * 60 * 24) %}
+                                    {% set remainingDays = (invoice.deadline|date('U') - 'now'|date('U')) / (60 * 60 * 24) %}
                                     {% if remainingDays > 0 %}
                                         <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-                                            Temps restant : {{ remainingDays | round(0, 'floor') + 1 }} jour{{ remainingDays > 1 ? 's' : '' }}
+                                            Temps restant : {{ remainingDays|round(0, 'floor') + 1 }} jour{{ remainingDays > 1 ? 's' : '' }}
                                         </td>
                                     {% else %}
-                                        {% set daysLate = ('now' | date('U') - invoice.deadline | date('U')) / (60 * 60 * 24) %}
+                                        {% set daysLate = ('now'|date('U') - invoice.deadline|date('U')) / (60 * 60 * 24) %}
                                         <td class="whitespace-nowrap px-6 py-4 text-red-500 bg-gray-200">
-                                            Retard de {{ daysLate | round(0, 'floor') + 1 }} jour{{ daysLate > 1 ? 's' : '' }}
+                                            Retard de {{ daysLate|round(0, 'floor') + 1 }} jour{{ daysLate > 1 ? 's' : '' }}
                                         </td>
                                     {% endif %}
                                 {% else %}
@@ -97,8 +97,8 @@
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                 <div class="space-x-1 opacity-80">
-                                    <a href="{{ path('dashboard_supplier_invoice_show', {'id': supplierMission.id, 'invoiceId': invoice.id}) }}">Détails</a>
-                                    <a href="{{ path('dashboard_supplier_invoice_edit', { id: invoice.id }) }}">Modifier</a>
+                                    <a href="{{ path('dashboard_supplier_invoice_show', {id: supplierMission.id, invoiceId: invoice.id}) }}">Détails</a>
+                                    <a href="{{ path('dashboard_supplier_invoice_edit', {id: invoice.id}) }}">Modifier</a>
                                 </div>
                             </td>
                         </tr>

@@ -1,0 +1,107 @@
+{% extends 'dashboard_layout.html.twig' %}
+
+{% block content %}
+
+    <div class="flex items-center justify-between p-4 antialiased">
+        <div class="flex flex-col space-y-2 w-1/2">
+            <h2 class="text-3xl font-semibold">{{ mission.name }}</h2>
+        </div>
+    </div>
+
+    <div class="mt-6 flex xl:flex-col">
+        <div class="inline-block min-w-full py-2 align-middle xl:px-8">
+            <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 xl:rounded-lg">
+                <table class="min-w-full divide-y divide-gray-300">
+                    <thead class="bg-gray-50 overflow-y-hidden">
+                    <tr>
+                        <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
+                            date de création
+                        </th>
+                        <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
+                            Nom de freelance
+                        </th>
+                        <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
+                            Client
+                        </th>
+                        <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
+                            Numéro de facture freelance
+                        </th>
+                        <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
+                            Nb jours/heures travaillés
+                        </th>
+                        <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
+                            Montant TTC facture freelance
+                        </th>
+                        <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
+                            Date paiement au freelance
+                        </th>
+                        <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
+                            Numéro de facture client
+                        </th>
+                        <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
+                            Montant TTC facture client
+                        </th>
+                        <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
+                            Date paiement client
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                    {% for mission in mission.invoices %}
+                        {% for invoice in mission.invoiceSuppliers %}
+                            {% dump(invoice) %}
+                            <tr class="text-xs md:text-sm">
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                    {{ invoice.createdAt|date('d/m/Y') }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                    {{ invoice.supplierMission.supplier.name }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                    {{ invoice.invoiceMission.mission.client.name }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                    <a href="{{ path('dashboard_supplier_invoice_show', {id: mission.id, invoiceId: invoice.id}) }}" class="font-bold underline">{{ invoice.billNum }}</a>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                    {{ invoice.quantity }} {{ invoice.unit }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                    {{ invoice.totalTTC|number_format(2, '.', ' ') }} €
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                    {% if invoice.paymentDate != null %}
+                                        {{ invoice.paymentDate|date('d/m/Y') }}
+                                        {% else %}
+                                            <span class="font-bold text-red-600">
+                                                Pas encore payée
+                                            </span>
+                                    {% endif %}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                    <a href="{{ path('dashboard_mission_invoice_show', {id: mission.id, invoiceId: invoice.invoiceMission.id}) }}" class="font-bold underline">{{ invoice.invoiceMission.billNum }}</a>
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                    {{ invoice.invoiceMission.totalTTC|number_format(2, '.', ' ') }} €
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                    {% if invoice.invoiceMission.paymentDate != null %}
+                                        {{ invoice.invoiceMission.paymentDate|date('d/m/Y') }}
+                                        {% else %}
+                                            <span class="font-bold text-red-600">
+                                                Pas encore payée
+                                            </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

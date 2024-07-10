@@ -3,105 +3,109 @@
 {% block content %}
 
 <div class="flex items-center justify-between p-4 antialiased">
-	<div class="flex flex-col space-y-2 w-1/2">
-		<h2 class="text-3xl font-semibold">{{ mission.name }}</h2>
-	</div>
-	<div class="space-x-2">
-		<a href="{{ path('dashboard_mission_index') }}" class="relative rounded px-5 py-2.5 bg-gray-100">
-			Retour</a>
-		<a href="{{ path('app_zip_generator', {'id': mission.id}) }}"
-			class="relative rounded px-5 py-2.5 bg-gray-100">
-			Télécharger</a>
-		<a href="{{ path('dashboard_mission_invoice_new', {'id': mission.id}) }}"
-			class="relative rounded px-5 py-2.5 bg-green-500 text-white">
-			Ajouter
-		</a>
-	</div>
+    <div class="flex flex-col space-y-2 w-1/2">
+        <h2 class="text-3xl font-semibold">{{ mission.name }}</h2>
+    </div>
+    <div class="space-x-2">
+        <a href="{{ path('dashboard_mission_index') }}" class="relative rounded px-5 py-2.5 bg-gray-100">
+            Retour</a>
+        <a href="{{ path('app_zip_generator', {id: mission.id}) }}"
+            class="relative rounded px-5 py-2.5 bg-gray-100">
+            Télécharger</a>
+        <a href="{{ path('dashboard_mission_invoice_links', {id: mission.id}) }}"
+           class="relative rounded px-5 py-2.5 bg-yellow-500 text-white">
+            Voir la liaisons des factures
+        </a>
+        <a href="{{ path('dashboard_mission_invoice_new', {id: mission.id}) }}"
+            class="relative rounded px-5 py-2.5 bg-green-500 text-white">
+            Ajouter
+        </a>
+    </div>
 </div>
 
 <div class="mt-6 flex xl:flex-col">
-	<div class="inline-block min-w-full py-2 align-middle xl:px-8">
-		<div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 xl:rounded-lg">
-			<table class="min-w-full divide-y divide-gray-300">
-				<thead class="bg-gray-50 overflow-y-hidden">
-				<tr>
-					{% set columns = {
-						'Id': 'i.id',
-						'Numéro de facture': 'i.billNum',
-						'Type': 'i.type',
-						'Fichier': 'i.realFilename',
-						'Temps restants': 'i.deadline',
-						'Payé': 'i.paid',
-						'Créer le': 'i.createdAt'
-					} %}
-					{% for displayedName, realName in columns %}
-						<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
-							{{ knp_pagination_sortable(invoices, displayedName, realName) }}
-						</th>
-					{% endfor %}
-					<th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
-						Actions
-					</th>
-				</tr>
-				</thead>
+    <div class="inline-block min-w-full py-2 align-middle xl:px-8">
+        <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 xl:rounded-lg">
+            <table class="min-w-full divide-y divide-gray-300">
+                <thead class="bg-gray-50 overflow-y-hidden">
+                <tr>
+                    {% set columns = {
+                        'Id': 'i.id',
+                        'Numéro de facture': 'i.billNum',
+                        'Type': 'i.type',
+                        'Fichier': 'i.realFilename',
+                        'Temps restants': 'i.deadline',
+                        'Payé': 'i.paid',
+                        'Créer le': 'i.createdAt'
+                    } %}
+                    {% for displayedName, realName in columns %}
+                        <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
+                            {{ knp_pagination_sortable(invoices, displayedName, realName) }}
+                        </th>
+                    {% endfor %}
+                    <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
+                        Actions
+                    </th>
+                </tr>
+                </thead>
 
-				<tbody class="divide-y divide-gray-200 bg-white">
-					{% for invoice in invoices %}
-					<tr class="text-sm md:text-base">
-						<td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-							{{ invoice.id }}
-						</td>
-						<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-							{{ invoice.billNum }}
-						</td>
-						<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-							{{ invoice.type }}
-						</td>
-						<td class="whitespace-nowrap px-6 py-4 text-gray-500 underline bg-gray-200">
-							<a href="{{ path('dashboard_mission_invoice_show_invoice', {'id': mission.id, 'invoiceId': invoice.id, 'name': invoice.realFilename}) }}" target="_blank">{{ invoice.realFilename }}</a>
-						</td>
-						{% if invoice.deadline %}
-							{% if not invoice.paid %}
-								{% set remainingDays = (invoice.deadline | date('U') - 'now' | date('U')) / (60 * 60 * 24) %}
-								{% if remainingDays > 0 %}
-									<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-										Temps restant : {{ remainingDays | round(0, 'floor') + 1 }} jour{{ remainingDays > 1 ? 's' : '' }}
-									</td>
-								{% else %}
-									{% set daysLate = ('now' | date('U') - invoice.deadline | date('U')) / (60 * 60 * 24) %}
-									<td class="whitespace-nowrap px-6 py-4 text-red-500">
-										Retard de {{ daysLate | round(0, 'floor') + 1 }} jour{{ daysLate > 1 ? 's' : '' }}
-									</td>
-								{% endif %}
-							{% else %}
-								<td class="whitespace-nowrap px-6 py-4 text-gray-500">A jour</td>
-							{% endif %}
-						{% else %}
-							<td class="whitespace-nowrap px-6 py-4 text-gray-500">Date limite non définie</td>
-						{% endif %}
-						<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-							{% if invoice.paid == 'yes' %}
-								<span class="text-green-600">Oui</span>
-							{% else %}
-								<span>Non</span>
-							{% endif %}
-						</td>
-						<td class="whitespace-nowrap px-6 py-4 text-gray-500">
-							{{ invoice.createdAt|date('Y-m-d') }}
-						</td>
-						<td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-							<div class="space-x-1 opacity-80">
-								<a href="{{ path('dashboard_mission_invoice_show', {'id': mission.id, 'invoiceId': invoice.id}) }}">Détails</a>
-								<a href="{{ path('dashboard_mission_invoice_edit', { id: invoice.id }) }}">Modifier</a>
-							</div>
-						</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-		{{ knp_pagination_render(invoices) }}
-	</div>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                    {% for invoice in invoices %}
+                    <tr class="text-sm md:text-base">
+                        <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                            {{ invoice.id }}
+                        </td>
+                        <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+                            {{ invoice.billNum }}
+                        </td>
+                        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                            {{ invoice.type }}
+                        </td>
+                        <td class="whitespace-nowrap px-6 py-4 text-gray-500 underline bg-gray-200">
+                            <a href="{{ path('dashboard_mission_invoice_show_invoice', {id: mission.id, invoiceId: invoice.id, name: invoice.realFilename}) }}" target="_blank">{{ invoice.realFilename }}</a>
+                        </td>
+                        {% if invoice.deadline %}
+                            {% if not invoice.paid %}
+                                {% set remainingDays = (invoice.deadline|date('U') - 'now'|date('U')) / (60 * 60 * 24) %}
+                                {% if remainingDays > 0 %}
+                                    <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                                        Temps restant : {{ remainingDays|round(0, 'floor') + 1 }} jour{{ remainingDays > 1 ? 's' : '' }}
+                                    </td>
+                                {% else %}
+                                    {% set daysLate = ('now'|date('U') - invoice.deadline|date('U')) / (60 * 60 * 24) %}
+                                    <td class="whitespace-nowrap px-6 py-4 text-red-500">
+                                        Retard de {{ daysLate|round(0, 'floor') + 1 }} jour{{ daysLate > 1 ? 's' : '' }}
+                                    </td>
+                                {% endif %}
+                            {% else %}
+                                <td class="whitespace-nowrap px-6 py-4 text-gray-500">A jour</td>
+                            {% endif %}
+                        {% else %}
+                            <td class="whitespace-nowrap px-6 py-4 text-gray-500">Date limite non définie</td>
+                        {% endif %}
+                        <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+                            {% if invoice.paid == 'yes' %}
+                                <span class="text-green-600">Oui</span>
+                            {% else %}
+                                <span>Non</span>
+                            {% endif %}
+                        </td>
+                        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                            {{ invoice.createdAt|date('Y-m-d') }}
+                        </td>
+                        <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
+                            <div class="space-x-1 opacity-80">
+                                <a href="{{ path('dashboard_mission_invoice_show', {id: mission.id, invoiceId: invoice.id}) }}">Détails</a>
+                                <a href="{{ path('dashboard_mission_invoice_edit', {id: invoice.id}) }}">Modifier</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {{ knp_pagination_render(invoices) }}
+    </div>
 </div>
 
 {% endblock %}
