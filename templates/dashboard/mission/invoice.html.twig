@@ -30,12 +30,12 @@
                 <thead class="bg-gray-50 overflow-y-hidden">
                 <tr>
                     {% set columns = {
-                        Id: 'i.id',
+                        'Id': 'i.id',
                         'Numéro de facture': 'i.billNum',
-                        Type: 'i.type',
-                        Fichier: 'i.realFilename',
+                        'Type': 'i.type',
+                        'Fichier': 'i.realFilename',
                         'Temps restants': 'i.deadline',
-                        Payé: 'i.paid',
+                        'Payé': 'i.paid',
                         'Créer le': 'i.createdAt'
                     } %}
                     {% for displayedName, realName in columns %}

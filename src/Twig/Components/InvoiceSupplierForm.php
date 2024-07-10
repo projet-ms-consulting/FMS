@@ -29,7 +29,7 @@ final class InvoiceSupplierForm extends AbstractController
         $invoiceSupplierData = $this->invoice instanceof InvoiceSupplier ? $this->invoice : null;
 
         return $this->createForm(InvoiceSupplierType::class, $invoiceSupplierData, [
-            'invoiceMissionId' => $this->supplierMission->getId(),
+            'invoiceMissionId' => $this->supplierMission->getMission()->getId(),
         ]);
     }
 }
