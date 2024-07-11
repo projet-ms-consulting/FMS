@@ -18,25 +18,28 @@
                             date de création
                         </th>
                         <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
-                            Nom de freelance
+                            Entreprise fournisseur
                         </th>
                         <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
                             Client
                         </th>
                         <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
-                            Numéro de facture freelance
+                            Numéro de facture fournisseur
                         </th>
                         <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
                             Nb jours/heures travaillés
                         </th>
                         <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
-                            Montant TTC facture freelance
+                            Montant TTC facture fournisseur
                         </th>
                         <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
-                            Date paiement au freelance
+                            Date paiement au fournisseur
                         </th>
                         <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
                             Numéro de facture client
+                        </th>
+                        <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
+                            Nb jours/heures facturés au client
                         </th>
                         <th scope="col" class="py-3 px-3 text-left font-semibold text-gray-900 whitespace-nowrap text-xs md:text-sm">
                             Montant TTC facture client
@@ -50,7 +53,6 @@
                     <tbody class="divide-y divide-gray-200 bg-white">
                     {% for mission in mission.invoices %}
                         {% for invoice in mission.invoiceSuppliers %}
-                            {% dump(invoice) %}
                             <tr class="text-xs md:text-sm">
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
                                     {{ invoice.createdAt|date('d/m/Y') }}
@@ -83,6 +85,9 @@
                                     <a href="{{ path('dashboard_mission_invoice_show', {id: mission.id, invoiceId: invoice.invoiceMission.id}) }}" class="font-bold underline">{{ invoice.invoiceMission.billNum }}</a>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                    {{ invoice.invoiceMission.quantity }} {{ invoice.invoiceMission.unit }}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
                                     {{ invoice.invoiceMission.totalTTC|number_format(2, '.', ' ') }} €
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
@@ -97,6 +102,36 @@
                             </tr>
                         {% endfor %}
                     {% endfor %}
+                        <tr class="text-xs md:text-sm">
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                Total
+                            </td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                            </td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                            </td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                            </td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                {{ totalJoursFournisseur|number_format(2, '.', ' ') }} Jours
+                            </td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                {{ totalTTCFournisseur }} €
+                            </td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                            </td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                            </td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                {{ totalJoursClient|number_format(2, '.', ' ') }} Jours
+                            </td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                {{ totalTTCClient }} €
+                            </td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                                Marge : {{ totalTTCClient - totalTTCFournisseur }} €
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

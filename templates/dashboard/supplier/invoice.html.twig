@@ -10,8 +10,11 @@
             <a href="{{ path('dashboard_supplier_index') }}" class="relative rounded px-5 py-2.5 overflow-hidden group bg-gray-500 relative hover:bg-gradient-to-r hover:from-gray-500 hover:to-gray-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 transition-all ease-out duration-300">
                 <span class="relative">Retour</span>
             </a>
-            <a href="" class="cursor-not-allowed relative rounded px-5 py-2.5 overflow-hidden group bg-red-500 relative hover:bg-gradient-to-r hover:from-red-500 hover:to-red-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-red-400 transition-all ease-out duration-300">
-                <span class="relative">Télécharger</span>
+{#            <a href="" class="cursor-not-allowed relative rounded px-5 py-2.5 overflow-hidden group bg-red-500 relative hover:bg-gradient-to-r hover:from-red-500 hover:to-red-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-red-400 transition-all ease-out duration-300">#}
+{#                <span class="relative">Télécharger</span>#}
+{#            </a>#}
+            <a href="{{ path('dashboard_mission_invoice_links', {id: supplierMission.mission.id}) }}" class="relative rounded px-5 py-2.5 overflow-hidden group bg-yellow-500 relative hover:bg-gradient-to-r hover:from-yellow-500 hover:to-yellow-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400 transition-all ease-out duration-300">
+                <span class="relative">Voir la liaisons des factures</span>
             </a>
             <a href="{{ path('dashboard_supplier_invoice_new', {id: supplierMission.id}) }}" class="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 relative hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300">
                 <span class="relative">Ajouter</span>

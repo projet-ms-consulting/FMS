@@ -38,7 +38,11 @@ class InvoiceSupplierType extends AbstractType
 
         $invoiceMissionId = $options['invoiceMissionId'];
 
-        dump($invoiceMissionId);
+        if ($options['data']->getTva() !== null) {
+            $tva = $options['data']->getTva();
+        } else {
+            $tva = 20;
+        }
 
         $builder
             ->add('billNum', TextType::class, [
@@ -120,16 +124,15 @@ class InvoiceSupplierType extends AbstractType
             ])
             ->add('tva', ChoiceType::class, [
                 'label' => 'TVA (%)',
-                'empty_data' => 20,
-                'data' => 20,
+                'data' => $tva,
                 'attr' => [
                     'placeholder' => '20',
                 ],
                 'choices'  => [
-                    '0%' => 0,
+                    '0%' => 0.0,
                     '5.5%' => 5.5,
-                    '10%' => 10,
-                    '20%' => 20,
+                    '10%' => 10.0,
+                    '20%' => 20.0,
                 ],
             ])
             ->add('paymentTypology', ChoiceType::class, [

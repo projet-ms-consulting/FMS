@@ -185,9 +185,52 @@ class MissionController extends AbstractController
     {
         $page = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 8);
+        $totalHTFournisseur = 0;
+        $totalTTCFournisseur = 0;
+        $totalJoursFournisseur = 0;
+        $totalHeureFournisseur = 0;
 
+        $totalHTClient = 0;
+        $totalTTCClient = 0;
+        $totalJoursClient = 0;
+
+        for ($i = 0; $i < count($mission->getSupplierMission()->getValues()); $i++) {
+            for ($j = 0; $j < count($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()); $j++) {
+                if ($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getUnit() == 'Jour') {
+                    $totalJoursFournisseur += $mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getQuantity();
+                } elseif ($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getUnit() == 'Heure') {
+                    $totalJoursFournisseur += ($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getQuantity() / 7);
+                }
+
+                $totalHTFournisseur += $mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getTotalHT();
+                $totalTTCFournisseur += $mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getTotalTTC();
+            }
+        }
+        for ($i = 0; $i < count($mission->getInvoices()->getValues()); $i++) {
+            if ($mission->getInvoices()->getValues()[$i]->getUnit() == 'Jour') {
+                $totalJoursClient += $mission->getInvoices()->getValues()[$i]->getQuantity();
+            } elseif ($mission->getInvoices()->getValues()[$i]->getUnit() == 'Heure') {
+                $totalJoursClient += ($mission->getInvoices()->getValues()[$i]->getQuantity() / 7);
+            }
+
+            $totalHTClient += $mission->getInvoices()->getValues()[$i]->getTotalHT();
+            $totalTTCClient += $mission->getInvoices()->getValues()[$i]->getTotalTTC();
+            dump($mission->getInvoices()->getValues()[$i]->getTotalTTC());
+        }
+        dump($totalHTFournisseur);
+        dump($totalTTCFournisseur);
+        dump($totalJoursFournisseur);
+        dump($totalHTClient);
+        dump($totalTTCClient);
+        dump($totalJoursClient);
         return $this->render('dashboard/mission/invoice_links.html.twig', [
             'mission' => $mission,
+            'totalHTFournisseur' => $totalHTFournisseur,
+            'totalTTCFournisseur' => $totalTTCFournisseur,
+            'totalJoursFournisseur' => $totalJoursFournisseur,
+            'totalHTClient' => $totalHTClient,
+            'totalTTCClient' => $totalTTCClient,
+            'totalJoursClient' => $totalJoursClient,
         ]);
     }
 

@@ -21,9 +21,6 @@ class MissionType extends AbstractType
             ->add('description', null, [
                 'label' => 'Description'
             ])
-            ->add('price', null, [
-                'label' => 'Prix'
-            ])
             ->add('client', EntityType::class, [
                 'class' => company::class,
                 'choice_label' => 'name',

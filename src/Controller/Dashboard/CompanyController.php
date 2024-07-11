@@ -34,7 +34,6 @@ class CompanyController extends AbstractController
         $companyForm->handleRequest($request);
 
         if ($companyForm->isSubmitted() && $companyForm->isValid()) {
-
             $data = $request->request->all()['company'];
 
             if ($data['checkAddress'] == 2) {

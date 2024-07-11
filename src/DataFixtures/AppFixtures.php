@@ -138,7 +138,6 @@ class AppFixtures extends Fixture
             $mission = new Mission();
             $mission->setName($this->faker->word());
             $mission->setDescription($this->faker->sentence(30));
-            $mission->setPrice($this->faker->randomFloat(2, 200, 5000));
             $mission->setClient($clientCompanies[array_rand($clientCompanies)]);
             $mission->setManager($adminCompanies[array_rand($adminCompanies)]);
             $mission->setFinished($this->faker->boolean());

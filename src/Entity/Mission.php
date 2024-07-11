@@ -33,9 +33,6 @@ class Mission
     #[ORM\JoinColumn(nullable: false)]
     private ?company $manager = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2, nullable: true)]
-    private ?string $price = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -133,18 +130,6 @@ class Mission
     public function setManager(?company $manager): static
     {
         $this->manager = $manager;
-
-        return $this;
-    }
-
-    public function getPrice(): ?string
-    {
-        return $this->price;
-    }
-
-    public function setPrice(?string $price): static
-    {
-        $this->price = $price;
 
         return $this;
     }

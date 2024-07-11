@@ -3,11 +3,19 @@
 {% block content %}
     <div class="p-10 space-y-3">
         <p>Id : {{ invoice.id }}</p>
+        <p>Nom de la mission: {{ invoice.supplierMission.name }}</p>
+        <p>Facture liée : {{ invoice.invoiceMission.billNum }}</p>
         <p>Numéro de facture : {{ invoice.billNum }}</p>
         <p>Type : {{ invoice.type }}</p>
         <p>Nom de la facture : {{ invoice.realFilename }}</p>
-        <p>Nom de la mission: {{ invoice.supplierMission.name }}</p>
-        <p>Date d'expiration : {{ invoice.deadline|date('d/m/Y') }}</p>
+        <p>Prix unitaire : {{ invoice.price|number_format(2, ',', ' ') }}€</p>
+        <p>Quantité : {{ invoice.quantity|number_format(2, ',', ' ') }} {{ invoice.unit }}</p>
+        <p>Total HT : {{ invoice.totalHT|number_format(2, ',', ' ') }}€</p>
+        <p>TVA : {{ invoice.tva }}</p>
+        <p>Total TTC : {{ invoice.totalTTC|number_format(2, ',', ' ') }}€</p>
+        <p>Typologie de paiement : {{ invoice.paymentTypology }}</p>
+        <p>Date d'émission de la facture : {{ invoice.issueDate|date('d/m/Y') }}</p>
+        <p>Date limite de paiement de la facture : {{ invoice.deadline|date('d/m/Y') }}</p>
         <p>Payé ? :
             {% if invoice.paid == true %}
                 <span style="color: green">Oui</span>
