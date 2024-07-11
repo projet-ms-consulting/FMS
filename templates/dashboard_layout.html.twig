@@ -32,51 +32,7 @@
       {% block content %}{% endblock %}
     </div>
   </div>
+  <script src="{{ asset('js/navComponent.js') }}"></script>
 
-  <script>
-    const sidebar = document.querySelector("aside");
-    const maxSidebar = document.querySelector(".max")
-    const miniSidebar = document.querySelector(".mini")
-    const maxToolbar = document.querySelector(".max-toolbar")
-    const logo = document.querySelector('.logo')
-    const content = document.querySelector('.content')
-    const arrow = document.querySelector('.arrow')
-
-    function openNav() {
-      if(sidebar.classList.contains('-translate-x-48')){
-        // max sidebar
-        arrow.classList.add("rotate-180")
-        arrow.classList.remove("hover:rotate-180")
-        arrow.classList.add("hover:-rotate-0")
-        sidebar.classList.remove("-translate-x-48")
-        sidebar.classList.add("translate-x-none")
-        maxSidebar.classList.remove("hidden")
-        maxSidebar.classList.add("flex")
-        miniSidebar.classList.remove("flex")
-        miniSidebar.classList.add("hidden")
-        maxToolbar.classList.add("translate-x-0")
-        maxToolbar.classList.remove("translate-x-24","scale-x-0")
-        logo.classList.remove("ml-12")
-        content.classList.remove("ml-12")
-        content.classList.add("ml-12","md:ml-60")
-      }else{
-        // mini sidebar
-        arrow.classList.remove("rotate-180")
-        arrow.classList.add("hover:rotate-180")
-        arrow.classList.remove("hover:-rotate-0")
-        sidebar.classList.add("-translate-x-48")
-        sidebar.classList.remove("translate-x-none")
-        maxSidebar.classList.add("hidden")
-        maxSidebar.classList.remove("flex")
-        miniSidebar.classList.add("flex")
-        miniSidebar.classList.remove("hidden")
-        maxToolbar.classList.add("translate-x-24","scale-x-0")
-        maxToolbar.classList.remove("translate-x-0")
-        logo.classList.add('ml-12')
-        content.classList.remove("ml-12","md:ml-60")
-        content.classList.add("ml-12")
-      }
-    }
-  </script>
 </body>
 </html>
