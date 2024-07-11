@@ -6,7 +6,6 @@ function openNav() {
     const maxToolbar = document.querySelector(".max-toolbar")
     const arrow = document.querySelector('.arrow')
     if(sidebar.classList.contains('-translate-x-48')){
-        console.log('open')
         // max sidebar
         arrow.classList.add("rotate-180")
         arrow.classList.remove("hover:rotate-180")
@@ -20,7 +19,6 @@ function openNav() {
         maxToolbar.classList.add("translate-x-0")
         maxToolbar.classList.remove("translate-x-24","scale-x-0")
     } else{
-        console.log('close')
         // mini sidebar
         arrow.classList.remove("rotate-180")
         arrow.classList.add("hover:rotate-180")
