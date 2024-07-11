@@ -67,7 +67,7 @@
                                 {% endif %}
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 text-gray-500 underline">
-                                <a href="{{ path('dashboard_supplier_invoice_show_invoice', {id: supplierMission.id, invoiceId: invoice.id, name: invoice.realFilename}) }}" target="_blank">{{ invoice.realFilename }}</a>
+                                <a href="{{ path('dashboard_supplier_invoice_show_invoice', {id: supplierMission.id, invoiceId: invoice.id, name: invoice.realFilename}) }}" target="_blank">{{ invoice.realFilename|length > 30 ? invoice.realFilename|slice(0, 30) ~ '...' : invoice.realFilename }}</a>
                             </td>
                             {% if invoice.deadline %}
                                 {% if not invoice.paid %}
