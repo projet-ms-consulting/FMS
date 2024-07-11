@@ -18,7 +18,7 @@ class AddressType extends AbstractType
                 'label' => 'Numéro de Rue'
             ])
             ->add('street', null, [
-                'label' => 'Rue'
+                'label' => 'Voirie'
             ])
             ->add('zipCode', null, [
                 'label' => 'Code postal'

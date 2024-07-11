@@ -210,12 +210,11 @@ class MissionController extends AbstractController
             if ($mission->getInvoices()->getValues()[$i]->getUnit() == 'Jour') {
                 $totalJoursClient += $mission->getInvoices()->getValues()[$i]->getQuantity();
             } elseif ($mission->getInvoices()->getValues()[$i]->getUnit() == 'Heure') {
-                $totalJoursClient += ($mission->getInvoices()->getValues()[$i]->getQuantity() / 7);
+                $totalJoursClient += ($mission->getInvoices()->getValues()[$i]->getQuantity() / 8);
             }
 
             $totalHTClient += $mission->getInvoices()->getValues()[$i]->getTotalHT();
             $totalTTCClient += $mission->getInvoices()->getValues()[$i]->getTotalTTC();
-            dump($mission->getInvoices()->getValues()[$i]->getTotalTTC());
         }
         dump($totalHTFournisseur);
         dump($totalTTCFournisseur);
