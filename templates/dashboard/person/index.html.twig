@@ -48,13 +48,13 @@
                                         <a href="{{ path('dashboard_person_show', {id: person.id}) }}">{{ person.id }}</a>
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-                                        {{ person.lastname ?? 'null' }}
+                                        {{ person.lastname ?? '' }}
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-                                        {{ person.firstname ?? 'null' }}
+                                        {{ person.firstname ?? '' }}
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-                                        {{ person.phone ?? 'null' }}
+                                        {{ person.phone ?? '' }}
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                         {% if person.company %}
