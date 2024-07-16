@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('dashboard_mission_delete', {id: supplierMission.id}) }}"
+<form method="post" action="{{ path('dashboard_supplier_delete', {id: supplierMission.id}) }}"
       onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette mission ? Cette action est irréversible.');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ supplierMission.id) }}">
     <button class="relative rounded px-5 py-2.5 overflow-hidden group bg-red-500 relative hover:bg-gradient-to-r

@@ -83,6 +83,14 @@ class SupplierController extends AbstractController
     public function delete(Request $request, SupplierMission $supplierMission, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $supplierMission->getId(), $request->request->get('_token'))) {
+            // suppression des factures
+            foreach ($supplierMission->getInvoices()->getValues() as $invoice) {
+                $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $supplierMission->getMission()->getId() . '/supplier/' . $invoice->getFile();
+                if (file_exists($file)) {
+                    unlink($file);
+                }
+            }
+
             $entityManager->remove($supplierMission);
             $entityManager->flush();
         }
@@ -158,7 +166,6 @@ class SupplierController extends AbstractController
             'invoiceForm' => $invoiceForm->createView(),
         ]);
     }
-
 
     #[Route('/{id}/invoice/{invoiceId}', name: 'invoice_show', methods: ['GET'])]
     public function invoiceShow(SupplierMission $mission, $invoiceId, InvoiceSupplierRepository $invoiceRepository): Response

@@ -216,12 +216,7 @@ class MissionController extends AbstractController
             $totalHTClient += $mission->getInvoices()->getValues()[$i]->getTotalHT();
             $totalTTCClient += $mission->getInvoices()->getValues()[$i]->getTotalTTC();
         }
-        dump($totalHTFournisseur);
-        dump($totalTTCFournisseur);
-        dump($totalJoursFournisseur);
-        dump($totalHTClient);
-        dump($totalTTCClient);
-        dump($totalJoursClient);
+
         return $this->render('dashboard/mission/invoice_links.html.twig', [
             'mission' => $mission,
             'totalHTFournisseur' => $totalHTFournisseur,
