@@ -62,8 +62,8 @@ class InvoiceSupplier
     #[ORM\Column(length: 255)]
     private ?string $paymentTypology = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?\DateTimeImmutable $issueDate = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $issueDate = null;
 
     public function getId(): ?int
     {
@@ -262,12 +262,12 @@ class InvoiceSupplier
         return $this;
     }
 
-    public function getIssueDate(): ?\DateTimeImmutable
+    public function getIssueDate(): ?\DateTimeInterface
     {
         return $this->issueDate;
     }
 
-    public function setIssueDate(\DateTimeImmutable $issueDate): static
+    public function setIssueDate(?\DateTimeInterface $issueDate): static
     {
         $this->issueDate = $issueDate;
 

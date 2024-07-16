@@ -123,6 +123,11 @@ class SupplierController extends AbstractController
         $invoiceForm->handleRequest($request);
 
         if ($invoiceForm->isSubmitted() && $invoiceForm->isValid()) {
+            if ($invoice->isPaid()) {
+                $invoice->setIssueDate(null);
+            } else {
+                $invoice->setPaymentDate(null);
+            }
             $file = $request->files->get('invoice_supplier')['file'];
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
             $file->move($this->getParameter('kernel.project_dir') . '/facture/mission/' . $supplierMission->getMission()->getId() . '/supplier', $fileName);
@@ -155,6 +160,25 @@ class SupplierController extends AbstractController
         ]);
         $invoiceForm->handleRequest($request);
         if ($invoiceForm->isSubmitted() && $invoiceForm->isValid()) {
+            if ($invoice->isPaid()) {
+                $invoice->setIssueDate(null);
+            } else {
+                $invoice->setPaymentDate(null);
+            }
+            // ajout du nouveau fichier
+            if ($request->files->get('invoice_supplier')['file']) {
+                $oldFile = $invoice->getFile();
+                // Suppression de l'ancien fichier
+                if (file_exists($this->getParameter('kernel.project_dir') . '/facture/mission/' . $supplierMission->getMission()->getId() . '/supplier/' . $oldFile)) {
+                    unlink($this->getParameter('kernel.project_dir') . '/facture/mission/' . $supplierMission->getMission()->getId() . '/supplier/' . $oldFile);
+                }
+                // Ajout du nouveau fichier
+                $file = $request->files->get('invoice_supplier')['file'];
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move($this->getParameter('kernel.project_dir') . '/facture/mission/' . $supplierMission->getMission()->getId() . '/supplier', $fileName);
+                $invoice->setRealFilename($file->getClientOriginalName());
+                $invoice->setFile($fileName);
+            }
             $invoice->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
             return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $supplierMission->getId()]);

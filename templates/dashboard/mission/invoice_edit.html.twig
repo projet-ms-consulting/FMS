@@ -1,7 +1,7 @@
 {% extends 'dashboard_layout.html.twig' %}
 
 {% block content %}
-    <h1>Modification de la facture n°<span>{{ invoice.billNum }}</span></h1>
+    <h1>Modification de la facture client n°<span>{{ invoice.billNum }}</span></h1>
 
     <twig:InvoiceMissionEditForm :mission="mission" :invoice="invoice" />
 {% endblock %}

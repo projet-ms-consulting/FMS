@@ -51,38 +51,38 @@
                     </thead>
 
                     <tbody class="divide-y divide-gray-200 bg-white">
-                    {% for mission in mission.invoices %}
-                        {% for invoice in mission.invoiceSuppliers %}
-                            {% if invoice.paymentDate != null and invoice.invoiceMission.paymentDate != null %}
+                    {% for invoiceMission in mission.invoices %}
+                        {% for invoiceSupplier in invoiceMission.invoiceSuppliers %}
+                            {% if invoiceSupplier.paymentDate != null and invoiceSupplier.invoiceMission.paymentDate != null %}
                                 <tr class="text-xs md:text-sm bg-green-200">
-                            {% elseif invoice.paymentDate == null and invoice.invoiceMission.paymentDate != null %}
+                            {% elseif invoiceSupplier.paymentDate == null and invoiceSupplier.invoiceMission.paymentDate != null %}
                                 <tr class="text-xs md:text-sm bg-orange-200">
-                            {% elseif invoice.paymentDate != null and invoice.invoiceMission.paymentDate == null %}
+                            {% elseif invoiceSupplier.paymentDate != null and invoiceSupplier.invoiceMission.paymentDate == null %}
                                 <tr class="text-xs md:text-sm bg-red-200">
                             {% else %}
                                 <tr class="text-xs md:text-sm">
                             {% endif %}
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    {{ invoice.createdAt|date('d/m/Y') }}
+                                    {{ invoiceSupplier.createdAt|date('d/m/Y') }}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    {{ invoice.supplierMission.supplier.name }}
+                                    {{ invoiceSupplier.supplierMission.supplier.name }}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    {{ invoice.invoiceMission.mission.client.name }}
+                                    {{ invoiceSupplier.supplierMission.mission.client.name }}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    <a href="{{ path('dashboard_supplier_invoice_show', {id: mission.id, invoiceId: invoice.id}) }}" class="font-bold underline">{{ invoice.billNum }}</a>
+                                    <a href="{{ path('dashboard_supplier_invoice_show', {id: invoiceSupplier.supplierMission.id, invoiceId: invoiceSupplier.id}) }}" class="font-bold underline">{{ invoiceSupplier.billNum }}</a>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    {{ invoice.quantity }} {{ invoice.unit }}
+                                    {{ invoiceSupplier.quantity }} {{ invoiceSupplier.unit }}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    {{ invoice.totalTTC|number_format(2, '.', ' ') }} €
+                                    {{ invoiceSupplier.totalTTC|number_format(2, '.', ' ') }} €
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    {% if invoice.paymentDate != null %}
-                                        {{ invoice.paymentDate|date('d/m/Y') }}
+                                    {% if invoiceSupplier.paymentDate != null %}
+                                        {{ invoiceSupplier.paymentDate|date('d/m/Y') }}
                                         {% else %}
                                             <span class="font-bold text-red-600">
                                                 Pas encore payée
@@ -90,17 +90,17 @@
                                     {% endif %}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    <a href="{{ path('dashboard_mission_invoice_show', {id: mission.id, invoiceId: invoice.invoiceMission.id}) }}" class="font-bold underline">{{ invoice.invoiceMission.billNum }}</a>
+                                    <a href="{{ path('dashboard_mission_invoice_show', {id: mission.id, invoiceId: invoiceSupplier.invoiceMission.id}) }}" class="font-bold underline">{{ invoiceSupplier.invoiceMission.billNum }}</a>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    {{ invoice.invoiceMission.quantity }} {{ invoice.invoiceMission.unit }}
+                                    {{ invoiceSupplier.invoiceMission.quantity }} {{ invoiceSupplier.invoiceMission.unit }}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    {{ invoice.invoiceMission.totalTTC|number_format(2, '.', ' ') }} €
+                                    {{ invoiceSupplier.invoiceMission.totalTTC|number_format(2, '.', ' ') }} €
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    {% if invoice.invoiceMission.paymentDate != null %}
-                                        {{ invoice.invoiceMission.paymentDate|date('d/m/Y') }}
+                                    {% if invoiceSupplier.invoiceMission.paymentDate != null %}
+                                        {{ invoiceSupplier.invoiceMission.paymentDate|date('d/m/Y') }}
                                         {% else %}
                                             <span class="font-bold text-red-600">
                                                 Pas encore payée

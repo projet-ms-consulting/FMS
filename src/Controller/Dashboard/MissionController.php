@@ -122,6 +122,11 @@ class MissionController extends AbstractController
         $invoiceForm->handleRequest($request);
 
         if ($invoiceForm->isSubmitted() && $invoiceForm->isValid()) {
+            if ($invoice->isPaid()) {
+                $invoice->setIssueDate(null);
+            } else {
+                $invoice->setPaymentDate(null);
+            }
             $file = $request->files->get('invoice_mission')['file'];
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
             $file->move($this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId(), $fileName);
@@ -154,6 +159,11 @@ class MissionController extends AbstractController
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($invoice->isPaid()) {
+                $invoice->setIssueDate(null);
+            } else {
+                $invoice->setPaymentDate(null);
+            }
             // ajout du nouveau fichier
             if ($request->files->get('invoice_mission')['file']) {
                 $oldFile = $invoice->getFile();
@@ -233,6 +243,7 @@ class MissionController extends AbstractController
     {
         $invoice = $invoiceRepository->find($invoiceId);
         $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/' . $invoice->getFile();
+
         return $this->render('dashboard/mission/invoice_show.html.twig', [
             'mission' => $mission,
             'invoice' => $invoice,

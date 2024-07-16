@@ -62,8 +62,8 @@ class InvoiceMission
     #[ORM\Column]
     private ?float $tva = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $issueDate = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $issueDate = null;
 
     #[ORM\Column(length: 255)]
     private ?string $paymentTypology = null;
@@ -288,12 +288,12 @@ class InvoiceMission
         return $this;
     }
 
-    public function getIssueDate(): ?\DateTimeImmutable
+    public function getIssueDate(): ?\DateTimeInterface
     {
         return $this->issueDate;
     }
 
-    public function setIssueDate(?\DateTimeImmutable $issueDate): static
+    public function setIssueDate(?\DateTimeInterface $issueDate): static
     {
         $this->issueDate = $issueDate;
 
