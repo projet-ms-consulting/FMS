@@ -33,6 +33,7 @@ class AddressController extends AbstractController
         $address = new Address();
         $form = $this->createForm(AddressType::class, $address);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $address->setCreatedAt(new \DateTimeImmutable());
             $em->persist($address);
@@ -41,7 +42,7 @@ class AddressController extends AbstractController
         }
         return $this->render('dashboard/address/new.html.twig', [
             'address' => $address,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 
@@ -66,7 +67,7 @@ class AddressController extends AbstractController
         }
         return $this->render('dashboard/address/edit.html.twig', [
             'address' => $address,
-            'form' => $form->createView(),
+            'form' => $form,
         ]);
     }
 

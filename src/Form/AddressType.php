@@ -3,28 +3,61 @@
 namespace App\Form;
 
 use App\Entity\Address;
-use App\Entity\Company;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class AddressType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nbStreet', null, [
-                'label' => 'Numéro de Rue'
+            ->add('nbStreet', NumberType::class, [
+                'label' => 'Numéro de Rue',
+                'attr' => [
+                    'min' => 1,
+                    'max' => 9999
+                ],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^\d+[a-zA-Z]?$/',
+                        'message' => 'Le numéro de rue n\'est pas valide.',
+                    ]),
+                ],
             ])
-            ->add('street', null, [
-                'label' => 'Voirie'
+            ->add('street', TextType::class, [
+                'label' => 'Voirie',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9\s\-]+$/',
+                        'message' => 'Le nom de la voirie n\'est pas valide.',
+                    ]),
+                ],
             ])
-            ->add('zipCode', null, [
-                'label' => 'Code postal'
+            ->add('zipCode', NumberType::class, [
+                'label' => 'Code postal',
+                'attr' => [
+                    'min' => 10000,
+                    'max' => 99999
+                ],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^\d{5}$/',
+                        'message' => 'Le code postal n\'est pas valide.',
+                    ]),
+                ],
             ])
-            ->add('city', null, [
-                'label' => 'Ville'
+            ->add('city', TextType::class, [
+                'label' => 'Ville',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z\s\-]+$/',
+                        'message' => 'La ville n\'est pas valide.',
+                    ]),
+                ],
             ])
         ;
     }

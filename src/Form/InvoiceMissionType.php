@@ -16,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfonycasts\DynamicForms\DependentField;
 use Symfonycasts\DynamicForms\DynamicFormBuilder;
@@ -33,6 +34,12 @@ class InvoiceMissionType extends AbstractType
         $builder
             ->add('billNum', TextType::class, [
                 'label' => 'Numéro de facture',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^\d+[a-zA-Z]?$/',
+                        'message' => 'Le numéro de rue n\'est pas valide.',
+                    ]),
+                ],
             ])
             ->add('type', ChoiceType::class, [
                 'label' => 'Type',

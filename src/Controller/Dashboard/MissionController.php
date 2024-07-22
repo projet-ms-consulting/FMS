@@ -49,7 +49,7 @@ class MissionController extends AbstractController
 
         return $this->render('dashboard/mission/new.html.twig', [
             'mission' => $mission,
-            'missionForm' => $missionForm->createView(),
+            'missionForm' => $missionForm,
         ]);
     }
 
@@ -76,7 +76,7 @@ class MissionController extends AbstractController
 
         return $this->render('dashboard/mission/edit.html.twig', [
             'mission' => $mission,
-            'missionForm' => $missionForm->createView(),
+            'missionForm' => $missionForm,
         ]);
     }
 
@@ -146,7 +146,7 @@ class MissionController extends AbstractController
         return $this->render('dashboard/mission/invoice_new.html.twig', [
             'mission' => $mission,
             'invoice' => $invoice,
-            'invoiceForm' => $invoiceForm->createView(),
+            'invoiceForm' => $invoiceForm,
         ]);
     }
 
@@ -186,7 +186,7 @@ class MissionController extends AbstractController
         return $this->render('dashboard/mission/invoice_edit.html.twig', [
             'invoice' => $invoice,
             'mission' => $mission,
-            'invoiceForm' => $form->createView(),
+            'invoiceForm' => $form,
         ]);
     }
 

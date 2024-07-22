@@ -48,7 +48,7 @@ class SupplierController extends AbstractController
 
         return $this->render('dashboard/supplier/new.html.twig', [
             'supplierMission' => $supplierMission,
-            'supplierMissionForm' => $supplierMissionForm->createView(),
+            'supplierMissionForm' => $supplierMissionForm,
         ]);
     }
 
@@ -75,7 +75,7 @@ class SupplierController extends AbstractController
 
         return $this->render('dashboard/supplier/edit.html.twig', [
             'supplierMission' => $supplierMission,
-            'supplierMissionForm' => $supplierMissionForm->createView(),
+            'supplierMissionForm' => $supplierMissionForm,
         ]);
     }
 
@@ -144,7 +144,7 @@ class SupplierController extends AbstractController
         return $this->render('dashboard/supplier/invoice_new.html.twig', [
             'supplierMission' => $supplierMission,
             'invoice' => $invoice,
-            'invoiceForm' => $invoiceForm->createView(),
+            'invoiceForm' => $invoiceForm,
         ]);
     }
 
@@ -187,7 +187,7 @@ class SupplierController extends AbstractController
         return $this->render('dashboard/supplier/invoice_edit.html.twig', [
             'invoice' => $invoice,
             'supplierMission' => $supplierMission,
-            'invoiceForm' => $invoiceForm->createView(),
+            'invoiceForm' => $invoiceForm,
         ]);
     }
 
