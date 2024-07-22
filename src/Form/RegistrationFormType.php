@@ -51,8 +51,7 @@ class RegistrationFormType extends AbstractType
             ->add('person', PersonAutocompleteField::class)
             ->add('roles', ChoiceType::class, [
                 'label' => 'Roles',
-                'multiple' => true,
-                'expanded' => true,
+                'mapped' => false,
                 'constraints' => [
                     new NotBlank(['message' => 'Veuillez choisir au moins un role']),
                 ],
@@ -60,7 +59,7 @@ class RegistrationFormType extends AbstractType
                     'Utilisateur' => 'ROLE_USER',
                     'Administrateur' => 'ROLE_ADMIN',
                     'Super Administrateur' => 'ROLE_SUPER_ADMIN',
-                ]
+                ],
             ])
         ;
     }

@@ -22,7 +22,7 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $user = $options['data'] ?? null;
-        $currentRoles = $user ? $user->getRoles() : [];
+        $currentRoles = $user ? $user->getRoles()[0] : [];
 
         $builder
             ->add('email', EmailType::class, [
@@ -53,8 +53,7 @@ class UserType extends AbstractType
             ])
             ->add('roles', ChoiceType::class, [
                 'label' => 'Roles',
-                'multiple' => true,
-                'expanded' => true,
+                'mapped' => false,
                 'constraints' => [
                     new NotBlank(['message' => 'Veuillez choisir au moins un role']),
                 ],

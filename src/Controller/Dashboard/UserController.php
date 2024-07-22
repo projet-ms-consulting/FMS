@@ -38,6 +38,11 @@ class UserController extends AbstractController
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
+            $roles = $userForm->get('roles')->getData();
+            if (is_string($roles)) {
+                $roles = [$roles];
+            }
+            $user->setRoles($roles);
             $hash = $hasher->hashPassword($user, $userForm->get('plainPassword')->getData());
             $user->setPassword($hash);
             $user->setCreatedAt(new \DateTimeImmutable());
@@ -65,12 +70,17 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher, SessionInterface $session): Response
     {
-        $oldEmail = $user->getEmail();
-        $oldPassword = $user->getPassword();
         $userForm = $this->createForm(UserType::class, $user);
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
+            $oldEmail = $user->getEmail();
+            $oldPassword = $user->getPassword();
+            $roles = $userForm->get('roles')->getData();
+            if (is_string($roles)) {
+                $roles = [$roles];
+            }
+            $user->setRoles($roles);
             $user->setPassword($oldPassword);
             $entityManager->flush();
             $newEmail = $user->getEmail();
