@@ -314,6 +314,9 @@
             "./config/packages/twig_component.yaml"
         ]
     },
+    "symfony/ux-typed": {
+        "version": "v2.18.0"
+    },
     "symfony/validator": {
         "version": "7.0",
         "recipe": {

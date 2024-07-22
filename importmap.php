@@ -35,4 +35,7 @@ return [
         'version' => '2.3.1',
         'type' => 'css',
     ],
+    'typed.js' => [
+        'version' => '2.1.0',
+    ],
 ];
