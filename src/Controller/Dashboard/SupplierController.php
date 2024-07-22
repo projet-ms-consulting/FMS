@@ -43,6 +43,7 @@ class SupplierController extends AbstractController
             $entityManager->persist($supplierMission);
             $entityManager->flush();
 
+            $this->addFlash('success', 'La mission fournisseur a bien été ajoutée.');
             return $this->redirectToRoute('dashboard_supplier_index');
         }
 
@@ -70,6 +71,7 @@ class SupplierController extends AbstractController
             $supplierMission->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
 
+            $this->addFlash('success', 'La mission fournisseur a bien été modifiée.');
             return $this->redirectToRoute('dashboard_supplier_index');
         }
 
@@ -93,6 +95,7 @@ class SupplierController extends AbstractController
 
             $entityManager->remove($supplierMission);
             $entityManager->flush();
+            $this->addFlash('success', 'La mission fournisseur a bien été supprimée.');
         }
 
         return $this->redirectToRoute('dashboard_supplier_index');
@@ -138,6 +141,7 @@ class SupplierController extends AbstractController
             $entityManager->persist($invoice);
             $entityManager->flush();
 
+            $this->addFlash('success', 'La facture fournisseur a bien été ajoutée.');
             return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $supplierMission->getId()]);
         }
 
@@ -181,6 +185,8 @@ class SupplierController extends AbstractController
             }
             $invoice->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
+
+            $this->addFlash('success', 'La facture fournisseur a bien été modifiée.');
             return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $supplierMission->getId()]);
         }
 
@@ -223,6 +229,7 @@ class SupplierController extends AbstractController
             }
             $entityManager->remove($invoiceSupplier);
             $entityManager->flush();
+            $this->addFlash('success', 'La facture fournisseur a bien été supprimée.');
         }
         return $this->redirectToRoute('dashboard_supplier_invoice', ['id' => $invoiceSupplier->getSupplierMission()->getId()]);
     }

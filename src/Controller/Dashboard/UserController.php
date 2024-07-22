@@ -44,6 +44,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $this->addFlash('success', 'L\'utilisateur a bien été ajouté.');
             return $this->redirectToRoute('dashboard_user_index');
         }
 
@@ -78,6 +79,7 @@ class UserController extends AbstractController
                 return $this->redirectToRoute('app_logout');
             }
 
+            $this->addFlash('success', 'L\'utilisateur a bien été modifié.');
             return $this->redirectToRoute('dashboard_user_index');
         }
 
@@ -93,6 +95,7 @@ class UserController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();
+            $this->addFlash('success', 'L\'utilisateur a bien été supprimé.');
         }
 
         return $this->redirectToRoute('dashboard_user_index');

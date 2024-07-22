@@ -38,6 +38,8 @@ class AddressController extends AbstractController
             $address->setCreatedAt(new \DateTimeImmutable());
             $em->persist($address);
             $em->flush();
+
+            $this->addFlash('success', 'L\'adresse a bien été ajoutée.');
             return $this->redirectToRoute('dashboard_address_index');
         }
         return $this->render('dashboard/address/new.html.twig', [
@@ -63,6 +65,7 @@ class AddressController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $address->setUpdatedAt(new \DateTimeImmutable());
             $em->flush();
+            $this->addFlash('success', 'L\'adresse a bien été modifiée.');
             return $this->redirectToRoute('dashboard_address_index');
         }
         return $this->render('dashboard/address/edit.html.twig', [
@@ -77,6 +80,7 @@ class AddressController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$address->getId(), $request->request->get('_token'))) {
             $em->remove($address);
             $em->flush();
+            $this->addFlash('success', 'L\'adresse a bien été supprimée.');
         }
         return $this->redirectToRoute('dashboard_address_index');
     }

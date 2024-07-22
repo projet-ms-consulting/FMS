@@ -44,6 +44,7 @@ class MissionController extends AbstractController
             $entityManager->persist($mission);
             $entityManager->flush();
 
+            $this->addFlash('success', 'La mission client a bien été ajoutée.');
             return $this->redirectToRoute('dashboard_mission_index');
         }
 
@@ -71,6 +72,7 @@ class MissionController extends AbstractController
             $mission->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
 
+            $this->addFlash('success', 'La mission client a bien été modifiée.');
             return $this->redirectToRoute('dashboard_mission_index');
         }
 
@@ -97,6 +99,7 @@ class MissionController extends AbstractController
 
             $entityManager->remove($mission);
             $entityManager->flush();
+            $this->addFlash('success', 'La mission client a bien été supprimée.');
         }
 
         return $this->redirectToRoute('dashboard_mission_index');
@@ -140,6 +143,7 @@ class MissionController extends AbstractController
             $entityManager->persist($invoice);
             $entityManager->flush();
 
+            $this->addFlash('success', 'La facture client a bien été ajoutée.');
             return $this->redirectToRoute('dashboard_mission_invoice', ['id' => $mission->getId()]);
         }
 
@@ -180,6 +184,8 @@ class MissionController extends AbstractController
             }
             $invoice->setUpdatedAt(new \DateTimeImmutable());
             $em->flush();
+
+            $this->addFlash('success', 'La facture client a bien été modifiée.');
             return $this->redirectToRoute('dashboard_mission_invoice', ['id' => $mission->getId()]);
         }
 
@@ -266,6 +272,7 @@ class MissionController extends AbstractController
             // suppression de toutes les factures liees
             $this->deleteInvoiceSuppliers($invoice, $mission, $entityManager);
             $entityManager->flush();
+            $this->addFlash('success', 'La facture client a bien été supprimée.');
         }
         return $this->redirectToRoute('dashboard_mission_invoice', ['id' => $mission->getId()]);
     }

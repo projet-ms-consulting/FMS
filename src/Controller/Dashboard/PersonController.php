@@ -39,6 +39,7 @@ class PersonController extends AbstractController
             $entityManager->persist($person);
             $entityManager->flush();
 
+            $this->addFlash('success', 'La personne a bien été ajoutée.');
             return $this->redirectToRoute('dashboard_person_index');
         }
 
@@ -67,6 +68,7 @@ class PersonController extends AbstractController
             $entityManager->persist($person);
             $entityManager->flush();
 
+            $this->addFlash('success', 'La personne a bien été modifiée.');
             return $this->redirectToRoute('dashboard_person_index');
         }
 
@@ -82,6 +84,7 @@ class PersonController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$person->getId(), $request->request->get('_token'))) {
             $entityManager->remove($person);
             $entityManager->flush();
+            $this->addFlash('success', 'La personne a bien été supprimée.');
         }
 
         return $this->redirectToRoute('dashboard_person_index');

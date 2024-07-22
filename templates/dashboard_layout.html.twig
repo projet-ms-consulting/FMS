@@ -23,6 +23,13 @@
 
   <div class="flex-col w-full h-screen">
     {{ include('components/sidebar.html.twig') }}
+
+    {% for message in app.flashes('success') %}
+      <div class="ml-12 p-4 px-8 bg-green-600 text-center">
+          <span class="text-white text-lg alert alert-success">Succès : {{ message }}</span>
+      </div>
+    {% endfor %}
+
     <div id="content" class="ml-12 xl:p-4">
       {% block content %}{% endblock %}
     </div>

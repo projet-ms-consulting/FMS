@@ -50,6 +50,7 @@ class CompanyController extends AbstractController
             $entityManager->persist($company);
             $entityManager->flush();
 
+            $this->addFlash('success', 'L\'entreprise a bien été ajoutée.');
             return $this->redirectToRoute('dashboard_company_index');
         }
 
@@ -74,6 +75,7 @@ class CompanyController extends AbstractController
 
         if ($companyForm->isSubmitted() && $companyForm->isValid()) {
             $entityManager->flush();
+            $this->addFlash('success', 'L\'entreprise a bien été modifiée.');
             return $this->redirectToRoute('dashboard_company_index');
         }
 
@@ -89,6 +91,7 @@ class CompanyController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $company->getId(), $request->request->get('_token'))) {
             $entityManager->remove($company);
             $entityManager->flush();
+            $this->addFlash('success', 'L\'entreprise a bien été supprimée.');
         }
 
         return $this->redirectToRoute('dashboard_company_index');
