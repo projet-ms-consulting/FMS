@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfonycasts\DynamicForms\DependentField;
 use Symfonycasts\DynamicForms\DynamicFormBuilder;
 
@@ -24,18 +25,42 @@ class CompanyType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom de l\'entreprise',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9\s\-]+$/',
+                        'message' => 'Le nom de l\'entreprise n\'est pas valide.',
+                    ]),
+                ],
             ])
             ->add('numTva', TextType::class, [
                 'label' => 'Numéro de TVA',
                 'required' => false,
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^\d{11}$/',
+                        'message' => 'Le numéro de TVA n\'est pas valide.',
+                    ]),
+                ],
             ])
             ->add('siret', TextType::class, [
                 'label' => 'Siret',
                 'required' => false,
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^\d{14}$/',
+                        'message' => 'Le numéro de Siret n\'est pas valide.',
+                    ]),
+                ],
             ])
             ->add('siren', TextType::class, [
                 'label' => 'Siren',
                 'required' => false,
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^\d{9}$/',
+                        'message' => 'Le numéro de Siren n\'est pas valide.',
+                    ]),
+                ],
             ])
             ->add('headOffice', ChoiceType::class, [
                 'label' => 'Siège social',
@@ -88,6 +113,12 @@ class CompanyType extends AbstractType
                             'label' => 'Numéro de Rue',
                             'mapped' => false,
                             'required' => true,
+                            'constraints' => [
+                                new Regex([
+                                    'pattern' => '/^\d+[a-zA-Z]?$/',
+                                    'message' => 'Le numéro de rue n\'est pas valide.',
+                                ]),
+                            ],
                         ]);
                 }
             })
@@ -98,6 +129,12 @@ class CompanyType extends AbstractType
                             'label' => 'Voirie',
                             'mapped' => false,
                             'required' => true,
+                            'constraints' => [
+                                new Regex([
+                                    'pattern' => '/^[a-zA-Z0-9\s\-]+$/',
+                                    'message' => 'Le nom de la voirie n\'est pas valide.',
+                                ]),
+                            ],
                         ]);
                 }
             })
@@ -108,6 +145,16 @@ class CompanyType extends AbstractType
                             'label' => 'Code postal',
                             'mapped' => false,
                             'required' => true,
+                            'attr' => [
+                                'min' => 10000,
+                                'max' => 99999
+                            ],
+                            'constraints' => [
+                                new Regex([
+                                    'pattern' => '/^\d{5}$/',
+                                    'message' => 'Le code postal n\'est pas valide.',
+                                ]),
+                            ],
                         ]);
                 }
             })
@@ -118,6 +165,12 @@ class CompanyType extends AbstractType
                             'label' => 'Ville',
                             'mapped' => false,
                             'required' => true,
+                            'constraints' => [
+                                new Regex([
+                                    'pattern' => '/^[a-zA-Z\s\-]+$/',
+                                    'message' => 'La ville n\'est pas valide.',
+                                ]),
+                            ],
                         ]);
                 }
             })

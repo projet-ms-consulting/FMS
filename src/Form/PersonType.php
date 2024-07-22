@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class PersonType extends AbstractType
 {
@@ -16,13 +17,31 @@ class PersonType extends AbstractType
     {
         $builder
             ->add('lastName', null, [
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
+                        'message' => 'Le nom ne doit contenir que des lettres.'
+                    ]),
+                ],
             ])
             ->add('firstName', null, [
-                'label' => 'Prénom'
+                'label' => 'Prénom',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
+                        'message' => 'Le prénom ne doit contenir que des lettres.'
+                    ]),
+                ],
             ])
             ->add('phone', null, [
-                'label' => 'Télephone'
+                'label' => 'Télephone',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^0\d{9}$/',
+                        'message' => 'Le numéro de téléphone n\'est pas valide.'
+                    ]),
+                ],
             ])
             ->add('company', CompanyAutocompleteField::class)
         ;

@@ -17,10 +17,6 @@ class AddressType extends AbstractType
         $builder
             ->add('nbStreet', NumberType::class, [
                 'label' => 'Numéro de Rue',
-                'attr' => [
-                    'min' => 1,
-                    'max' => 9999
-                ],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^\d+[a-zA-Z]?$/',

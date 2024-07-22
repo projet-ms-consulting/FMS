@@ -7,6 +7,8 @@ use App\Entity\Mission;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,11 +17,23 @@ class MissionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', null, [
-                'label' => 'Nom'
+            ->add('name', TextType::class, [
+                'label' => 'Nom',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9 \-]+$/',
+                        'message' => 'Le nom ne doit contenir que des lettres, des chiffres, des espaces et des tirets.'
+                    ]),
+                ],
             ])
-            ->add('description', null, [
-                'label' => 'Description'
+            ->add('description', TextType::class, [
+                'label' => 'Description',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9 \-\.,;!"\'\(\)\[\]\/]+$/',
+                        'message' => 'La description contient des caractères non autorisés.'
+                    ]),
+                ],
             ])
             ->add('client', EntityType::class, [
                 'class' => company::class,

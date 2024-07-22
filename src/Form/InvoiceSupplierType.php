@@ -5,11 +5,9 @@ namespace App\Form;
 use App\Entity\InvoiceMission;
 use App\Entity\InvoiceSupplier;
 use App\Entity\SupplierMission;
-use App\Repository\InvoiceSupplierRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -18,10 +16,9 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Range;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfonycasts\DynamicForms\DependentField;
 use Symfonycasts\DynamicForms\DynamicFormBuilder;
 
@@ -47,6 +44,12 @@ class InvoiceSupplierType extends AbstractType
         $builder
             ->add('billNum', TextType::class, [
                 'label' => 'Numéro de facture',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9\/\-]+$/',
+                        'message' => 'Le numéro de facture n\'est pas valide.',
+                    ]),
+                ],
             ])
             ->add('type', ChoiceType::class, [
                 'label' => 'Type',

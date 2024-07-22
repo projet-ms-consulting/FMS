@@ -10,10 +10,12 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class UserType extends AbstractType
 {
@@ -23,31 +25,15 @@ class UserType extends AbstractType
         $currentRoles = $user ? $user->getRoles() : [];
 
         $builder
-            ->add('email', null, [
+            ->add('email', EmailType::class, [
                 'label' => 'Email',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+                        'message' => 'L\'adresse email n\'est pas valide.',
+                    ]),
+                ],
             ])
-//            ->add('person', EntityType::class, [
-//                'class' => Person::class,
-//                'label' => 'Personne',
-//                'choice_label' => function (Person $person) {
-//                    return $person->getLastName() . ' ' . $person->getFirstName();
-//                },
-//                'placeholder' => 'Choisissez une personne',
-//                'query_builder' => function (EntityRepository $er) use ($options) {
-//                    $currentPerson = $options['data']->getPerson();
-//
-//                    $qb = $er->createQueryBuilder('p');
-//                    $qb->leftJoin('p.user', 'u')
-//                        ->where('u.person IS NULL');
-//
-//                    if ($currentPerson) {
-//                        $qb->orWhere('p.id = :currentPersonId')
-//                            ->setParameter('currentPersonId', $currentPerson->getId());
-//                    }
-//
-//                    return $qb;
-//                },
-//            ])
             ->add('person', PersonAutocompleteField::class, [
                 'data' => $options['data']->getPerson(),
                 'query_builder' => function (EntityRepository $er) use ($options) {
