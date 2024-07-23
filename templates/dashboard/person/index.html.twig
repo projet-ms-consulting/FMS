@@ -13,7 +13,7 @@
     <section>
         {{ include('dashboard/components/navbar_component.html.twig', {
     title: 'Personne',
-    text: 'Cette page vous permet de gérer les personnes. Vous pouvez consulter, ajouter, modifier ou supprimer des personnes selon vos besoins.',
+    text: 'Cette page vous permet de gérer les personnes : consulter, ajouter, modifier ou supprimer des personnes selon vos besoins.',
     button_text: 'Ajouter une personne',
     button_url: path('dashboard_person_new')
     }) }}
@@ -24,7 +24,6 @@
                         <thead class="bg-gray-50 overflow-y-hidden">
                         <tr>
                             {% set columns = {
-                                Id: 'p.id',
                                 Nom: 'p.lastName',
                                 Prénom: 'p.firstName',
                                 Téléphone: 'p.phone',
@@ -44,9 +43,6 @@
                         <tbody class="divide-y divide-gray-200 bg-white">
                             {% for person in persons %}
                                 <tr class="text-sm md:text-base">
-                                    <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                        <a href="{{ path('dashboard_person_show', {id: person.id}) }}">{{ person.id }}</a>
-                                    </td>
                                     <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
                                         {{ person.lastname ?? '' }}
                                     </td>

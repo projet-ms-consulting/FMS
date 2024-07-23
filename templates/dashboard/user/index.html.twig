@@ -13,8 +13,7 @@
 <section>
     {{ include('dashboard/components/navbar_component.html.twig', {
     title: 'Utilisateur',
-    text: 'Cette page vous permet de gérer les utilisateurs. Vous pouvez consulter, ajouter, modifier ou supprimer des
-	utilisateurs selon vos besoins.',
+    text: 'Cette page vous permet de gérer les utilisateurs : consulter, ajouter, modifier ou supprimer des utilisateurs selon vos besoins.',
     button_text: 'Ajouter un utilisateur',
     button_url: path('dashboard_user_new')
     }) }}
@@ -27,7 +26,6 @@
                     <thead class="bg-gray-50 overflow-y-hidden">
                         <tr>
                             {% set columns = {
-                            Id: 'u.id',
                             Personne: 'p.lastName',
                             Email: 'u.email',
                             'Créer le': 'u.createdAt'
@@ -45,9 +43,6 @@
                     <tbody class="divide-y divide-gray-200 bg-white">
                         {% for user in users %}
                         <tr class="text-sm md:text-base">
-                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                <a href="{{ path('dashboard_user_show', {id: user.id}) }}">{{ user.id }}</a>
-                            </td>
                             <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
                                 {% if user.person %}
                                 <a class="font-bold" href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{

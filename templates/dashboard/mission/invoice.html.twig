@@ -29,7 +29,6 @@
                 <thead class="bg-gray-50 overflow-y-hidden">
                 <tr>
                     {% set columns = {
-                        'Id': 'i.id',
                         'Numéro de facture': 'i.billNum',
                         'Type': 'i.type',
                         'Fichier': 'i.realFilename',
@@ -51,9 +50,6 @@
                 <tbody class="divide-y divide-gray-200 bg-white">
                     {% for invoice in invoices %}
                     <tr class="text-sm md:text-base">
-                        <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                            {{ invoice.id }}
-                        </td>
                         <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
                             {{ invoice.billNum }}
                         </td>

@@ -22,6 +22,22 @@ class CompanyType extends AbstractType
     {
         $builder = new DynamicFormBuilder($builder);
 
+        // Accéder à l'entité Company
+        $company = $options['data'] ?? null;
+
+        // Déterminer si l'entreprise a une adresse
+        $hasAddress = null;
+        if ($company && $company->getAddress()) {
+            $hasAddress = true;
+        }
+
+        $hasheadOffice = null;
+        if ($company && $company->isHeadOffice()) {
+            $hasheadOffice = true;
+        } else {
+            $hasheadOffice = false;
+        }
+
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom de l\'entreprise',
@@ -64,7 +80,7 @@ class CompanyType extends AbstractType
             ])
             ->add('headOffice', ChoiceType::class, [
                 'label' => 'Siège social',
-                'data' => false,
+                'data' => $hasheadOffice,
                 'choices' => [
                     'Oui' => true,
                     'Non' => false
@@ -77,10 +93,11 @@ class CompanyType extends AbstractType
                 'placeholder' => 'Choisissez un role',
             ])
             ->add('checkAddress', ChoiceType::class, [
-                    'label' => 'Avez vous déja créer une adresse ?',
+                    'label' => 'Avez vous déja créé une adresse ?',
                     'placeholder' => 'Choisissez une option',
                     'placeholder_attr' => ['hidden' => true],
                     'mapped' => false,
+                    'data' => $hasAddress,
                     'choices' => [
                         'Je ne veux pas d\'adresse' => null,
                         'Oui' => true,

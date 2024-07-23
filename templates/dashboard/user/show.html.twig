@@ -2,7 +2,6 @@
 
 {% block content %}
 <div class="p-10 space-y-3">
-    <p>Id : {{ user.id }}</p>
     <p>Personne :
         {% if user.person %}
             <a href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{ user.person.firstName }} {{ user.person.lastName }}</a>

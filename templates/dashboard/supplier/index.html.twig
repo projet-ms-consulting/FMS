@@ -5,7 +5,7 @@
     <section>
         {{ include('dashboard/components/navbar_component.html.twig', {
             title: 'Mission fournisseur',
-            text: 'Cette page vous permet de gérer les missions fournisseurs. Vous pouvez consulter, ajouter, modifier ou supprimer des missions fournisseurs selon vos besoins.',
+            text: 'Cette page vous permet de gérer les missions fournisseurs : consulter, ajouter, modifier ou supprimer des missions fournisseurs selon vos besoins.',
             button_text: 'Ajouter une mission fournisseur',
             button_url: path('dashboard_supplier_new')
     }) }}
@@ -16,7 +16,6 @@
                         <thead class="bg-gray-50 overflow-y-hidden">
                         <tr>
                             {% set columns = {
-                                Id: 's.id',
                                 Nom: 's.name',
                                 Description: 's.description',
                                 Mission: 's.name',
@@ -36,9 +35,6 @@
                         <tbody class="divide-y divide-gray-200 bg-white">
                         {% for supplierMission in supplierMissions %}
                             <tr class="text-sm md:text-base">
-                                <td class="whitespace-nowrap px-6 py-4 text-gray-900 sm:pl-6">
-                                    {{ supplierMission.id }}
-                                </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
                                     {{ supplierMission.name|length > 30 ? supplierMission.name|slice(0, 30) ~ '...' : supplierMission.name }}
                                 </td>
