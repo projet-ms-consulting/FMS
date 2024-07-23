@@ -68,6 +68,7 @@ class AppFixtures extends Fixture
             $company->setSiret($this->faker->siret());
             $company->setHeadOffice($this->faker->boolean());
             $company->setCreatedAt($date);
+            $company->setCreatedBy($company);
             $manager->persist($company);
             $listCompany[] = $company;
         }
@@ -79,6 +80,14 @@ class AppFixtures extends Fixture
         $superAdmin->setPhone($this->faker->phoneNumber());
         $superAdmin->setCreatedAt($date);
         $manager->persist($superAdmin);
+
+        // Admin
+        $admin = new Person();
+        $admin->setFirstName($this->faker->firstName());
+        $admin->setLastName($this->faker->lastName());
+        $admin->setPhone($this->faker->phoneNumber());
+        $admin->setCreatedAt($date);
+        $manager->persist($admin);
 
         // Person
         for ($i = 0; $i < 20; $i++) {
@@ -94,14 +103,30 @@ class AppFixtures extends Fixture
         }
 
         // User (SuperAdmin)
-        $user = new User();
-        $user->setEmail('admin@admin.fr');
-        $hash = $this->hasher->hashPassword($user, 'admin');
-        $user->setPassword($hash);
-        $user->setRoles(['ROLE_SUPER_ADMIN']);
-        $user->setPerson($superAdmin);
-        $user->setCreatedAt($date);
-        $manager->persist($user);
+        $userSuperAdmin = new User();
+        $userSuperAdmin->setEmail('superadmin@admin.fr');
+        $hash = $this->hasher->hashPassword($userSuperAdmin, 'admin');
+        $userSuperAdmin->setPassword($hash);
+        $userSuperAdmin->setRoles(['ROLE_SUPER_ADMIN']);
+        $userSuperAdmin->setPerson($superAdmin);
+        $userSuperAdmin->setCreatedAt($date);
+        $manager->persist($userSuperAdmin);
+
+        // User (Admin)
+        $userAdmin = new User();
+        $userAdmin->setEmail('admin@admin.fr');
+        $hash = $this->hasher->hashPassword($userAdmin, 'admin');
+        $userAdmin->setPassword($hash);
+        $userAdmin->setRoles(['ROLE_ADMIN']);
+        $userAdmin->setPerson($admin);
+        $userAdmin->setCreatedAt($date);
+        $manager->persist($userAdmin);
+
+        for ($i = 0; $i < count($listCompany); $i++) {
+            $company = $listCompany[$i];
+            $company->setCreatedByUser($userAdmin);
+            $manager->persist($company);
+        }
 
         // User (User)
         for ($i = 0; $i < 20; $i++) {

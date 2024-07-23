@@ -55,12 +55,31 @@ class Company
     #[ORM\JoinColumn(nullable: false)]
     private ?TypeCompany $type = null;
 
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'companies')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?self $createdBy = null;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'createdBy')]
+    private Collection $companies;
+
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'companies')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $createdByUser = null;
+
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'companiesUpdatedBy')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $updatedByUser = null;
+
     public function __construct()
     {
         $this->people = new ArrayCollection();
         $this->suppliers = new ArrayCollection();
         $this->clients = new ArrayCollection();
         $this->managers = new ArrayCollection();
+        $this->companies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -292,6 +311,72 @@ class Company
     public function setType(?TypeCompany $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?self
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?self $createdBy): static
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getCompanies(): Collection
+    {
+        return $this->companies;
+    }
+
+    public function addCompany(self $company): static
+    {
+        if (!$this->companies->contains($company)) {
+            $this->companies->add($company);
+            $company->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompany(self $company): static
+    {
+        if ($this->companies->removeElement($company)) {
+            // set the owning side to null (unless already changed)
+            if ($company->getCreatedBy() === $this) {
+                $company->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedByUser(): ?User
+    {
+        return $this->createdByUser;
+    }
+
+    public function setCreatedByUser(?User $createdByUser): static
+    {
+        $this->createdByUser = $createdByUser;
+
+        return $this;
+    }
+
+    public function getUpdatedByUser(): ?User
+    {
+        return $this->updatedByUser;
+    }
+
+    public function setUpdatedByUser(?User $updatedByUser): static
+    {
+        $this->updatedByUser = $updatedByUser;
 
         return $this;
     }

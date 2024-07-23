@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -42,6 +44,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    /**
+     * @var Collection<int, Company>
+     */
+    #[ORM\OneToMany(targetEntity: Company::class, mappedBy: 'createdByUser')]
+    private Collection $companiesCreatedBy;
+
+    /**
+     * @var Collection<int, Company>
+     */
+    #[ORM\OneToMany(targetEntity: Company::class, mappedBy: 'updatedByUser')]
+    private Collection $companiesUpdatedBy;
+
+    public function __construct()
+    {
+        $this->companiesCreatedBy = new ArrayCollection();
+        $this->companiesUpdatedBy = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -144,6 +164,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Company>
+     */
+    public function getCompaniesCreatedBy(): Collection
+    {
+        return $this->companiesCreatedBy;
+    }
+
+    public function addCompaniesCreatedBy(Company $companiesCreatedBy): static
+    {
+        if (!$this->companiesCreatedBy->contains($companiesCreatedBy)) {
+            $this->companiesCreatedBy->add($companiesCreatedBy);
+            $companiesCreatedBy->setCreatedByUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompaniesCreatedBy(Company $companiesCreatedBy): static
+    {
+        if ($this->companiesCreatedBy->removeElement($companiesCreatedBy)) {
+            // set the owning side to null (unless already changed)
+            if ($companiesCreatedBy->getCreatedByUser() === $this) {
+                $companiesCreatedBy->setCreatedByUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Company>
+     */
+    public function getCompaniesUpdatedBy(): Collection
+    {
+        return $this->companiesUpdatedBy;
+    }
+
+    public function addCompaniesUpdatedBy(Company $companiesUpdatedBy): static
+    {
+        if (!$this->companiesUpdatedBy->contains($companiesUpdatedBy)) {
+            $this->companiesUpdatedBy->add($companiesUpdatedBy);
+            $companiesUpdatedBy->setUpdatedByUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompaniesUpdatedBy(Company $companiesUpdatedBy): static
+    {
+        if ($this->companiesUpdatedBy->removeElement($companiesUpdatedBy)) {
+            // set the owning side to null (unless already changed)
+            if ($companiesUpdatedBy->getUpdatedByUser() === $this) {
+                $companiesUpdatedBy->setUpdatedByUser(null);
+            }
+        }
 
         return $this;
     }
