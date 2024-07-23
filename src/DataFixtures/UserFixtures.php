@@ -32,6 +32,18 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
 
+        //TypeCompany
+        $types = ['Admin', 'Client', 'Fournisseur'];
+        $i = 1;
+        foreach ($types as $type) {
+            $companyType = new TypeCompany();
+            $companyType->setId($i);
+            $companyType->setLabel($type);
+            $manager->persist($companyType);
+            $listCompanyType[] = $companyType;
+            $i++;
+        }
+
         // SuperAdmin
         $superAdmin = new Person();
         $superAdmin->setFirstName($this->faker->firstName());
