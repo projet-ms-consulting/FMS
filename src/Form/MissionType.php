@@ -28,6 +28,7 @@ class MissionType extends AbstractType
             ])
             ->add('description', TextType::class, [
                 'label' => 'Description',
+                'required' => false,
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-Z0-9 \-\.,;!"\'\(\)\[\]\/]+$/',

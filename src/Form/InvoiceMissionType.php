@@ -36,8 +36,8 @@ class InvoiceMissionType extends AbstractType
                 'label' => 'Numéro de facture',
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/^\d+[a-zA-Z]?$/',
-                        'message' => 'Le numéro de rue n\'est pas valide.',
+                        'pattern' => '/^[a-zA-Z0-9\-_]+$/',
+                        'message' => 'Le numéro de facture n\'est pas valide.',
                     ]),
                 ],
             ])
