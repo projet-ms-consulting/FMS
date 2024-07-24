@@ -25,7 +25,7 @@ class Address
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
-    #[ORM\OneToOne(mappedBy: 'address', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'address')]
     private ?Company $company = null;
 
     #[ORM\Column]

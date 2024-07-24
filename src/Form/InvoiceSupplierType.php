@@ -35,10 +35,9 @@ class InvoiceSupplierType extends AbstractType
 
         $invoiceMissionId = $options['invoiceMissionId'];
 
+        $tva = 20;
         if ($options['data']->getTva() !== null) {
             $tva = $options['data']->getTva();
-        } else {
-            $tva = 20;
         }
 
         $builder
@@ -46,7 +45,7 @@ class InvoiceSupplierType extends AbstractType
                 'label' => 'Numéro de facture',
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/^[a-zA-Z0-9\/\-]+$/',
+                        'pattern' => '/^[a-zA-Z0-9\-_]+$/',
                         'message' => 'Le numéro de facture n\'est pas valide.',
                     ]),
                 ],
@@ -140,6 +139,7 @@ class InvoiceSupplierType extends AbstractType
             ])
             ->add('paymentTypology', ChoiceType::class, [
                 'label' => 'Typologie de paiement',
+                'empty_data' => 'Fin de mois',
                 'choices'  => [
                     'Fin de mois' => 'Fin de mois',
                     '45 jours fin de mois' => '45 jours fin de mois',

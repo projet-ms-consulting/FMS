@@ -26,11 +26,11 @@ class Mission
     private Collection $invoices;
 
     #[ORM\ManyToOne(inversedBy: 'clients')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Company $client = null;
 
     #[ORM\ManyToOne(inversedBy: 'managers')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?company $manager = null;
 
     #[ORM\Column]

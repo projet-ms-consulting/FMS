@@ -23,7 +23,7 @@ class SupplierMission
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'suppliers')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Company $supplier = null;
 
     #[ORM\Column]
@@ -39,6 +39,7 @@ class SupplierMission
     private Collection $invoiceSuppliers;
 
     #[ORM\ManyToOne(inversedBy: 'supplierMission')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Mission $mission = null;
 
     public function __construct()

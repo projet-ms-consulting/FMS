@@ -48,10 +48,14 @@
                                     </a>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500">
-                                    <a href="{{ path('dashboard_company_show', {id: supplierMission.getSupplier().getId()}) }}"
-                                       class="underline opacity-75">
-                                        {{ supplierMission.getSupplier().getName()|length > 30 ? supplierMission.getSupplier().getName()|slice(0, 30) ~ '...' : supplierMission.getSupplier().getName() }}
-                                    </a>
+                                    {% if supplierMission.getSupplier() != null %}
+                                        <a href="{{ path('dashboard_company_show', {id: supplierMission.getSupplier().getId()}) }}"
+                                           class="underline opacity-75">
+                                            {{ supplierMission.getSupplier().getName()|length > 30 ? supplierMission.getSupplier().getName()|slice(0, 30) ~ '...' : supplierMission.getSupplier().getName() }}
+                                        </a>
+                                    {% else %}
+                                        <span class="text-red-600 font-bold">Aucun Fournisseur</span>
+                                    {% endif %}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
                                     {{ supplierMission.createdAt|date('Y-m-d') }}

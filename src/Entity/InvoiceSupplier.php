@@ -33,9 +33,11 @@ class InvoiceSupplier
     private ?bool $paid = null;
 
     #[ORM\ManyToOne(inversedBy: 'invoiceSuppliers')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?SupplierMission $supplierMission = null;
 
     #[ORM\ManyToOne(inversedBy: 'invoiceSuppliers')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?InvoiceMission $invoiceMission = null;
 
     #[ORM\Column]

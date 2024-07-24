@@ -28,6 +28,7 @@ class Person
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'people')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private ?Company $company = null;
 
     #[ORM\Column]

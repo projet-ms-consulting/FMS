@@ -19,6 +19,7 @@ class Company
     private ?string $name = null;
 
     #[ORM\OneToOne(inversedBy: 'company', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Address $address = null;
 
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'company')]
@@ -56,7 +57,7 @@ class Company
     private ?TypeCompany $type = null;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'companies')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?self $createdBy = null;
 
     /**
@@ -66,11 +67,11 @@ class Company
     private Collection $companies;
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'companies')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $createdByUser = null;
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'companiesUpdatedBy')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $updatedByUser = null;
 
     public function __construct()

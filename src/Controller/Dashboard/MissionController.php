@@ -10,6 +10,7 @@ use App\Repository\InvoiceRepository;
 use App\Repository\InvoiceSupplierRepository;
 use App\Repository\MissionRepository;
 use App\Repository\SupplierMissionRepository;
+use App\Service\AppFiles;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,18 +84,18 @@ class MissionController extends AbstractController
     }
 
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request, Mission $mission, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Mission $mission, EntityManagerInterface $entityManager, AppFiles $appFiles): Response
     {
         if ($this->isCsrfTokenValid('delete' . $mission->getId(), $request->request->get('_token'))) {
 
             // suppression de toutes les factures liees
             foreach ($mission->getInvoices() as $invoice) {
-                $this->deleteInvoiceSuppliers($invoice, $mission, $entityManager);
+                $appFiles->deleteInvoiceSuppliers($invoice, $mission, $entityManager);
             }
 
             // suppression du dossier de la mission
             if (file_exists($this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId())) {
-                $this->recursiveRemoveDirectory($this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId());
+                $appFiles->recursiveRemoveDirectory($this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId());
             }
 
             $entityManager->remove($mission);
@@ -266,60 +267,19 @@ class MissionController extends AbstractController
     }
 
     #[Route('/{id}/invoice/{invoiceId}/delete', name: 'invoice_delete', methods: ['POST'])]
-    public function invoiceDelete(Request $request, Mission $mission, InvoiceMission $invoice, EntityManagerInterface $entityManager): Response
+    public function invoiceDelete(InvoiceRepository $invoiceRepository, Request $request, Mission $mission, $invoiceId, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $mission->getId(), $request->request->get('_token'))) {
-            // suppression de toutes les factures liees
-            $this->deleteInvoiceSuppliers($invoice, $mission, $entityManager);
+            $invoice = $invoiceRepository->find($invoiceId);
+            // suppression de la facture
+            $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $invoice->getMission()->getId() . '/' . $invoice->getFile();
+            if (file_exists($file)) {
+                unlink($file);
+            }
+            $entityManager->remove($invoice);
             $entityManager->flush();
             $this->addFlash('success', 'La facture client a bien été supprimée.');
         }
         return $this->redirectToRoute('dashboard_mission_invoice', ['id' => $mission->getId()]);
     }
-
-    private function recursiveRemoveDirectory($dir): void
-    {
-        if (!is_dir($dir)) {
-            return;
-        }
-
-        $files = scandir($dir);
-        foreach ($files as $file) {
-            if ($file === '.' || $file === '..') {
-                continue;
-            }
-            $path = $dir . '/' . $file;
-            if (is_dir($path)) {
-                $this->recursiveRemoveDirectory($path);
-            } else {
-                unlink($path);
-            }
-        }
-        rmdir($dir);
-    }
-
-    /**
-     * @param mixed $invoice
-     * @param Mission $mission
-     * @param EntityManagerInterface $entityManager
-     * @return void
-     */
-    public function deleteInvoiceSuppliers(mixed $invoice, Mission $mission, EntityManagerInterface $entityManager): void
-    {
-        foreach ($invoice->getInvoiceSuppliers()->getValues() as $invoiceSupplier) {
-            $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/supplier/' . $invoiceSupplier->getFile();
-            if (file_exists($file)) {
-                unlink($file);
-            }
-            $entityManager->remove($invoiceSupplier);
-        }
-
-        // Delete invoice
-        $file = $this->getParameter('kernel.project_dir') . '/facture/mission/' . $mission->getId() . '/' . $invoice->getFile();
-        if (file_exists($file)) {
-            unlink($file);
-        }
-        $entityManager->remove($invoice);
-    }
-
 }

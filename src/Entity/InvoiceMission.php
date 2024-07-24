@@ -27,6 +27,7 @@ class InvoiceMission
     private ?string $file = null;
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Mission $mission = null;
 
     #[ORM\Column(length: 255)]
@@ -41,7 +42,7 @@ class InvoiceMission
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $paymentDate = null;
 
-    #[ORM\OneToMany(targetEntity: InvoiceSupplier::class, mappedBy: 'invoiceMission', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: InvoiceSupplier::class, mappedBy: 'invoiceMission')]
     private Collection $invoiceSuppliers;
 
     #[ORM\Column]
