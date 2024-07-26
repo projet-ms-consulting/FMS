@@ -16,11 +16,11 @@
                     <thead class="bg-gray-50 overflow-y-hidden">
                         <tr>
                             {% set columns = {
-                            'Numéro de Rue': 'a.nbStreet',
-                            Rue: 'a.street',
+                            'Numéro de Voirie': 'a.nbStreet',
+                            'Voirie': 'a.street',
                             'Code Postal': 'a.zipCode',
-                            Ville: 'a.city',
-                            Entreprise: 'c.name'
+                            'Ville': 'a.city',
+                            'Entreprise': 'c.name'
                             } %}
                             {% for displayedName, realName in columns %}
                             <th scope="col" class="py-3 px-6 text-left font-semibold text-gray-900 whitespace-nowrap text-sm md:text-base">
