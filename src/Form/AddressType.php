@@ -35,10 +35,6 @@ class AddressType extends AbstractType
             ])
             ->add('zipCode', NumberType::class, [
                 'label' => 'Code postal',
-                'attr' => [
-                    'min' => 10000,
-                    'max' => 99999
-                ],
                 'constraints' => [
                     new Regex([
                         'pattern' => '/^\d{5}$/',
