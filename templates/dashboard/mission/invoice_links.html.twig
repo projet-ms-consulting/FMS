@@ -124,25 +124,31 @@
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                            <td class="whitespace-nowrap px-6 py-4 font-bold text-green-600 sm:pl-6">
                                 {{ totalJoursFournisseur|number_format(2, '.', ' ') }} Jours
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                            <td class="whitespace-nowrap px-6 py-4 font-bold text-green-600 sm:pl-6">
                                 {{ totalTTCFournisseur }} €
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                            <td class="whitespace-nowrap px-6 py-4 font-bold text-red-600 sm:pl-6">
                                 {{ totalJoursClient|number_format(2, '.', ' ') }} Jours
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
+                            <td class="whitespace-nowrap px-6 py-4 font-bold text-red-600 sm:pl-6">
                                 {{ totalTTCClient }} €
                             </td>
-                            <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                Marge : {{ totalTTCClient - totalTTCFournisseur }} €
-                            </td>
+                            {% if totalTTCClient - totalTTCFournisseur <= 0 %}
+                                <td class="whitespace-nowrap px-6 py-4 font-bold text-red-600 sm:pl-6">
+                                    Marge : {{ totalTTCClient - totalTTCFournisseur }} €
+                                </td>
+                            {% else %}
+                                <td class="whitespace-nowrap px-6 py-4 font-bold text-green-600 sm:pl-6">
+                                    Marge : {{ totalTTCClient - totalTTCFournisseur }} €
+                                </td>
+                            {% endif %}
                         </tr>
                     </tbody>
                 </table>
