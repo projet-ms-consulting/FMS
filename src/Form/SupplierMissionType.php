@@ -19,10 +19,10 @@ class SupplierMissionType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Nom de la mission',
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/^[a-zA-Z0-9 \-]+$/',
+                        'pattern' => '/^[a-zA-Z0-9 \-\é\è\ê\à\ç]+$/',
                         'message' => 'Le nom ne doit contenir que des lettres, des chiffres, des espaces et des tirets.'
                     ]),
                 ],
@@ -32,7 +32,7 @@ class SupplierMissionType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/^[a-zA-Z0-9 \-\.,;!"\'\(\)\[\]\/]+$/',
+                        'pattern' => '/^[a-zA-Z0-9 \-\.,;!"\'\(\)\[\]\/\é\è\ê\ë\à\â\ä\î\ï\ô\ö\ù\û\ü\ç]+$/',
                         'message' => 'La description contient des caractères non autorisés.'
                     ]),
                 ],
