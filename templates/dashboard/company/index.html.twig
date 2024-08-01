@@ -1,7 +1,5 @@
 {% extends 'dashboard_layout.html.twig' %}
 
-{% set componentPath = 'dashboard/company/components/' %}
-
 {% block content %}
 
     <section>
@@ -39,7 +37,7 @@
                         {% for company in companies %}
                             <tr class="text-sm md:text-base">
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
-                                    {{ company.name|default('null') }}
+                                    {{ company.name|default('') }}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                     {% if company.getAddress() != null %}

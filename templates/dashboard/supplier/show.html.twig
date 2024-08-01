@@ -6,8 +6,18 @@
     <div class="p-10 space-y-3">
         <p>Nom : {{ supplierMission.name }}</p>
         <p>Description : {{ supplierMission.description }}</p>
-        <p>Fournisseur : {{ supplierMission.supplier.name }}</p>
-        <p>Mission : {{ supplierMission.mission.name }}</p>
+        <p>Mission :
+            <a href="{{ path('dashboard_mission_show', {id: supplierMission.getMission().getId()}) }}"
+               class="underline opacity-75 hover:opacity-100">
+                {{ supplierMission.getMission().getName()|length > 30 ? supplierMission.getMission().getName()|slice(0, 30) ~ '...' : supplierMission.getMission().getName() }}
+            </a>
+        </p>
+        <p>Fournisseur :
+            <a href="{{ path('dashboard_company_show', {id: supplierMission.getSupplier().getId()}) }}"
+               class="underline opacity-75 hover:opacity-100">
+                {{ supplierMission.getSupplier().getName()|length > 30 ? supplierMission.getSupplier().getName()|slice(0, 30) ~ '...' : supplierMission.getSupplier().getName() }}
+            </a>
+        </p>
         <p>Fini :
             {% if supplierMission.isfinished == 'yes' %}
                 <span class="text-green-600">Oui</span>

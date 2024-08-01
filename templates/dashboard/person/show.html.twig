@@ -7,9 +7,9 @@
     <p>Numéro de téléphone : {{ person.phone ?? 'null' }}</p>
     <p>Entreprise :
         {% if person.company %}
-        <a href="{{ path('dashboard_company_show', {id: person.company.id}) }}">{{ person.company.name }}</a>
+            <a class="font-bold underline opacity-75 hover:opacity-100" href="{{ path('dashboard_company_show', {id: person.company.id}) }}">{{ person.company.name }}</a>
         {% else %}
-        <b style="color: red">Aucune entreprise</b>
+            <span class="font-bold text-red-600">Aucune entreprise</span>
         {% endif %}
     </p>
     <p>Crée le : {{ person.createdAt|date('d/m/Y H:i:s') }}</p>

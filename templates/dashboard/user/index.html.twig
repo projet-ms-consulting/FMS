@@ -1,14 +1,6 @@
 {% extends 'dashboard_layout.html.twig' %}
+
 {% block content %}
-
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital, opsz, wght@0, 9..40, 100..1000;1, 9..40, 100..1000 &family=Inter:wght@100..900&family=Urbanist:ital, wght@0, 100..900;1, 100..900&display=swap');
-
-    td {
-        font-family: 'DM Sans', sans-serif;
-        -webkit-font-smoothing: antialiased;
-    }
-</style>
 
 <section>
     {{ include('dashboard/components/navbar_component.html.twig', {
@@ -26,8 +18,8 @@
                     <thead class="bg-gray-50 overflow-y-hidden">
                         <tr>
                             {% set columns = {
-                            Personne: 'p.lastName',
-                            Email: 'u.email',
+                            'Personne': 'p.lastName',
+                            'Email': 'u.email',
                             'Créer le': 'u.createdAt'
                             } %}
                             {% for displayedName, realName in columns %}
@@ -45,7 +37,7 @@
                         <tr class="text-sm md:text-base">
                             <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
                                 {% if user.person %}
-                                <a class="font-bold" href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{
+                                <a class="font-bold underline opacity-75 hover:opacity-100" href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{
                                     user.person.firstName }} {{ user.person.lastName }}</a>
                                 {% else %}
                                 <span class="font-bold text-red-600">Aucune personne</span>

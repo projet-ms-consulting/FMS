@@ -30,11 +30,11 @@
                     <tr>
                         {% set columns = {
                             'Numéro de facture': 's.billNum',
-                            Type: 's.type',
+                            'Type': 's.type',
                             'Facture mission': 'i.invoiceMission',
-                            Fichier: 's.realFilename',
+                            'Fichier': 's.realFilename',
                             'Temps restants': 's.deadline',
-                            Payé: 's.paid',
+                            'Payé': 's.paid',
                             'Créer le': 's.createdAt'
                         } %}
                         {% for displayedName, realName in columns %}
@@ -59,11 +59,15 @@
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
                                 {% if invoice.invoiceMission.billNum ?? '' != null %}
-                                    <a href="{{ path('dashboard_mission_invoice_show', {id: invoice.invoiceMission.mission.id, invoiceId: invoice.invoiceMission.id}) }}" class="underline">{{ invoice.invoiceMission.billNum }}</a>
+                                    <a href="{{ path('dashboard_mission_invoice_show', {id: invoice.invoiceMission.mission.id, invoiceId: invoice.invoiceMission.id}) }}" class="underline opacity-75 hover:opacity-100">
+                                        {{ invoice.invoiceMission.billNum }}
+                                    </a>
                                 {% endif %}
                             </td>
                             <td class="whitespace-nowrap px-6 py-4 text-gray-500 underline">
-                                <a href="{{ path('dashboard_supplier_invoice_show_invoice', {id: supplierMission.id, invoiceId: invoice.id, name: invoice.realFilename}) }}" target="_blank">{{ invoice.realFilename|length > 30 ? invoice.realFilename|slice(0, 30) ~ '...' : invoice.realFilename }}</a>
+                                <a href="{{ path('dashboard_supplier_invoice_show_invoice', {id: supplierMission.id, invoiceId: invoice.id, name: invoice.realFilename}) }}" target="_blank" class="underline opacity-75 hover:opacity-100">
+                                    {{ invoice.realFilename|length > 30 ? invoice.realFilename|slice(0, 30) ~ '...' : invoice.realFilename }}
+                                </a>
                             </td>
                             {% if invoice.deadline %}
                                 {% if not invoice.paid %}

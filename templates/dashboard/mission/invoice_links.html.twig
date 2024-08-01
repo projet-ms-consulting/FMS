@@ -72,7 +72,9 @@
                                     {{ invoiceSupplier.supplierMission.mission.client.name }}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    <a href="{{ path('dashboard_supplier_invoice_show', {id: invoiceSupplier.supplierMission.id, invoiceId: invoiceSupplier.id}) }}" class="font-bold underline">{{ invoiceSupplier.billNum }}</a>
+                                    <a href="{{ path('dashboard_supplier_invoice_show', {id: invoiceSupplier.supplierMission.id, invoiceId: invoiceSupplier.id}) }}" class="underline opacity-75 hover:opacity-100">
+                                        {{ invoiceSupplier.billNum }}
+                                    </a>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
                                     {{ invoiceSupplier.quantity }} {{ invoiceSupplier.unit }}
@@ -90,7 +92,9 @@
                                     {% endif %}
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
-                                    <a href="{{ path('dashboard_mission_invoice_show', {id: mission.id, invoiceId: invoiceSupplier.invoiceMission.id}) }}" class="font-bold underline">{{ invoiceSupplier.invoiceMission.billNum }}</a>
+                                    <a href="{{ path('dashboard_mission_invoice_show', {id: mission.id, invoiceId: invoiceSupplier.invoiceMission.id}) }}" class="underline opacity-75 hover:opacity-100">
+                                        {{ invoiceSupplier.invoiceMission.billNum }}
+                                    </a>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 sm:pl-6">
                                     {{ invoiceSupplier.invoiceMission.quantity }} {{ invoiceSupplier.invoiceMission.unit }}

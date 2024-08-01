@@ -51,7 +51,7 @@
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                     {% if mission.getClient() != null %}
                                         <a href="{{ path('dashboard_company_show', {id: mission.getClient().getId()}) }}"
-                                           class="underline opacity-75">
+                                           class="underline opacity-75 hover:opacity-100">
                                             {{ mission.getClient().getName()|length > 30 ? mission.getClient().getName()|slice(0, 30) ~ '...' : mission.getClient().getName() }}
                                         </a>
                                     {% else %}
@@ -60,7 +60,7 @@
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
                                     <a href="{{ path('dashboard_company_show', {id: mission.getManager().getId()}) }}"
-                                       class="underline opacity-75">
+                                       class="underline opacity-75 hover:opacity-100">
                                         {{ mission.getManager().getName()|length > 30 ? mission.getManager().getName()|slice(0, 30) ~ '...' : mission.getManager().getName() }}
                                     </a>
                                 </td>

@@ -3,12 +3,17 @@
 {% set componentPath = 'dashboard/company/components/' %}
 
 {% block content %}
+    <div class="flex flex-col space-y-2 w-1/2">
+        <h2 class="text-3xl font-semibold">Numéro de facture : {{ invoice.billNum }}</h2>
+    </div>
 
     <div class="p-10 space-y-3">
-        <p>Nom de la mission: {{ invoice.mission.name }}</p>
-        <p>Numéro de facture : {{ invoice.billNum }}</p>
         <p>Type : {{ invoice.type }}</p>
-        <p>Nom de la facture : {{ invoice.realFilename }}</p>
+        <p>Nom de la facture :
+            <a href="{{ path('dashboard_mission_invoice_show_invoice', {id: mission.id, invoiceId: invoice.id, name: invoice.realFilename}) }}" target="_blank" class="underline opacity-75 hover:opacity-100">
+                {{ invoice.realFilename|length > 30 ? invoice.realFilename|slice(0, 30) ~ '...' : invoice.realFilename }}
+            </a>
+        </p>
         <p>Prix unitaire : {{ invoice.price|number_format(2, ',', ' ') }}€</p>
         <p>Quantité : {{ invoice.quantity|number_format(2, ',', ' ') }} {{ invoice.unit }}</p>
         <p>Total HT : {{ invoice.totalHT|number_format(2, ',', ' ') }}€</p>
@@ -16,7 +21,26 @@
         <p>Total TTC : {{ invoice.totalTTC|number_format(2, ',', ' ') }}€</p>
         <p>Typologie de paiement : {{ invoice.paymentTypology }}</p>
         <p>Date d'émission de la facture : {{ invoice.issueDate|date('d/m/Y') }}</p>
-        <p>Date limite de paiement de la facture : {{ invoice.deadline|date('d/m/Y') }}</p>
+        <p>Date limite de paiement de la facture : {{ invoice.deadline|date('d/m/Y') }}
+            {% if invoice.deadline %}
+                {% if not invoice.paid %}
+                    ,
+                    {% set remainingDays = (invoice.deadline|date('U') - 'now'|date('U')) / (60 * 60 * 24) %}
+                    {% if remainingDays > 0 %}
+                        <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+                            Temps restant : {{ remainingDays|round(0, 'floor') + 1 }} jour{{ remainingDays > 1 ? 's' : '' }}
+                        </td>
+                    {% else %}
+                        {% set daysLate = ('now'|date('U') - invoice.deadline|date('U')) / (60 * 60 * 24) %}
+                        <td class="whitespace-nowrap px-6 py-4 text-red-500">
+                            Retard de {{ daysLate|round(0, 'floor') + 1 }} jour{{ daysLate > 1 ? 's' : '' }}
+                        </td>
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                <td class="whitespace-nowrap px-6 py-4 text-gray-500">Date limite non définie</td>
+            {% endif %}
+        </p>
         <p>Payé ? :
             {% if invoice.paid == true %}
                 <span style="color: green">Oui</span>

@@ -4,7 +4,8 @@
 <div class="p-10 space-y-3">
     <p>Personne :
         {% if user.person %}
-            <a href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{ user.person.firstName }} {{ user.person.lastName }}</a>
+            <a class="font-bold underline opacity-75 hover:opacity-100" href="{{ path('dashboard_person_show', {id: user.person.id}) }}">{{
+                user.person.firstName }} {{ user.person.lastName }}</a>
         {% else %}
             <span class="font-bold text-red-600">Aucune personne</span>
         {% endif %}

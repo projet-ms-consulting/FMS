@@ -6,8 +6,22 @@
     <div class="p-10 space-y-3">
         <p>Nom : {{ mission.name }}</p>
         <p>Description : {{ mission.description }}</p>
-        <p>Client : {{ mission.client.name }}</p>
-        <p>Manager : {{ mission.manager.name }}</p>
+        <p>Client :
+            {% if mission.getClient() != null %}
+                <a href="{{ path('dashboard_company_show', {id: mission.getClient().getId()}) }}"
+                   class="underline opacity-75">
+                    {{ mission.getClient().getName()|length > 30 ? mission.getClient().getName()|slice(0, 30) ~ '...' : mission.getClient().getName() }}
+                </a>
+            {% else %}
+                <span class="text-red-600 font-bold">Aucun client</span>
+            {% endif %}
+        </p>
+        <p>Manager :
+            <a href="{{ path('dashboard_company_show', {id: mission.getManager().getId()}) }}"
+               class="underline opacity-75">
+                {{ mission.getManager().getName()|length > 30 ? mission.getManager().getName()|slice(0, 30) ~ '...' : mission.getManager().getName() }}
+            </a>
+        </p>
         <p>Fini :
             {% if mission.isfinished == 'yes' %}
                 <span class="text-green-600">Oui</span>

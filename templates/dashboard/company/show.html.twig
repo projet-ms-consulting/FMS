@@ -5,7 +5,15 @@
 {% block content %}
 <div class="p-10 space-y-3">
     <p>Nom : {{ company.name }}</p>
-    <p>Adresse : {{ company.address.fullAddress ?? 'null' }}</p>
+    <p>Adresse :
+        {% if company.getAddress() != null %}
+            <a href="{{ path('dashboard_address_show', {id: company.getAddress().getId()}) }}" class="underline opacity-75 hover:opacity-100">
+                {{ company.getAddress.getFullAddress }}
+            </a>
+        {% else %}
+            <span class="text-red-600 font-black underline">Aucune adresse</span>
+        {% endif %}
+    </p>
     <p>Numéro de TVA : {{ company.numTva }}</p>
     <p>Siret : {{ company.siret }}</p>
     <p>Siren : {{ company.siren }}</p>

@@ -16,10 +16,10 @@
                         <thead class="bg-gray-50 overflow-y-hidden">
                         <tr>
                             {% set columns = {
-                                Nom: 's.name',
-                                Description: 's.description',
-                                Mission: 's.name',
-                                Fournisseur: 'c.name',
+                                'Nom': 's.name',
+                                'Description': 's.description',
+                                'Mission': 's.name',
+                                'Fournisseur': 'c.name',
                                 'Créer le': 's.createdAt'
                             } %}
                             {% for displayedName, realName in columns %}
@@ -43,14 +43,14 @@
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500 bg-gray-200">
                                     <a href="{{ path('dashboard_mission_show', {id: supplierMission.getMission().getId()}) }}"
-                                       class="underline opacity-75">
+                                       class="underline opacity-75 hover:opacity-100">
                                         {{ supplierMission.getMission().getName()|length > 30 ? supplierMission.getMission().getName()|slice(0, 30) ~ '...' : supplierMission.getMission().getName() }}
                                     </a>
                                 </td>
                                 <td class="whitespace-nowrap px-6 py-4 text-gray-500">
                                     {% if supplierMission.getSupplier() != null %}
                                         <a href="{{ path('dashboard_company_show', {id: supplierMission.getSupplier().getId()}) }}"
-                                           class="underline opacity-75">
+                                           class="underline opacity-75 hover:opacity-100">
                                             {{ supplierMission.getSupplier().getName()|length > 30 ? supplierMission.getSupplier().getName()|slice(0, 30) ~ '...' : supplierMission.getSupplier().getName() }}
                                         </a>
                                     {% else %}
