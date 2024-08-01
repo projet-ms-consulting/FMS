@@ -58,12 +58,12 @@ class Company
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'companies')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
-    private ?self $createdBy = null;
+    private ?self $ownByCompany = null;
 
     /**
      * @var Collection<int, self>
      */
-    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'createdBy')]
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'ownByCompany')]
     private Collection $companies;
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'companies')]

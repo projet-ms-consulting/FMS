@@ -17,7 +17,7 @@
         <p>Prix unitaire : {{ invoice.price|number_format(2, ',', ' ') }}€</p>
         <p>Quantité : {{ invoice.quantity|number_format(2, ',', ' ') }} {{ invoice.unit }}</p>
         <p>Total HT : {{ invoice.totalHT|number_format(2, ',', ' ') }}€</p>
-        <p>TVA : {{ invoice.tva }}</p>
+        <p>TVA : {{ invoice.tva }}%</p>
         <p>Total TTC : {{ invoice.totalTTC|number_format(2, ',', ' ') }}€</p>
         <p>Typologie de paiement : {{ invoice.paymentTypology }}</p>
         <p>Date d'émission de la facture : {{ invoice.issueDate|date('d/m/Y') }}</p>

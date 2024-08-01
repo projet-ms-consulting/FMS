@@ -213,25 +213,31 @@ class MissionController extends AbstractController
 
         for ($i = 0; $i < count($mission->getSupplierMission()->getValues()); $i++) {
             for ($j = 0; $j < count($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()); $j++) {
-                if ($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getUnit() == 'Jour') {
-                    $totalJoursFournisseur += $mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getQuantity();
-                } elseif ($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getUnit() == 'Heure') {
-                    $totalJoursFournisseur += ($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getQuantity() / 7);
-                }
+                dump($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getInvoiceMission());
+                if ($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getInvoiceMission()) {
+                    if ($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getUnit() == 'Jour') {
+                        $totalJoursFournisseur += $mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getQuantity();
+                    } elseif ($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getUnit() == 'Heure') {
+                        $totalJoursFournisseur += ($mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getQuantity() / 7);
+                    }
 
-                $totalHTFournisseur += $mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getTotalHT();
-                $totalTTCFournisseur += $mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getTotalTTC();
+                    $totalHTFournisseur += $mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getTotalHT();
+                    $totalTTCFournisseur += $mission->getSupplierMission()->getValues()[$i]->getInvoices()->getValues()[$j]->getTotalTTC();
+                }
             }
         }
         for ($i = 0; $i < count($mission->getInvoices()->getValues()); $i++) {
-            if ($mission->getInvoices()->getValues()[$i]->getUnit() == 'Jour') {
-                $totalJoursClient += $mission->getInvoices()->getValues()[$i]->getQuantity();
-            } elseif ($mission->getInvoices()->getValues()[$i]->getUnit() == 'Heure') {
-                $totalJoursClient += ($mission->getInvoices()->getValues()[$i]->getQuantity() / 8);
+            if ($mission->getInvoices()->getValues()[$i]->getInvoiceSuppliers()->getValues() != null) {
+                $totalHTClient += $mission->getInvoices()->getValues()[$i]->getTotalHT();
+                $totalTTCClient += $mission->getInvoices()->getValues()[$i]->getTotalTTC();
+                for ($j = 0; $j < count($mission->getInvoices()->getValues()[$i]->getInvoiceSuppliers()->getValues()); $j++) {
+                    if ($mission->getInvoices()->getValues()[$i]->getInvoiceSuppliers()->getValues()[$j]->getUnit() == 'Jour') {
+                        $totalJoursClient += $mission->getInvoices()->getValues()[$i]->getInvoiceSuppliers()->getValues()[$j]->getQuantity();
+                    } elseif ($mission->getInvoices()->getValues()[$i]->getInvoiceSuppliers()->getValues()[$j]->getUnit() == 'Heure') {
+                        $totalJoursClient += ($mission->getInvoices()->getValues()[$i]->getInvoiceSuppliers()->getValues()[$j]->getQuantity() / 8);
+                    }
+                }
             }
-
-            $totalHTClient += $mission->getInvoices()->getValues()[$i]->getTotalHT();
-            $totalTTCClient += $mission->getInvoices()->getValues()[$i]->getTotalTTC();
         }
 
         return $this->render('dashboard/mission/invoice_links.html.twig', [
