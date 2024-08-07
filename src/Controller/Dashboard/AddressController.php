@@ -56,7 +56,6 @@ class AddressController extends AbstractController
         ]);
     }
 
-
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Address $address, Request $request, EntityManagerInterface $em): Response
     {

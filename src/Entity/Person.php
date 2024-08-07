@@ -130,4 +130,9 @@ class Person
 
         return $this;
     }
+
+    public function FullName(): string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
 }

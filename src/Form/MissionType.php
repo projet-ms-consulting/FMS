@@ -21,7 +21,7 @@ class MissionType extends AbstractType
                 'label' => 'Nom de la mission',
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/^[a-zA-Z0-9 \-\é\è\ê\à\ç]+$/',
+                        'pattern' => '/^[a-zA-Z0-9 \-\é\è\ê\à\ç\'\’]+$/',
                         'message' => 'Le nom ne doit contenir que des lettres, des chiffres, des espaces et des tirets.'
                     ]),
                 ],

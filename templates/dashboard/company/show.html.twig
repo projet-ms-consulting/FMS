@@ -29,6 +29,16 @@
     {% if company.updatedAt != null %}
         <p>Dernière modification : {{ company.updatedAt|date('d/m/Y H:i:s') }}</p>
     {% endif %}
+    <p>Utilisateur :
+        {% for person in company.people %}
+            <a href="{{ path('dashboard_person_show', {id: person.id}) }}" class="underline opacity-75 hover:opacity-100">
+                {{ person.fullName }}
+            </a>
+            {% if not loop.last %}, {% endif %}
+        {% else %}
+            <span class="text-red-600 font-black underline">Aucun utilisateur</span>
+        {% endfor %}
+    </p>
     <div class="space-x-3 flex">
         <a href="{{ path('dashboard_company_index') }}">
             <div
